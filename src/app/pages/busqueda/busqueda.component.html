@@ -1,0 +1,124 @@
+  <div class="row animated fadeIn fast">
+                <div class="col-5">
+                    <div class="card">
+                        <div class="card-body">
+                          <h3>Usuarios</h3>
+
+                          <div class="alert alert-info" 
+                          *ngIf="usuarios.length === 0 "
+                          role="alert"
+                          >
+                            
+                            <p>No hay usuarios con ese término</p>
+                            <div class="mb-0"></div>
+                          </div>
+                            
+                          <div class="table-responsive"
+                          *ngIf="usuarios.length > 0 "
+                          >
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Avatar</th>
+                                        <th>Nombre</th>
+                                        <th>Apellido</th>
+                                        
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let usuario of usuarios"
+                                        class="animated fadeIn fast"    
+                                    >
+                                        <img [src]="usuario.img | imagen: 'usuarios'" class="w75" alt="Usuario">
+                                        <td>{{usuario.nombre}}</td>
+                                        <td>{{usuario.apellido}}</td>
+                                       
+                                    </tr>
+                                   
+                                </tbody>
+                            </table>
+                        </div>
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="col-5">
+                    <div class="card">
+                        <div class="card-body">
+                          <h3>Profesores</h3>
+
+                          <div class="alert alert-info" *ngIf="profesores.length === 0 " role="alert">
+                            
+                            <p>No hay profesores con ese término</p>
+                            <div class="mb-0"></div>
+                          </div>
+                            
+                          <div class="table-responsive" *ngIf="profesores.length > 0 ">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Avatar</th>
+                                        <th>Nombre</th>
+                                        <th>Apellido</th>
+                                        
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let profesor of profesores" class="animated fadeIn fast"
+                                   
+                                    >
+                                        <img [src]="profesor.img | imagen: 'profesores'" class="w75" alt="profesores">
+                                        <td>
+                                            <a [routerLink]="['/dashboard/profesor',profesor._id]">
+                                                {{profesor.nombre}}
+                                            </a>
+                                        </td>
+                                        <td>{{profesor.apellido}}</td>
+                                       
+                                    </tr>
+                                   
+                                </tbody>
+                            </table>
+                        </div>
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="col-5">
+                    <div class="card">
+                        <div class="card-body">
+                          <h3>Academias</h3>
+
+                          <div class="alert alert-info " role="alert" *ngIf="academias.length === 0 ">
+                            
+                            <p>No hay academias con ese término</p>
+                            <div class="mb-0"></div>
+                          </div>
+                            
+                          <div class="table-responsive" *ngIf="academias.length > 0 ">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Avatar</th>
+                                        <th>Nombre</th>
+                                        <th>Apellido</th>
+                                        
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let academia of academias" class="animated fadeIn fast"
+                                            
+                                    >
+                                        <img [src]="academia.img | imagen: 'academias'" class="w75" alt="academias">
+                                        <td>{{academia.nombre}}</td>
+                                       
+                                    </tr>
+                                   
+                                </tbody>
+                            </table>
+                        </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
