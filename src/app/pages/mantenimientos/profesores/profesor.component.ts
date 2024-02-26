@@ -96,7 +96,7 @@ this.profesorForm = this.fb.group({
         Swal.fire('Actualizado',`${nombre} ${apellido} actualizado correctamente`, 'success');
       })
     }else{
-      //Crear
+      //Crear 
       this.profesorService.crearProfesor(this.profesorForm.value)
         .subscribe((resp:any) =>{
           Swal.fire('Creado',`${nombre} ${apellido} creado correctamente`, 'success');
