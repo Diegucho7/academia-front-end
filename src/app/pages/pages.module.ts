@@ -19,6 +19,7 @@ import { PerfilComponent } from './perfil/perfil.component';
 import { UsuariosComponent } from './mantenimientos/usuarios/usuarios.component';
 import { AcademiasComponent } from './mantenimientos/academias/academias.component';
 import { ProfesoresComponent } from './mantenimientos/profesores/profesores.component';
+import { CursosComponent } from './mantenimientos/cursos/cursos.component';
 import { PipesModule } from '../pipes/pipes.module';
 import { ProfesorComponent } from './mantenimientos/profesores/profesor.component';
 import { BusquedaComponent } from './busqueda/busqueda.component';
@@ -39,6 +40,7 @@ import { BusquedaComponent } from './busqueda/busqueda.component';
         ProfesoresComponent,
         ProfesorComponent,
         BusquedaComponent,
+        CursosComponent
     ],
     exports: [
         DashboardComponent,

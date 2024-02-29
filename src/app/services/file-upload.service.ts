@@ -15,7 +15,7 @@ export class FileUploadService {
 
   async actualizarFoto(
     archivo: File,
-    tipo: 'usuarios'|'profesores'|'academias',  
+    tipo: 'usuarios'|'profesores'|'academias'|'cursos',  
     id: string
   ) :Promise<any>{
 
