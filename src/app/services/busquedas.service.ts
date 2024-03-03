@@ -56,7 +56,7 @@ export class BusquedasService {
       }
 
       buscar(
-              tipo: 'usuarios'|'profesores'|'academias'|'cursos',
+              tipo: 'usuarios'|'profesores'|'academias'|'cursos'|'materias',
               termino: string = ''
       ){
         const url = `${base_url}/todo/coleccion/${tipo}/${termino}`;

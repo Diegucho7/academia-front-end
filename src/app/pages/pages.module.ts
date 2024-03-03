@@ -23,6 +23,8 @@ import { CursosComponent } from './mantenimientos/cursos/cursos.component';
 import { PipesModule } from '../pipes/pipes.module';
 import { ProfesorComponent } from './mantenimientos/profesores/profesor.component';
 import { BusquedaComponent } from './busqueda/busqueda.component';
+import { MateriaComponent } from './mantenimientos/materias/materia.component';
+import { MateriasComponent } from './mantenimientos/materias/materias.component';
 
 
 @NgModule({
@@ -40,7 +42,9 @@ import { BusquedaComponent } from './busqueda/busqueda.component';
         ProfesoresComponent,
         ProfesorComponent,
         BusquedaComponent,
-        CursosComponent
+        CursosComponent,
+        MateriaComponent,
+        MateriasComponent
     ],
     exports: [
         DashboardComponent,

@@ -8,7 +8,6 @@ import { AuthModule } from './auth/auth.module';
 
 import { AppComponent } from './app.component';
 import { NopagefoundComponent } from './nopagefound/nopagefound.component';
-import { MateriasComponent } from './pages/mantenimientos/materias/materias.component';
 import { PipesModule } from "./pipes/pipes.module";
 
 
@@ -16,7 +15,6 @@ import { PipesModule } from "./pipes/pipes.module";
     declarations: [
         AppComponent,
         NopagefoundComponent,
-        MateriasComponent,
     ],
     bootstrap: [AppComponent],
     imports: [

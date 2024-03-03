@@ -15,6 +15,7 @@ import { ProfesorComponent } from './mantenimientos/profesores/profesor.componen
 import { BusquedaComponent } from './busqueda/busqueda.component';
 import { adminGuard } from '../guards/admin.guard';
 import { CursosComponent } from './mantenimientos/cursos/cursos.component';
+import { MateriaComponent } from './mantenimientos/materias/materia.component';
 import { MateriasComponent } from './mantenimientos/materias/materias.component';
 
 
@@ -39,6 +40,7 @@ const childRoutes: Routes = [
       {path: 'usuarios',canActivate: [adminGuard],component: UsuariosComponent, data: {titulo: 'Usuario de la aplicación'}},
       {path: 'cursos',canActivate: [adminGuard],component: CursosComponent, data: {titulo: 'Clases de la aplicación'}},
       {path: 'materias',canActivate: [adminGuard],component: MateriasComponent, data: {titulo: 'Materias de la aplicación'}},
+      {path: 'materia/:id',canActivate: [adminGuard],component: MateriaComponent, data: {titulo: 'Materia de la aplicación'}},
       //Rutas Admin : Materias y Cursos
 ]
 
