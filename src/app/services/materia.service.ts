@@ -35,7 +35,7 @@ const url = `${ base_url }/materias`;
 return this.http.get<{ ok: boolean, materias: Materia[] }>(url,
 {
 headers: {
-  'x-token': this.token
+  'x-token': this.token 
 }
 })
 .pipe(
@@ -47,10 +47,10 @@ headers: {
 obtenerMateriaPorId(id:string ): Observable<Materia> {
 
 const url = `${ base_url }/materias/${id}`;
-return this.http.get<{ ok: boolean, materias: Materia }>(url,
+return this.http.get<{ ok: boolean, materia: Materia }>(url,
 this.headers)
 .pipe(
-  map( (resp: { ok: boolean, materias: Materia } ) => resp.materias )
+  map( (resp: { ok: boolean, materia: Materia } ) => resp.materia )
 );
 
 

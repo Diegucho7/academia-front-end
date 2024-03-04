@@ -51,9 +51,9 @@
                     <div class="col">
                         <div class="text-right ">
                             <button 
-                            routerLink="/dashboard/profesor/nuevo"
+                            routerLink="/dashboard/materia/nuevo"
                             class="btn btn-primary">
-                            <i class="fa-solid fa-school"></i>
+                            <i class="fa-solid fa-book-open"></i>
                                 Crear Materia
                             </button>
                         </div>
@@ -75,7 +75,7 @@
                         </thead>
                         <tbody>
                             <tr *ngFor="let materia of materias">
-                                <td><img [src]=" materia.img | imagen:'profesores'" [alt]="materia.nombre"
+                                <td><img [src]=" materia.img | imagen:'materias'" [alt]="materia.nombre"
                                     class="avatar cursor"
                                     (click)="abrirModal(materia)"
                                     ></td>
