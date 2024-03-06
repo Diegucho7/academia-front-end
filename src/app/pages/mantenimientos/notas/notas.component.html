@@ -1,0 +1,42 @@
+<div class="table-responsive">
+    <table class="table table-bordered">
+        <thead>
+            <tr>        
+                
+                <th>Nombre</th>
+                <th>Notas</th>
+              
+                <th class="text-nowrap w100">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let materia of materias">
+              
+                <td>{{materia.nombre}}dd</td>
+                
+             
+                
+                <td>
+                    <app-incrementador 
+                    (valor)="progreso1 = ( $event )" 
+                    [valor]="progreso2" 
+                    [btnClass]="'btn-info'"
+                    >
+                </app-incrementador>
+                </td>
+               
+                <td class="text-nowrap text-center">
+                    <!-- (click)="eliminarMateria(usuario)"  -->
+                <a 
+                    data-toggle="tooltip" 
+                    data-original-title="Borrar"
+                    > 
+                    <!-- *ngIf="mailUser != usuario.email" -->
+                    <i class="fa fa-close text-danger cursor"></i> 
+                </a>
+                </td>
+            </tr>
+            
+        </tbody>
+    </table>
+</div>

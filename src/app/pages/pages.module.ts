@@ -25,6 +25,9 @@ import { ProfesorComponent } from './mantenimientos/profesores/profesor.componen
 import { BusquedaComponent } from './busqueda/busqueda.component';
 import { MateriaComponent } from './mantenimientos/materias/materia.component';
 import { MateriasComponent } from './mantenimientos/materias/materias.component';
+import { NotasComponent } from './mantenimientos/notas/notas.component';
+import { ResultadosComponent } from './mantenimientos/resultados/resultados.component';
+import { EstudiantesComponent } from './mantenimientos/estudiantes/estudiantes.component';
 
 
 @NgModule({
@@ -44,7 +47,10 @@ import { MateriasComponent } from './mantenimientos/materias/materias.component'
         BusquedaComponent,
         CursosComponent,
         MateriaComponent,
-        MateriasComponent
+        MateriasComponent,
+        NotasComponent,
+        ResultadosComponent,
+        EstudiantesComponent
     ],
     exports: [
         DashboardComponent,
