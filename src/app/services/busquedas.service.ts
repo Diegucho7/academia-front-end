@@ -56,7 +56,7 @@ export class BusquedasService {
       }
 
       buscar(
-              tipo: 'usuarios'|'profesores'|'academias'|'cursos'|'materias',
+              tipo: 'usuarios'|'profesores'|'academias'|'cursos'|'materias'|'estudiantes',
               termino: string = ''
       ){
         const url = `${base_url}/todo/coleccion/${tipo}/${termino}`;
@@ -75,6 +75,8 @@ export class BusquedasService {
                     return this.transformarAcademias(resp.resultados);
 
                   case 'cursos':
+                    return this.transformarAcademias(resp.resultados);
+                  case 'estudiantes':
                     return this.transformarAcademias(resp.resultados);
                    
 

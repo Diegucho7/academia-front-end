@@ -8,7 +8,7 @@ const base_url = environment.base_url;
 export class ModalImagenService {
 
   private _ocultarModal:boolean = true;
-  public tipo! :'usuarios'|'profesores'|'academias'|'cursos'|'materias';
+  public tipo! :'usuarios'|'profesores'|'academias'|'cursos'|'materias'|'estudiantes';
   public id! : string;
   public img? : string;
 
@@ -19,7 +19,7 @@ export class ModalImagenService {
   }
 
   abrirModal(
-    tipo: 'usuarios'|'profesores'|'academias'|'cursos'|'materias',
+    tipo: 'usuarios'|'profesores'|'academias'|'cursos'|'materias'|'estudiantes',
     id: string,
     img :string = 'no-image'
   ){

@@ -28,6 +28,7 @@ import { MateriasComponent } from './mantenimientos/materias/materias.component'
 import { NotasComponent } from './mantenimientos/notas/notas.component';
 import { ResultadosComponent } from './mantenimientos/resultados/resultados.component';
 import { EstudiantesComponent } from './mantenimientos/estudiantes/estudiantes.component';
+import { EstudianteComponent } from './mantenimientos/estudiantes/estudiante.component';
 
 
 @NgModule({
@@ -50,7 +51,8 @@ import { EstudiantesComponent } from './mantenimientos/estudiantes/estudiantes.c
         MateriasComponent,
         NotasComponent,
         ResultadosComponent,
-        EstudiantesComponent
+        EstudiantesComponent,
+        EstudianteComponent,
     ],
     exports: [
         DashboardComponent,

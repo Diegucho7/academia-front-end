@@ -20,6 +20,7 @@ import { MateriasComponent } from './mantenimientos/materias/materias.component'
 import { NotasComponent } from './mantenimientos/notas/notas.component';
 import { ResultadosComponent } from './mantenimientos/resultados/resultados.component';
 import { EstudiantesComponent } from './mantenimientos/estudiantes/estudiantes.component';
+import { EstudianteComponent } from './mantenimientos/estudiantes/estudiante.component';
 
 
 const childRoutes: Routes = [
@@ -37,6 +38,7 @@ const childRoutes: Routes = [
       {path: 'academias', component: AcademiasComponent, data: {titulo: 'Academias de la aplicación'}},
       {path: 'profesores', component: ProfesoresComponent   , data: {titulo: 'Porfesores de la aplicación'}},
       {path: 'estudiantes', component: EstudiantesComponent   , data: {titulo: 'Estudiantes de la aplicación'}},
+      {path: 'estudiante/:id', component: EstudianteComponent   , data: {titulo: 'Estudiante de la aplicación'}},
       {path: 'profesor/:id', component: ProfesorComponent   , data: {titulo: 'Profesor de la aplicación'}},
 
 
