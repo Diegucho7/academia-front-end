@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AcademiaService } from '../../../services/academia.service';
 import { ProfesorService } from '../../../services/profesor.service';
-import { MateriaService } from '../../../services/materia.service';
+
 import { Academia } from '../../../models/academia.model';
 import { Profesor } from '../../../models/profesor.model';
-import { Materia } from '../../../models/materia.model';
+
 import Swal from 'sweetalert2';
 import { ActivatedRoute, Router } from '@angular/router';
 import { delay } from 'rxjs';
@@ -18,17 +18,16 @@ import { delay } from 'rxjs';
 export class ProfesorComponent implements OnInit {
 
   public academias: Academia[] = [];
-  public materias: Materia[] = [];
+ 
   public profesorForm!: FormGroup;
 
   public profesorSeleccionado?: Profesor;
   public academiaSeleccionada?: Academia;
-  public materiaSeleccionada?: Materia;
 
   constructor(
             private fb: FormBuilder,
             private academiaSevice: AcademiaService,
-            private materiaSevice: MateriaService,
+   
             private profesorService:ProfesorService,
             private router: Router,
             private activateRoute:ActivatedRoute
@@ -47,7 +46,7 @@ this.profesorForm = this.fb.group({
   nombre: ['', Validators.required],
   apellido: ['', Validators.required],
   academia: ['', Validators.required],
-  materia:['',Validators.required]
+  
 })
 
     this.cargarAcademias();
@@ -57,10 +56,7 @@ this.profesorForm = this.fb.group({
                                       subscribe( AcademialId =>{
                                         this.academiaSeleccionada = this.academias.find(h => h._id === AcademialId)
     } );
-    this.profesorForm.get('materia ')?.valueChanges.
-                                    subscribe( MateriaId =>{
-                                      this.materiaSeleccionada = this.materias.find(u => u._id === MateriaId)
-                                    })
+  
   }
   
 
@@ -76,9 +72,9 @@ this.profesorForm = this.fb.group({
                                 delay(100)
                               )
                               .subscribe( (profesor:any) => {   
-                                  const { nombre, apellido, materia, academia: {_id}} = profesor
+                                  const { nombre, apellido, academia: {_id}} = profesor
                                   this.profesorSeleccionado = profesor
-                                  this.profesorForm.setValue( { nombre: nombre, apellido: apellido, materia , academia: _id} )
+                                  this.profesorForm.setValue( { nombre: nombre, apellido: apellido , academia: _id} )
                               }, error => {
                                 return this.router.navigateByUrl(`/dashboard/profesores`);
                               })
@@ -95,10 +91,7 @@ this.profesorForm = this.fb.group({
   cargarMaterias(){
     
 
-    this.materiaSevice.cargarMaterias()
-                        .subscribe((materias:Materia[]) =>{
-                          this.materias = materias;
-                        })
+    
   }
 
   guardarProfesor(){

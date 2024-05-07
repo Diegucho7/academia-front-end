@@ -29,6 +29,8 @@ import { NotasComponent } from './mantenimientos/notas/notas.component';
 import { ResultadosComponent } from './mantenimientos/resultados/resultados.component';
 import { EstudiantesComponent } from './mantenimientos/estudiantes/estudiantes.component';
 import { EstudianteComponent } from './mantenimientos/estudiantes/estudiante.component';
+import { CursoComponent } from './mantenimientos/cursos/curso.component';
+import { PeriodosComponent } from './mantenimientos/periodos/periodos.component';
 
 
 @NgModule({
@@ -53,6 +55,8 @@ import { EstudianteComponent } from './mantenimientos/estudiantes/estudiante.com
         ResultadosComponent,
         EstudiantesComponent,
         EstudianteComponent,
+        CursoComponent,
+        PeriodosComponent
     ],
     exports: [
         DashboardComponent,

@@ -38,7 +38,9 @@ export class CursoService {
                 cargarCursos( ): Observable<Curso[]> {
  
                   const url = `${ base_url }/cursos`;
-                  return this.http.get<{ ok: boolean, cursos: Curso[] }>(url,
+                  return this.http.get<{ ok: boolean, cursos: Curso[] }>
+                  
+                  (url,
                       {
                         headers: {
                           'x-token': this.token

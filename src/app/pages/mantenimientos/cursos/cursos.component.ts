@@ -9,7 +9,7 @@ import { BusquedasService } from '../../../services/busquedas.service';
 @Component({
   selector: 'app-cursos',
   templateUrl: './cursos.component.html',
-  styleUrl: './cursos.component.css'
+  styles: ``
 })
 export class CursosComponent implements OnInit, OnDestroy {
   
@@ -83,7 +83,7 @@ export class CursosComponent implements OnInit, OnDestroy {
       this.cursoService.crearCurso( value! )
                           .subscribe((resp:any) => {
                             this.cursos.push(resp.clase)
-                          })
+                          })    
 
     }
     

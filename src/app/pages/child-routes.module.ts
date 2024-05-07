@@ -21,6 +21,8 @@ import { NotasComponent } from './mantenimientos/notas/notas.component';
 import { ResultadosComponent } from './mantenimientos/resultados/resultados.component';
 import { EstudiantesComponent } from './mantenimientos/estudiantes/estudiantes.component';
 import { EstudianteComponent } from './mantenimientos/estudiantes/estudiante.component';
+import { CursoComponent } from './mantenimientos/cursos/curso.component';
+import { PeriodosComponent } from './mantenimientos/periodos/periodos.component';
 
 
 const childRoutes: Routes = [
@@ -44,11 +46,14 @@ const childRoutes: Routes = [
 
       //Rutas de Admin
       {path: 'usuarios',canActivate: [adminGuard],component: UsuariosComponent, data: {titulo: 'Usuario de la aplicación'}},
-      {path: 'cursos',canActivate: [adminGuard],component: CursosComponent, data: {titulo: 'Clases de la aplicación'}},
+      {path: 'cursos',canActivate: [adminGuard],component: CursosComponent, data: {titulo: 'Cursos de la aplicación'}},
+      {path: 'curso/:id',canActivate: [adminGuard],component: CursoComponent, data: {titulo: 'Curso de la aplicación'}},
       {path: 'materias',canActivate: [adminGuard],component: MateriasComponent, data: {titulo: 'Materias de la aplicación'}},
       {path: 'materia/:id',canActivate: [adminGuard],component: MateriaComponent, data: {titulo: 'Materia de la aplicación'}},
       {path: 'notas',canActivate: [adminGuard],component: NotasComponent, data: {titulo: 'Notas de la aplicación'}},
       {path: 'resultados',canActivate: [adminGuard],component: ResultadosComponent, data: {titulo: 'Resultados de la aplicación'}},
+      {path: 'periodos',canActivate: [adminGuard],component: PeriodosComponent, data: {titulo: 'Periodos de la aplicación'}},
+      {path: 'periodos/:id',canActivate: [adminGuard],component: PeriodosComponent, data: {titulo: 'Periodos de la aplicación'}},
 
       //Rutas Admin : Materias y Cursos
 ]

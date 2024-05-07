@@ -4,20 +4,20 @@
     <div class="col-md-6">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Profesor</h4>
+                <h4 class="card-title">Materia</h4>
                 <h6 class="card-subtitle">Actualizar Información</h6>
                 <form class="form-horizontal p-t-20"
-                [formGroup]="profesorForm"
-                (ngSubmit)="guardarProfesor()"
+                [formGroup]="cursoForm"
+                (ngSubmit)="guardarCurso()"
                 >
     
                 <div class="form-group row"
-                *ngIf="profesorSeleccionado"
+                *ngIf="cursoSeleccionado"
                     >
                         <label for="exampleInputuname3" class="col-sm-3 control-label">Foto</label>
                         <div class="col-sm-9">
                             <div class="input-group">
-                                <img [src]="profesorSeleccionado.img | imagen:'profesores'" alt=""
+                                <img [src]="cursoSeleccionado.img | imagen:'cursos'" alt="image-curse"
                                 class="w200">
                             </div>
                         </div>
@@ -32,7 +32,7 @@
                                 <input type="text" 
                                 class="form-control" 
                                 id="exampleInputuname3" 
-                                placeholder="Nombre del profesor"
+                                placeholder="Nombre del curso"
                                 formControlName="nombre"
                                 >
                             </div>
@@ -40,43 +40,29 @@
                     </div>
     
     
-                    <div class="form-group row">
-                        <label for="exampleInputuname3" class="col-sm-3 control-label">Apellido</label>
-                        <div class="col-sm-9">
-                            <div class="input-group">
-                                <div class="input-group-addon"><i class="ti-user"></i></div>
-                                <input type="text" formControlName="apellido" class="form-control" id="exampleInputuname3" placeholder="Apellido del profesor">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="exampleInputEmail3" class="col-sm-3 control-label">Academias</label>
+                    <!-- <div class="form-group row">
+                        <label for="exampleInputEmail3" class="col-sm-3 control-label">Curso</label>
                         <div class="col-sm-9">
                             <div class="input-group">
                                 
                                 <select class="form-control" 
-                                formControlName="academia">
-                                    <option value="">Seleccione el academia</option>
-                                    <option *ngFor="let academia of academias" 
-                                    [value]="academia._id">
-                                    {{academia.nombre}}
+                                formControlName="curso">
+                                    <option value="">Seleccione el curso</option>
+                                    <option *ngFor="let curso of cursos" 
+                                    [value]="curso._id">
+                                    {{curso.nombre}}
                                 </option>
                                     
                                 </select>   
-                                
                             </div>
                         </div>
-                    </div>
-
-
-                 
-                    
+                    </div> -->
                     
              
                     <div class="form-group row m-b-0">
                         <div class="offset-sm-3 col-sm-9">
                             <button type="submit"
-                            [disabled]="profesorForm.invalid"
+                            [disabled]="cursoForm.invalid"
                             class="btn btn-success waves-effect waves-light"><i class="fa fa-save"></i> Guardar</button>
                         </div>
                     </div>
@@ -85,14 +71,14 @@
         </div>
     </div>
 
-    <div class="col-md-6 animated fadeIn fast" *ngIf="academiaSeleccionada">
+    <div class="col-md-6 animated fadeIn fast" *ngIf="cursoSeleccionado">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Academia</h4>
-                <h6 class="card-subtitle">{{academiaSeleccionada.nombre}}</h6>
+                <h4 class="card-title">Curso</h4>
+                <h6 class="card-subtitle">{{cursoSeleccionado.nombre}}</h6>
 
                
-                    <img [src]="academiaSeleccionada.img | imagen: 'academias'" alt=""
+                    <img [src]="cursoSeleccionado.img | imagen: 'cursos'" alt=""
                     class="img-thumbnail">
              
             </div>

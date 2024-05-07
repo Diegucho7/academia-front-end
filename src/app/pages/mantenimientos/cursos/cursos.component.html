@@ -50,12 +50,13 @@
                     </div>
 
                     <div class="col">
-                        <div class="text-right ">
-                            <button 
-                            (click)="abrirSweetAlert()"
+                        <div class="text-right">
+                            <button
+                            routerLink="/dashboard/curso/nuevo" 
                             class="btn btn-primary">
                             <i class="fa-solid fa-chalkboard-user"></i>
-                                Crear Curso
+                            Crear Curso
+                            <!-- (click)="abrirSweetAlert()" -->
                             </button>
                         </div>
     
@@ -71,6 +72,8 @@
                                 <th class="w100">Imagen del curso</th>
                                
                                 <th>Nombre del curso</th>
+
+                                
                                 
                                 <th class="text-nowrap">Acciones</th>
                             </tr>
@@ -80,7 +83,7 @@
                                 <td class="text-center">
                                     <img [src]=" curso.img | imagen:'cursos'" [alt]="curso.nombre"
                                     class="avatar cursor"
-                                    (click)="abrirModal(curso)"
+                                    (click)="abrirModal(curso)" 
                                     >
                                     
                                     </td>
@@ -91,6 +94,7 @@
                                             [(ngModel)]="curso.nombre"
                                             >
                                 </td>
+                             
                                
                                
                                 <td class="text-nowrap text-center w100">

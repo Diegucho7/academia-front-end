@@ -11,11 +11,11 @@ interface _MateriaUser{
 
 export class Materia{
         constructor(
-            public nombre: string,
             public _id: string,
-            public img?: string,
+            public nombre: string,
             public usuario?: _MateriaUser,
-            public curso?: Curso
+            public curso?: Curso,
+            public img?: string,
 
         ){}
         

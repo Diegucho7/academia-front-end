@@ -1,5 +1,5 @@
-<div class="table-responsive">
-    <table class="table table-bordered">
+<!-- <div class="table-responsive"> -->
+    <!-- <table class="table table-bordered">
         <thead>
             <tr>        
                 
@@ -26,17 +26,99 @@
                 </td>
                
                 <td class="text-nowrap text-center">
-                    <!-- (click)="eliminarMateria(usuario)"  -->
+                    (click)="eliminarMateria(usuario)" 
                 <a 
                     data-toggle="tooltip" 
                     data-original-title="Borrar"
                     > 
-                    <!-- *ngIf="mailUser != usuario.email" -->
+                    *ngIf="mailUser != usuario.email"
                     <i class="fa fa-close text-danger cursor"></i> 
                 </a>
                 </td>
             </tr>
             
         </tbody>
-    </table>
-</div>
+    </table> -->
+
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Mi perfil de usuario</h4>
+                    <h6 class="card-subtitle">Ajustes</h6>
+                    <form class="form p-t-20"
+                    [formGroup]="perfilForm"
+                    (ngSubmit)="actualizarPerfil()"
+                    >
+                        <div class="form-group">
+                            <label for="exampleInputuname">Nombre</label>
+                            <div class="input-group">
+                                <div class="input-group-addon"><i class="ti-user"></i></div>
+                                <input type="text"
+                                 formControlName="nombre"
+                                class="form-control" id="exampleInputuname" placeholder="Nombre del usuario">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputuname">Apellido</label>
+                            <div class="input-group">
+                                <div class="input-group-addon"><i class="ti-user"></i></div>
+                                <input type="text"
+                                 formControlName="apellido"
+                                class="form-control" id="exampleInputuname" placeholder="Apellido del usuario">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Email address</label>
+                            <div class="input-group">
+                                <div class="input-group-addon"><i class="ti-email"></i></div>
+                                <input type="email" 
+                                formControlName="email"
+                                [readOnly]="usuario.google"
+                                class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-success btn-block waves-effect waves-light m-r-10"
+                        [disabled]="perfilForm.invalid"
+                        >
+                            <i class="fa fa-save"></i>
+                            Guardar cambios
+                        </button>
+                        <!-- <button type="submit" class="btn btn-inverse waves-effect waves-light">Cancel</button> -->
+                    </form>
+                </div>
+            </div>
+        </div>
+    
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Avatar</h4>
+                    <h6 class="card-subtitle">Imagen de Usuario</h6>
+    
+                    <div class="text-center">
+                        <img *ngIf="!imgTemp" [src]="usuario.imagenUrl" class="img-avatar" alt="Usuario">
+                        <img *ngIf="imgTemp" [src]="imgTemp" class="img-avatar" alt="Usuario">
+    
+                    </div>
+    
+                    <input type="file"
+                    >
+                    <!-- (change)="cambiarImagen($any($event.target).files[0])" -->
+    
+                    <br>
+                    <br>
+                    <button type="button" class="btn btn-success waves-effect waves-light m-r-10"
+                            [disabled]="!imagenSubir"
+                            >
+                            <!-- (click)="subirImagen()" -->
+                        <i class="fa fa-save"></i>
+                        Cambiar imagen
+                    </button>
+                </div>
+            </div>  
+        </div>   
+    </div>
+<!-- </div> -->
