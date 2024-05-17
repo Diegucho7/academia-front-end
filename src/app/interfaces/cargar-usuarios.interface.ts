@@ -6,3 +6,9 @@ export interface CargarUsuario{
     usuarios: Usuario[]
 
 }
+export interface CargarUsuarioCategoria{
+
+    ok:boolean,
+    usuarios: Usuario[]
+
+}

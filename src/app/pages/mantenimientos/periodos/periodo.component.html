@@ -4,12 +4,11 @@
     <div class="col-md-6">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Materias en el Curso por el periodo seleccionado</h4>
+                <h4 class="card-title">Periodo lectivo</h4>
                 <h6 class="card-subtitle">Actualizar Información</h6>
-                <form class="form-horizontal p-t-20"
+                <form class="form-horizontal p-t-20" [formGroup]="periodoForm"
                 (ngSubmit)="guardarPeriodo()"
                 >
-                <!-- [formGroup]="periodoForm" -->
     
               
     
@@ -22,14 +21,32 @@
                         <div class="col-sm-9">
                             <div class="input-group">
                                 
+                              
+
                                 <select  class="form-control"   
                                 formControlName="anio" 
                                 >
-                                    <option selected value="">Seleccione el periodo</option>
-                                    <option *ngFor="let year of years" 
-                                    [value]="year">
-                                    {{year}}
-                                </option> 
+                                <option selected value="">Seleccione el periodo</option>
+                                <option *ngFor="let year of yearsRange" [value]="year">{{ year }}</option>
+
+                                    
+                                </select>   
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="exampleInputEmail3" class="col-sm-3 control-label">Mes de Periodo</label>
+                        <div class="col-sm-9">
+                            <div class="input-group">
+                                
+                              
+
+                                <select  class="form-control"   
+                                formControlName="mes" 
+                                >
+                                <option selected value="">Seleccione el mes</option>
+                                <option *ngFor="let mes of meses" [value]="mes.name">{{ mes.name }}</option>
+
                                     
                                 </select>   
                             </div>
@@ -48,6 +65,24 @@
                                     <option *ngFor="let academia of academias" 
                                     [value]="academia._id">
                                     {{academia.nombre}}
+                                </option> 
+                                    
+                                </select>   
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="exampleInputEmail3" class="col-sm-3 control-label">Profesor</label>
+                        <div class="col-sm-9">
+                            <div class="input-group">
+                                
+                                <select  class="form-control"   
+                                formControlName="profesor" 
+                                >
+                                    <option selected value="">Seleccione Profesor</option>
+                                    <option *ngFor="let profesor of usuarios" 
+                                    [value]="profesor.uid">
+                                    {{profesor.nombre + ' ' +profesor.apellido}} 
                                 </option> 
                                     
                                 </select>   
@@ -75,11 +110,13 @@
                     </div>
 
                     <div class="form-group row">
-                        <label for="exampleInputEmail3" class="col-sm-3 control-label">Materias</label>
+                        <label for="exampleInputEmail3" class="col-sm-3 control-label">Modulos</label>
                         <div class="col-sm-9">
                             <div class="input-group">
+
+                                <input type="number" class="form-control" placeholder="Modulos" max="10" min="1" formControlName="modulos">
                              
-                                <select multiple="multiple" class="form-control"  
+                                <!-- <select multiple="multiple" class="form-control"  
                                 formControlName="materia"
                                 >
                                
@@ -88,7 +125,17 @@
                                     {{materia.nombre}}
                                 </option>
                                     
-                                </select >   
+                                </select >    -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="exampleInputEmail3" class="col-sm-3 control-label">Valor</label>
+                        <div class="col-sm-9">
+                            <div class="input-group">
+
+                                <input type="number" class="form-control" placeholder="Valor" max="500" min="1" formControlName="valor">
+                             
                             </div>
                         </div>
                     </div>

@@ -31,6 +31,7 @@ import { EstudiantesComponent } from './mantenimientos/estudiantes/estudiantes.c
 import { EstudianteComponent } from './mantenimientos/estudiantes/estudiante.component';
 import { CursoComponent } from './mantenimientos/cursos/curso.component';
 import { PeriodosComponent } from './mantenimientos/periodos/periodos.component';
+import { PeriodoComponent } from './mantenimientos/periodos/periodo.component';
 
 
 @NgModule({
@@ -56,7 +57,8 @@ import { PeriodosComponent } from './mantenimientos/periodos/periodos.component'
         EstudiantesComponent,
         EstudianteComponent,
         CursoComponent,
-        PeriodosComponent
+        PeriodosComponent,
+        PeriodoComponent
     ],
     exports: [
         DashboardComponent,

@@ -57,7 +57,7 @@ public data : any[] = [];
                          this.periodos   = periodos;
                          this.periodosTemp = periodos;
                          this.cargando = false;
-                         console.log(periodos)
+                        //  console.log(periodos)
 
                          const data = Object.values(periodos)
                           

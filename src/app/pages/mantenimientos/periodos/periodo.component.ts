@@ -12,6 +12,10 @@ import { PeriodoService } from '../../../services/periodo.service';
 import { Academia } from '../../../models/academia.model';
 import { AcademiaService } from '../../../services/academia.service';
 import { Periodo } from '../../../models/periodo.model';
+import { FormsModule } from '@angular/forms';
+import { UsuarioService } from '../../../services/usuario.service';
+import { Usuario } from '../../../models/usuario.model';
+
 
 @Component({
   selector: 'app-periodo',
@@ -19,33 +23,63 @@ import { Periodo } from '../../../models/periodo.model';
   styles: ``
 })
 
-export class PeriodosComponent implements OnInit {
+export class PeriodoComponent implements OnInit {
   public cursos: Curso[] = [];
   public materias: Materia[] = [];
+  public usuarios: Usuario[] = [];
   public academias : Academia[] = [];
-
+  public materiaSeleccionada?: Materia;
+  public academiaSeleccionada?: Academia;
+  public usuariosTemp:Usuario[] =  [];
   public periodoForm!: FormGroup;
-
+  public usuariosProfesor: Usuario[] = [];
   public periodoSeleccionado?: Periodo;
+  public cargando: boolean = true;
+  public totalUsuarios:number = 0;
+  public desde: number = 0;
+  public role: string = "PROFESOR_ROLE";
   // public academiaSeleccionado?: Curso;
   // public cursoSeleccionado?: Curso;
   public cursoSeleccionado?: Curso;
 
-
+  yearsRange: number[] = [];
 //indicamos valores del rango, inicio y final
-public inicio = 2022
+public inicio = 2024
 public final = 2050
 //generamos array con los valores
 public years = Array(this.final - this.inicio + 1).fill(0).map((_, i) => this.inicio + i);
+public meses =[
+  {id:'1',name:'enero'},
+{id:'2',name:'febrero'},
+{id:'3',name:'marzo'},
+{id:'4',name:'abril'},
+{id:'5',name:'mayo'},
+{id:'6',name:'junio'},
+{id:'7',name:'julio'},
+{id:'8',name:'agosto'},
+{id:'9',name:'septiembre'},
+{id:'10',name:'octubre'},
+{id:'11',name:'noviembre'},
+{id:'12',name:'diciembre'},
+]
   constructor(
             private fb: FormBuilder,
             private cursoService: CursoService,
             private materiaService:MateriaService,
             private periodoService:PeriodoService,
             private academiaService:AcademiaService,
+            private usuarioService: UsuarioService,
             private router: Router,
             private activateRoute:ActivatedRoute
-  ){}
+
+            
+  ){
+    const startYear = 2024;
+    const endYear = 2035;
+    this.yearsRange = Array.from({length: endYear - startYear + 1}, (value, index) => startYear + index);
+
+
+  }
   ngOnInit(): void {
 
     this.activateRoute.params
@@ -56,25 +90,42 @@ public years = Array(this.final - this.inicio + 1).fill(0).map((_, i) => this.in
     // console.log(this.hospitalSeleccionado?.img)
 this.periodoForm = this.fb.group({
   anio: ['', Validators.required],
+  mes: ['', Validators.required],
   academia: ['', Validators.required],
+  profesor: ['', Validators.required],
   curso: ['', Validators.required],
-  materia: ['', Validators.required],
+  modulos: ['', Validators.required],
+  valor: ['', Validators.required],
 })
-
+    this.CargarUsuarios();
+    console.log(this.usuarios)
     this.cargarCurso();
-    this.cargarMaterias();
+    // this.cargarMaterias();
     this.cargarAcademias();
     this.periodoForm.get('academia')?.valueChanges.
                                     subscribe( AcademiaId =>{
+                                      this.academiaSeleccionada = this.academias.find(h => h._id === AcademiaId)
                                     })
-    this.periodoForm.get('curso')?.valueChanges.
-                                    subscribe( CursoId =>{
-                                    })
-    this.periodoForm.get('materia')?.valueChanges.
-                                    subscribe( MateriaId =>{
-
-                                    })
+                               
   }
+
+  
+
+  CargarUsuarios(){
+    
+    this.cargando = true;
+    this.usuarioService.cargarUsuariosProfesor(this.desde)
+    .subscribe(({total, usuarios})=>{
+      this.totalUsuarios = total;
+
+        
+        this.usuarios = usuarios;
+        this.usuariosTemp = usuarios;
+        this.cargando = false;
+        
+    })
+  }
+
   cargarPeriodo(id:string){
 
     if (id === 'nuevo') {
@@ -82,26 +133,23 @@ this.periodoForm = this.fb.group({
     }
     
 
-    this.materiaService.obtenerMateriaPorId(id)
+    this.periodoService.obtenerPeriodoPorId(id)
     
-            .pipe(
-              delay(100)
-    )
-    .subscribe( (periodo:any) => {
-      const {academia} = periodo
-      this.periodoSeleccionado = periodo
-      this.periodoForm.setValue( { academia: academia} )
-    }, error => {
-      return this.router.navigateByUrl(`/dashboard/periodos`);
-    })
+                              .pipe(
+                                delay(100)
+                              )
+                              .subscribe( (periodo:any) => {   
+                                  const { anio,mes, profesor, academia, curso,modulos, valor} = periodo
+                                  this.periodoSeleccionado = periodo
+                                  this.periodoForm.setValue( { anio: anio, mes: mes , academia: academia._id, profesor: profesor._id, curso: curso._id, modulos: modulos, valor: valor} )
+                                  console.log(periodo  )
+                              }, error => {
+                                return this.router.navigateByUrl(`/dashboard/periodos`);
+                              })
   }
 
-  cargarMaterias(){
-    this.materiaService.cargarMaterias()
-                        .subscribe((materias:Materia[]) =>{
-                          this.materias = materias;
-                        })
-  }
+  
+  
   
   cargarAcademias(){
     this.academiaService.cargarAcademias()
@@ -122,32 +170,7 @@ this.periodoForm = this.fb.group({
 
 
   guardarPeriodo(){
-    const {periodo} =this.periodoForm.value;
-    if (this.periodoSeleccionado) {
-      //Actualizar
-      const data = {
-        ...this.periodoForm.value,
-        _id:this.periodoSeleccionado._id
-      } 
-      this.materiaService.actualizarMateria(data)
-      .subscribe(resp=>{
-        console.log(resp )
-        Swal.fire('Actualizado',`${periodo}  actualizado correctamente`, 'success');
-      })
-    }else{
-
-    const {periodo} =this.periodoForm.value;
-    this.periodoService.crearPeriodo(this.periodoForm.value)
-    .subscribe((resp:any) =>{
-      Swal.fire('Creado',`${periodo}  creado correctamente`, 'success');
-      this.router.navigateByUrl(`/dashboard/periodos/${resp.periodo._id}`)
-    })
-  }
-  }
-
-
-  guardarMateria(){
-    const {periodo} =this.periodoForm.value;
+    const {anio,mes} =this.periodoForm.value;
     
     if (this.periodoSeleccionado) {
       //Actualizar
@@ -155,22 +178,26 @@ this.periodoForm = this.fb.group({
         ...this.periodoForm.value,
         _id:this.periodoSeleccionado._id
       } 
-      this.materiaService.actualizarMateria(data)
+      this.periodoService.actualizarPeriodo(data)
       .subscribe(resp=>{
         console.log(resp )
-        Swal.fire('Actualizado',`${periodo}  actualizado correctamente`, 'success');
+        Swal.fire('Actualizado el Periodo',`${anio}`+' del mes '+ `${mes} actualizado correctamente`, 'success');
       })
     }else{
-      //Crear 
-      this.periodoService.crearPeriodo(this.periodoForm.value)
-        .subscribe((resp:any) =>{
-          Swal.fire('Creado',`${periodo}  creado correctamente`, 'success');
-          this.router.navigateByUrl(`/dashboard/materia/${resp.periodo._id}`)
-        })
-    }
 
-
+    const {periodo} =this.periodoForm.value;
+    this.periodoService.crearPeriodo(this.periodoForm.value)
+    .subscribe((resp:any) =>{
+      Swal.fire('Creado',`${periodo}  creado correctamente`, 'success');
+      this.router.navigateByUrl(`/dashboard/periodo/${resp.periodo._id}`)
+    })
   }
+  console.log(this.periodoForm.value)
+  console.log("hola mundo")
+  }
+
+
+  
 
 
 }

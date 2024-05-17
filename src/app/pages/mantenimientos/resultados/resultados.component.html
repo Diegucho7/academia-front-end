@@ -1,22 +1,28 @@
-<div class="container-fluid">
-    <div class="row">
+<div class="container-fluid"  *ngFor="let curso of cursos">
+    <div class="row" 
+   
+    >
+    
+
+        
+
         <div class="col-md-4">
             <div class="card card-danger">
                 <div class="card-header">
-                    <h3 class="card-title ">{{titulo}}</h3>
+                    <h3 class="card-title ">{{curso.nombre}}</h3>
                 </div>
                         <div class="card-body">
                                 <app-dona 
                                     [title]="'EGA'"
                                     [labels]="['Estudiantes', 'Profesores']"
-                                    [data]="[ 10, 20 ]"
+                                    [data]="[ cursos.length,  10]"
                                     [backgroundColor]="['#f44336', '#242C68']">
                                 </app-dona>
                         
                         </div>
             </div>
         </div>
-        <div class="col-md-4">
+        <!-- <div class="col-md-4">
             <div class="card card-danger">
                 <div class="card-header">
                     <h3 class="card-title ">{{titulo}}</h3>
@@ -31,8 +37,8 @@
                         
                         </div>
             </div>
-        </div>
-        <div class="col-md-4">
+        </div> -->
+        <!-- <div class="col-md-4">
             <div class="card card-danger">
                 <div class="card-header">
                     <h3 class="card-title ">{{titulo}}</h3>
@@ -47,8 +53,8 @@
                         
                         </div>
             </div>
-        </div>
-        <div class="col-md-4">
+        </div> -->
+        <!-- <div class="col-md-4">
             <div class="card card-danger">
                 <div class="card-header">
                     <h3 class="card-title ">{{titulo}}</h3>
@@ -64,6 +70,6 @@
                         
                         </div>
             </div>
-        </div>
+        </div> -->
     </div>
 </div>

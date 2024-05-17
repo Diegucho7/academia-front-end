@@ -52,6 +52,7 @@ export class PeriodoService {
         this.headers)
         .pipe(
           map( (resp: { ok: boolean, periodo: Periodo } ) => resp.periodo )
+          
         );
         
         
@@ -63,6 +64,14 @@ export class PeriodoService {
     return this.http.post<{ ok: boolean, periodos: Periodo[] }>(url,periodo,this.headers);
     
     
+    }
+
+    actualizarPeriodo(periodo: Periodo ) {
+ 
+      const url = `${ base_url }/periodos/${periodo._id}`;
+      return this.http.put<{ ok: boolean, periodo: Periodo[] }>(url,periodo,this.headers);
+           
+   
     }
 
     borrarPeriodo(_id:string) {

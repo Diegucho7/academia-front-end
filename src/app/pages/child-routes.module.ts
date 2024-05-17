@@ -23,6 +23,7 @@ import { EstudiantesComponent } from './mantenimientos/estudiantes/estudiantes.c
 import { EstudianteComponent } from './mantenimientos/estudiantes/estudiante.component';
 import { CursoComponent } from './mantenimientos/cursos/curso.component';
 import { PeriodosComponent } from './mantenimientos/periodos/periodos.component';
+import { PeriodoComponent } from './mantenimientos/periodos/periodo.component';
 
 
 const childRoutes: Routes = [
@@ -53,7 +54,7 @@ const childRoutes: Routes = [
       {path: 'notas',canActivate: [adminGuard],component: NotasComponent, data: {titulo: 'Notas de la aplicación'}},
       {path: 'resultados',canActivate: [adminGuard],component: ResultadosComponent, data: {titulo: 'Resultados de la aplicación'}},
       {path: 'periodos',canActivate: [adminGuard],component: PeriodosComponent, data: {titulo: 'Periodos de la aplicación'}},
-      {path: 'periodos/:id',canActivate: [adminGuard],component: PeriodosComponent, data: {titulo: 'Periodos de la aplicación'}},
+      {path: 'periodo/:id',canActivate: [adminGuard],component: PeriodoComponent, data: {titulo: 'Periodos de la aplicación'}},
 
       //Rutas Admin : Materias y Cursos
 ]

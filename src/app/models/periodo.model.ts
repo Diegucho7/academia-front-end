@@ -1,6 +1,7 @@
 import { Academia } from "./academia.model";
 import { Curso } from "./curso.model";
 import { Materia } from "./materia.model";
+import { Profesor } from "./profesor.model";
 
 interface _PeriodoUser{
     _id: string,
@@ -15,10 +16,13 @@ export class Periodo{
         constructor(
             public _id: string,
             public anio?: number,
+            public mes?: number,
             public usuario?: _PeriodoUser,
             public academia?: Academia,
             public curso?: Curso,
-            public materia?: [Materia]
+            public profesor?: Profesor,
+            public modulos?: number,
+            public valor?: number,
 
         ){}
         

@@ -6,6 +6,8 @@ import { BusquedasService } from '../../../services/busquedas.service';
 import { ModalImagenService } from '../../../services/modal-imagen.service';
 import { UsuarioService } from '../../../services/usuario.service';
 import { Observable, Observer, Subscription, delay } from 'rxjs';
+import { AcademiaService } from '../../../services/academia.service';
+import { Academia } from '../../../models/academia.model';
 
 @Component({
   selector: 'app-usuarios',
@@ -21,10 +23,13 @@ export class UsuariosComponent implements OnInit, OnDestroy{
   public cargando: boolean = true;
   public imgSubs?: Subscription;
   public mailUser: string = this.usuarioService.usuario.email;
-  
+  public academiasTemp:Academia[] =  [];
+  public academias: Academia[] = [];
+
   constructor( private usuarioService: UsuarioService,
               private busquedaService: BusquedasService,
-              private modalImagenService: ModalImagenService        
+              private modalImagenService: ModalImagenService,
+              private academiaService: AcademiaService       
       ){
       
     }
@@ -33,14 +38,16 @@ export class UsuariosComponent implements OnInit, OnDestroy{
   }
     ngOnInit(): void {
       this.CargarUsuarios();
-
+      this.cargarAcademias();
+      
+     
       this.imgSubs = this.modalImagenService.nuevaImagen
       .pipe(
         delay(100))
       
       .subscribe(img=> 
         this.CargarUsuarios());
-    
+        
       }
 
     
@@ -54,7 +61,25 @@ export class UsuariosComponent implements OnInit, OnDestroy{
           this.usuarios = usuarios;
           this.usuariosTemp = usuarios;
           this.cargando = false;
+          
       })
+    }
+
+
+    cargarAcademias(){
+      this.cargando = true;
+      this.academiaService.cargarAcademias()
+                          .subscribe(academias=>{
+                            
+                           this.academias = academias; 
+  
+                           this.academias   = academias;
+                           this.academiasTemp = academias;
+
+                          })
+  
+  
+  
     }
 
     cambiarPagina(valor:number){
@@ -114,9 +139,23 @@ export class UsuariosComponent implements OnInit, OnDestroy{
         this.usuarioService.guardarUsuario(usuario)
         .subscribe(resp=>{
           console.log(resp);
+          console.log(usuario)
         })
     }
-
+    cambiarEstado(usuario:Usuario){
+        this.usuarioService.guardarUsuario(usuario)
+        .subscribe(resp=>{
+          console.log(resp);
+          console.log(usuario)
+        })
+    }
+    cambiarAcademia(usuario:Usuario){
+      this.usuarioService.guardarUsuario(usuario)
+      .subscribe(resp=>{
+        console.log(resp);
+        console.log(usuario)
+      })
+    }
     abrirModal(usuario:Usuario){
       this.modalImagenService.abrirModal('usuarios', usuario.uid!, usuario.img);
       

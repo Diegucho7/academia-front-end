@@ -19,6 +19,8 @@ export class RegisterComponent {
 
     nombre:['Diego',Validators.required],
     apellido:['Velarde',Validators.required],
+    cedula:['0937261728',Validators.required],
+    telefono:['0123456789',Validators.required],
     email:['dievelar@gmail.com',[Validators.required, Validators.email]],
     password:['12345678',[Validators.required, Validators.minLength(2)]],
     password2:['12345678',Validators.required],

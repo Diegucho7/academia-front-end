@@ -50,7 +50,7 @@ this.profesorForm = this.fb.group({
 })
 
     this.cargarAcademias();
-    this.cargarMaterias();
+    // this.cargarMaterias();
     this.profesorForm.get('academia ')?.valueChanges.
     
                                       subscribe( AcademialId =>{

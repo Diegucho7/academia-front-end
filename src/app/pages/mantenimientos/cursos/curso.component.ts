@@ -75,8 +75,9 @@ this.cursoForm = this.fb.group({
       this.cursoService.crearCurso(this.cursoForm.value)
         .subscribe((resp:any) =>{
           Swal.fire('Creado',`${nombre}  creado correctamente`, 'success');
-          // this.router.navigateByUrl(`/dashboard/curso/${resp.curso._id}`)
+          this.router.navigateByUrl(`/dashboard/curso/${resp.curso._id}`)
         })
+        console.log(this.cursoForm.value)
     }
 
 

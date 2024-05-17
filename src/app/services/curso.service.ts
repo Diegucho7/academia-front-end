@@ -52,11 +52,11 @@ export class CursoService {
                         
                
                 }
-                crearCurso(nombre:string ) {
+                crearCurso(curso:string ) {
                
                   const url = `${ base_url }/cursos`;
-                  return this.http.post<{ ok: boolean, cursos: Curso[] }>(url,{nombre},this.headers);
-                       
+                  return this.http.post<{ ok: boolean, cursos: Curso[] }>(url,curso,this.headers);
+     
                
                 }
                 actualizarCurso(_id:string, nombre:string) {

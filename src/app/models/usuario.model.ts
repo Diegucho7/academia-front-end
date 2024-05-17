@@ -1,4 +1,5 @@
 import { environment } from '../../environments/environment';
+import { Academia } from './academia.model';
 
 const base_url = environment.base_url;
 export class Usuario{
@@ -7,10 +8,14 @@ export class Usuario{
         public nombre: string,
         public apellido: string,
         public email: string,
+        public cedula: string,
+        public telefono: string,
         public password?: string,
         public img?: string,
         public google?: boolean,
-        public role?: 'ADMIN_ROLE' | 'USER_ROLE',
+        public role?: 'ADMIN_ROLE' | 'USER_ROLE' | 'PROFESOR_ROLE' | 'ESTUDIANTE_ROLE',
+        public academia?: string,
+        public estado?: boolean,
         public uid?: string,
 
     ){}

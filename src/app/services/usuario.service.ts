@@ -3,7 +3,7 @@ import { Injectable, NgZone } from '@angular/core';
 import { Observable, catchError, delay, map, of, tap } from 'rxjs';
 import { Router } from '@angular/router';
 import { LoginForm } from '../interfaces/login-form.interface';
-import { CargarUsuario } from '../interfaces/cargar-usuarios.interface';
+import { CargarUsuario, CargarUsuarioCategoria } from '../interfaces/cargar-usuarios.interface';
 import { RegisterForm } from '../interfaces/register-form.interface';
 import { environment  } from '../../environments/environment';
 import { Usuario } from '../models/usuario.model';
@@ -35,7 +35,7 @@ export class UsuarioService {
     return this.usuario.uid || '';
   }
 
-  get role(): 'ADMIN_ROLE' | 'USER_ROLE' | undefined {
+  get role(): 'ADMIN_ROLE' | 'USER_ROLE' | 'PROFESOR_ROLE' | 'ESTUDIANTE_ROLE' | undefined {
     
     return this.usuario.role;
   }
@@ -66,10 +66,10 @@ export class UsuarioService {
       map((resp:any)=>{
         
         const {
-          nombre,apellido,email,img,google,role,uid
+          nombre,apellido,email,cedula,telefono,img,google,role,academia,estado,uid
         } = resp.usuario;
         
-        this.usuario = new Usuario(nombre,apellido,email,'',img,google,role,uid);
+        this.usuario = new Usuario(nombre,apellido,email,cedula,telefono," ",img,google,role,academia,estado,uid);
         this.guardarLocalStorage(resp.token,resp.menu);
         return true;
       }),
@@ -160,15 +160,39 @@ export class UsuarioService {
                       .pipe(
                         map(resp =>{
                           const usuarios = resp.usuarios.map(
-                            user => new Usuario(user.nombre, user.apellido, user.email,'',user.img,user.google,user.role,user.uid)
+                            user => new Usuario(user.nombre, user.apellido, user.email,user.cedula,user.telefono," ",user.img,user.google,user.role,user.academia,user.estado,user.uid)
                             );
                             return {
                               total: resp.total,
                               usuarios
+                        
                             };
+                            console.log(usuarios)
                         })
                       )
     }
+    cargarUsuariosProfesor(desde:number = 0  ){
+    
+       // localhost:3000/api/usuarios?desde=0
+      
+       const url = `${base_url}/usuarios/profesores`;
+      
+       return this.http.get<CargarUsuario>(url, this.headers)
+                       .pipe(
+                         map(resp =>{
+                           const usuarios = resp.usuarios.map(
+                             user => new Usuario(user.nombre, user.apellido, user.email,user.cedula,user.telefono," ",user.img,user.google,user.role,user.academia,user.estado,user.uid)
+                             );
+                             return {
+                               total: resp.total,
+                               usuarios
+                         
+                             };
+                             console.log(usuarios)
+                         })
+                       )
+     }
+    
 
     eliminarUsuario(usuario:Usuario){
      
