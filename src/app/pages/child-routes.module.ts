@@ -40,7 +40,7 @@ const childRoutes: Routes = [
       //Mantenimientos
       {path: 'academias', component: AcademiasComponent, data: {titulo: 'Academias de la aplicación'}},
       {path: 'profesores', component: ProfesoresComponent   , data: {titulo: 'Porfesores de la aplicación'}},
-      {path: 'estudiantes', component: EstudiantesComponent   , data: {titulo: 'Estudiantes de la aplicación'}},
+      {path: 'estudiantes', component: EstudiantesComponent   , data: {titulo: 'Cursos de la aplicación'}},
       {path: 'estudiante/:id', component: EstudianteComponent   , data: {titulo: 'Estudiante de la aplicación'}},
       {path: 'profesor/:id', component: ProfesorComponent   , data: {titulo: 'Profesor de la aplicación'}},
 

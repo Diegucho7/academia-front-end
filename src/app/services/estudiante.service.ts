@@ -41,7 +41,7 @@ headers: {
 
 
 }
-obtenerEstudiantePorId(id:string ): Observable<Estudiante> {
+obtenerEstudiantePorId(id:string): Observable<Estudiante> {
 
 const url = `${ base_url }/estudiantes/${id}`;
 return this.http.get<{ ok: boolean, estudiante: Estudiante }>(url,
@@ -62,7 +62,7 @@ return this.http.post<{ ok: boolean, estudiantes: Estudiante[] }>(url,estudiante
 }
 actualizarEstudiante(estudiante: Estudiante ) {
 
-const url = `${ base_url }/estudiantes/${estudiante._id}`;
+const url = `${ base_url }/estudiantes/${estudiante.curso}`;
 return this.http.put<{ ok: boolean, estudiantes: Estudiante[] }>(url,estudiante,this.headers);
 
 

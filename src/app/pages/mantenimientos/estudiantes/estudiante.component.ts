@@ -2,11 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { ActivatedRoute, Router } from '@angular/router';
-import { delay } from 'rxjs';
+import { Subscription, delay } from 'rxjs';
 import { CursoService } from '../../../services/curso.service';
 import { EstudianteService } from '../../../services/estudiante.service';
 import { Curso } from '../../../models/curso.model';
 import { Estudiante } from '../../../models/estudiante.model';
+import { PeriodoService } from '../../../services/periodo.service';
+import { Periodo } from '../../../models/periodo.model';
 
 @Component({
   selector: 'app-estudiante',
@@ -16,27 +18,32 @@ import { Estudiante } from '../../../models/estudiante.model';
 export class EstudianteComponent implements OnInit {
   public cursos: Curso[] = [];
   public estudianteForm!: FormGroup;
-
+  public periodoSeleccionado?: Periodo;
   public estudianteSeleccionada?: Estudiante;
   public cursoSeleccionado?: Curso;
-
+  public periodos: Periodo[] = [];
+  public cargando: boolean = true;
+  public periodosTemp:Periodo[] =  [];
+  private imgSubs?: Subscription;
   constructor(
             private fb: FormBuilder,
             private cursoService: CursoService,
             private estudianteService:EstudianteService,
             private router: Router,
-            private activateRoute:ActivatedRoute
+            private activateRoute:ActivatedRoute,
+            private periodoService:PeriodoService
   ){}
   ngOnInit(): void {
-
+   
+    this.cargarPeriodos();
     this.activateRoute.params
     .subscribe( ({id}) => 
     {this.cargarEstudiante(id)});
     // this.medicoService.obtenerMedicoPorId
     // console.log(this.hospitalSeleccionado?.img)
 this.estudianteForm = this.fb.group({
-  nombre: ['', Validators.required],
-  curso: ['', Validators.required]
+ 
+  curso: ['', Validators.required],
 })
 
     this.cargarCurso();
@@ -45,6 +52,29 @@ this.estudianteForm = this.fb.group({
                                       this.cursoSeleccionado = this.cursos.find(h => h._id === CursoId)
                                     })
   }
+
+
+
+  cargarPeriodos(){
+    this.cargando = true;
+    this.periodoService.cargarPeriodos()
+                        .subscribe(periodos=>{
+                          this.cargando = false;
+                         this.periodos = periodos; 
+
+                         this.periodos   = periodos;
+                         this.periodosTemp = periodos;
+                         this.cargando = false;
+                        //  console.log(periodos)
+
+                         const data = Object.values(periodos)
+                          
+                      });
+
+
+
+  }
+
 
   cargarEstudiante(id:string){
 
@@ -82,7 +112,7 @@ this.estudianteForm = this.fb.group({
       //Actualizar
       const data = {
         ...this.estudianteForm.value,
-        _id:this.estudianteSeleccionada._id
+        // _id:this.estudianteSeleccionada._id
       } 
       this.estudianteService.actualizarEstudiante(data)
       .subscribe(resp=>{

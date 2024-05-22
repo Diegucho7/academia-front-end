@@ -1,6 +1,5 @@
 import { Academia } from "./academia.model";
 import { Curso } from "./curso.model";
-import { Materia } from "./materia.model";
 import { Profesor } from "./profesor.model";
 
 interface _PeriodoUser{
