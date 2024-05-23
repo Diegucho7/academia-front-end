@@ -47,10 +47,10 @@ this.estudianteForm = this.fb.group({
 })
 
     this.cargarCurso();
-    this.estudianteForm.get('curso')?.valueChanges.
-                                    subscribe( CursoId =>{
-                                      this.cursoSeleccionado = this.cursos.find(h => h._id === CursoId)
-                                    })
+    // this.estudianteForm.get('curso')?.valueChanges.
+    //                                 subscribe( CursoId =>{
+    //                                   this.cursoSeleccionado = this.cursos.find(h => h._id === CursoId)
+    //                                 })
   }
 
 
@@ -82,18 +82,19 @@ this.estudianteForm = this.fb.group({
       return;
     }
 
-    this.estudianteService.obtenerEstudiantePorId(id)
-    
-                              .pipe(
-                                delay(100)
-                              )
-                              .subscribe( (estudiante:any) => {
-                                  const { nombre, curso: { _id } } = estudiante
-                                  this.estudianteSeleccionada = estudiante
-                                  this.estudianteForm.setValue( { nombre: nombre, curso: _id} )
-                              }, error => {
-                                return this.router.navigateByUrl(`/dashboard/estudiantes`);
-                              })
+    this.periodoService.obtenerPeriodoPorId(id)
+                        
+                        .pipe(
+                          delay(100)
+                        )
+                        .subscribe( (periodo:any) => {   
+                            const { curso:{nombre}} = periodo
+                            this.estudianteSeleccionada = periodo
+                            this.estudianteForm.setValue( { curso:id} )
+                            console.log(periodo  )
+                        }, error => {
+                          return this.router.navigateByUrl(`/dashboard/periodos`);
+                        })
   }
 
   cargarCurso(){

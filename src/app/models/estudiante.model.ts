@@ -14,6 +14,7 @@ interface _EstudianteUser{
 export class Estudiante{
         constructor(
 
+            public _id: string,
             public usuario?: _EstudianteUser,
             public curso?: Periodo,
             // public nombreCurso?: Curso

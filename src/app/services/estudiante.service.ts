@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, map } from 'rxjs';
 import { environment } from '../../environments/environment';
+import { Periodo } from '../models/periodo.model';
 const base_url = environment.base_url;
 @Injectable({
   providedIn: 'root'
