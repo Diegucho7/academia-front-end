@@ -120,30 +120,30 @@ console.log(this.estudiantes)
       return [];
 
   }
-  // borrarEstudiante(curso:Estudiante):any{
+  borrarEstudiante(estudiante:Estudiante):any{
    
 
-  //   Swal.fire({
-  //     title: "¿Borrar estudiante?",
-  //     text: `Esta a punto de eliminar a ${curso}`,
-  //     icon: "question",
-  //     showCancelButton: true,
-  //     confirmButtonText: "Si, eliminar estudiante"
-  //   }).then((result) => {
-  //     if (result.value) {
-  //       this.estudianteService.borrarEstudiante(curso.curso?._id)
-  //       .subscribe(resp => {
-  //         this.cargarEstudiantes();
-  //         Swal.fire('Estudiante borrado',
-  //                   `${curso} fue eliminado correctamente`,
-  //                   'success'
-  //           )
+    Swal.fire({
+      title: "¿Borrar Curso?",
+      text: `Esta a punto de eliminar a ${estudiante.curso?.curso?.nombre } del mes ${ estudiante.curso?.mes} del año ${estudiante.curso?.anio}`,
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "Si, eliminar materia"
+    }).then((result) => {
+      if (result.value) {
+        this.estudianteService.borrarEstudiante(estudiante._id)
+        .subscribe(resp => {
+          this.cargarEstudiantes();
+          Swal.fire('Usuario borrado',
+                    `${estudiante.curso?.curso?.nombre} fue eliminado correctamente`,
+                    'success'
+            )
 
-  //           }
-  //         );
+            }
+          );
         
-  //     }
+      }
       
-  //   });
-  // }
+    });
+  }
 }

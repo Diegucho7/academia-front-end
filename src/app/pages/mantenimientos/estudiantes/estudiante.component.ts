@@ -22,8 +22,10 @@ export class EstudianteComponent implements OnInit {
   public estudianteSeleccionada?: Estudiante;
   public cursoSeleccionado?: Curso;
   public periodos: Periodo[] = [];
+  public estudiantes: Estudiante[] = [];
   public cargando: boolean = true;
   public periodosTemp:Periodo[] =  [];
+  public estudiantesTemp:Estudiante[] =  [];
   private imgSubs?: Subscription;
   constructor(
             private fb: FormBuilder,
@@ -46,7 +48,7 @@ this.estudianteForm = this.fb.group({
   curso: ['', Validators.required],
 })
 
-    this.cargarCurso();
+    // this.cargarCurso();
     // this.estudianteForm.get('curso')?.valueChanges.
     //                                 subscribe( CursoId =>{
     //                                   this.cursoSeleccionado = this.cursos.find(h => h._id === CursoId)
@@ -70,32 +72,28 @@ this.estudianteForm = this.fb.group({
                          const data = Object.values(periodos)
                           
                       });
-
-
-
   }
-
-
   cargarEstudiante(id:string){
-
     if (id === 'nuevo') {
       return;
     }
 
-    this.periodoService.obtenerPeriodoPorId(id)
-                        
-                        .pipe(
-                          delay(100)
-                        )
-                        .subscribe( (periodo:any) => {   
-                            const { curso:{nombre}} = periodo
-                            this.estudianteSeleccionada = periodo
-                            this.estudianteForm.setValue( { curso:id} )
-                            console.log(periodo  )
-                        }, error => {
-                          return this.router.navigateByUrl(`/dashboard/periodos`);
-                        })
+    this.estudianteService.obtenerEstudiantePorId(id)
+    
+                              .pipe(
+                                delay(100)
+                              )
+                              .subscribe( (estudiante:any) => {
+                                console.log(estudiante)
+                                  const {  curso: { _id } } = estudiante
+                                  this.estudianteSeleccionada = estudiante
+                                  this.estudianteForm.setValue( { curso: _id} )
+                                  
+                              }, error => {
+                                return this.router.navigateByUrl(`/dashboard/estudiantes`);
+                              })
   }
+
 
   cargarCurso(){
     
@@ -107,24 +105,24 @@ this.estudianteForm = this.fb.group({
   }
 
   guardarEstudiante(){
-    const {nombre} =this.estudianteForm.value;
+    const {estudiante} =this.estudianteForm.value;
     
     if (this.estudianteSeleccionada) {
       //Actualizar
       const data = {
         ...this.estudianteForm.value,
-        // _id:this.estudianteSeleccionada._id
+        _id:this.estudianteSeleccionada._id
       } 
       this.estudianteService.actualizarEstudiante(data)
       .subscribe(resp=>{
         console.log(resp )
-        Swal.fire('Actualizado',`${nombre}  actualizado correctamente`, 'success');
+        Swal.fire('Actualizado',`Actualizado correctamente`, 'success');
       })
     }else{
       //Crear 
       this.estudianteService.crearEstudiante(this.estudianteForm.value)
         .subscribe((resp:any) =>{
-          Swal.fire('Creado',`${nombre}  creado correctamente`, 'success');
+          Swal.fire('Creado',`Creado correctamente`, 'success');
           this.router.navigateByUrl(`/dashboard/estudiante/${resp.estudiante._id}`)
         })
     }

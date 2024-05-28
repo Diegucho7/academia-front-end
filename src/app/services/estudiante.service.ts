@@ -63,7 +63,7 @@ return this.http.post<{ ok: boolean, estudiantes: Estudiante[] }>(url,estudiante
 }
 actualizarEstudiante(estudiante: Estudiante ) {
 
-const url = `${ base_url }/estudiantes/${estudiante.curso}`;
+const url = `${ base_url }/estudiantes/${estudiante._id}`;
 return this.http.put<{ ok: boolean, estudiantes: Estudiante[] }>(url,estudiante,this.headers);
 
 
