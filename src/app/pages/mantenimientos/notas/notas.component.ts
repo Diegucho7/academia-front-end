@@ -5,6 +5,8 @@ import Swal from 'sweetalert2';
 import { UsuarioService } from '../../../services/usuario.service';
 import { Usuario } from '../../../models/usuario.model';
 import { FileUploadService } from '../../../services/file-upload.service';
+import { PeriodoService } from '../../../services/periodo.service';
+import { Periodo } from '../../../models/periodo.model';
 
 
 @Component({
@@ -22,18 +24,21 @@ export class NotasComponent implements OnInit {
   public usuario!: Usuario;
   public imagenSubir!: File;
   public imgTemp: any = null ;
-
+  public periodos: Periodo[] = [];
+  public cargando: boolean = true;
+  public periodosTemp:Periodo[] =  [];
   constructor(private fb: FormBuilder,
               private usuarioService: UsuarioService,
-              private fileUploadservice: FileUploadService 
+              private fileUploadservice: FileUploadService,
+              private periodoService: PeriodoService
     ){
         this.usuario = usuarioService.usuario;
   }
   ngOnInit(): void {
-    
+    this.cargarPeriodos();
     this.perfilForm = this.fb.group({
-      nombre:[this.usuario.nombre,Validators.required],
-      apellido:[this.usuario.apellido,Validators.required],
+      nombre:[this.usuario.nombre + ' ' + this.usuario.apellido,Validators.required],
+      curso:[" ",Validators.required],
       email:[this.usuario.email,[Validators.required, Validators.email]],
     })
   }
@@ -69,6 +74,24 @@ export class NotasComponent implements OnInit {
    reader.onloadend = () =>{
     this.imgTemp = reader.result;
    }
+  }
+
+
+  cargarPeriodos(){
+    this.cargando = true;
+    this.periodoService.cargarPeriodos()
+                        .subscribe(periodos=>{
+                          this.cargando = false;
+                         this.periodos = periodos; 
+
+                         this.periodos   = periodos;
+                         this.periodosTemp = periodos;
+                         this.cargando = false;
+                        //  console.log(periodos)
+
+                         const data = Object.values(periodos)
+                          
+                      });
   }
 
   subirImagen(){

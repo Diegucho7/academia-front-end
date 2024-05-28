@@ -125,10 +125,10 @@ console.log(this.estudiantes)
 
     Swal.fire({
       title: "¿Borrar Curso?",
-      text: `Esta a punto de eliminar a ${estudiante.curso?.curso?.nombre } del mes ${ estudiante.curso?.mes} del año ${estudiante.curso?.anio}`,
+      text: `Esta a punto de eliminar a el curso de ${estudiante.curso?.curso?.nombre } del mes ${ estudiante.curso?.mes} del año ${estudiante.curso?.anio}`,
       icon: "question",
       showCancelButton: true,
-      confirmButtonText: "Si, eliminar materia"
+      confirmButtonText: "Si, eliminar curso"
     }).then((result) => {
       if (result.value) {
         this.estudianteService.borrarEstudiante(estudiante._id)
