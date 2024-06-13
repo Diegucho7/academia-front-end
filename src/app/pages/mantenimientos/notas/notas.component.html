@@ -1,86 +1,54 @@
 
-    <div class="row">
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-body">
-                    <h4 class="card-title">Notas del Alumno</h4>
-                    <h6 class="card-subtitle">Ajustes</h6>
-                    <form class="form p-t-20"
-                    [formGroup]="perfilForm"
-                    (ngSubmit)="actualizarPerfil()"
-                    >
-                        <div class="form-group">
-                            <label for="exampleInputuname">Estudiante</label>
-                            <div class="input-group">
-                                <div class="input-group-addon"><i class="ti-user"></i></div>
-                                <input type="text"
-                                 formControlName="nombre"
-                                class="form-control" id="exampleInputuname" placeholder="Nombre del usuario">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputuname">Periodo</label>
-                            <div class="input-group">
-                                <div class="input-group-addon"><i class="ti-user"></i></div>
-                                <select class="form-control" 
-                                formControlName="">
-                                    <option value="">Seleccione el curso</option>
-                                    <option *ngFor="let periodo  of periodos " 
-                                    [value]="periodo._id">
-                                    {{periodo.anio + ' - ' + periodo.mes  + ' - ' + periodo.curso?.nombre  }}
-                                </option>
-                                    
-                                </select>   
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">Email address</label>
-                            <div class="input-group">
-                                <div class="input-group-addon"><i class="ti-email"></i></div>
-                                <input type="email" 
-                                formControlName="email"
-                                [readOnly]="usuario.google"
-                                class="form-control" id="exampleInputEmail1" placeholder="Enter email">
-                            </div>
-                        </div>
-                        
-                        <button type="submit" class="btn btn-success btn-block waves-effect waves-light m-r-10"
-                        [disabled]="perfilForm.invalid"
-                        >
-                            <i class="fa fa-save"></i>
-                            Guardar cambios
-                        </button>
-                        <!-- <button type="submit" class="btn btn-inverse waves-effect waves-light">Cancel</button> -->
-                    </form>
-                </div>
-            </div>
-        </div>
-    
-        <!-- <div class="col-md-6">
-            <div class="card">
-                <div class="card-body">
-                    <h4 class="card-title">Avatar</h4>
-                    <h6 class="card-subtitle">Imagen de Usuario</h6>
-    
-                    <div class="text-center">
-                        <img *ngIf="!imgTemp" [src]="usuario.imagenUrl" class="img-avatar" alt="Usuario">
-                        <img *ngIf="imgTemp" [src]="imgTemp" class="img-avatar" alt="Usuario">
-    
-                    </div>
-    
-                    <input type="file"
-                    >
-    
-                    <br>
-                    <br>
-                    <button type="button" class="btn btn-success waves-effect waves-light m-r-10"
-                            [disabled]="!imagenSubir"
-                            >
-                        <i class="fa fa-save"></i>
-                        Cambiar imagen
-                    </button>
-                </div>
-            </div>  
-        </div>    -->
+<h1 class="mt-3" >Notas de estudiantes</h1>
+<hr>
+
+<form [formGroup]="myForm" (ngSubmit)="guardarNotas()">
+
+  <!-- Region -->
+  <div class="row mb-3">
+    <div class="col">
+      <label class="form-label">Periodo:</label>
+      <select formControlName="periodo" class="form-control" (ngModelChange)="numeroModulos()">
+        <option value="">-- Seleccione Periodo --</option>
+        <option *ngFor="let periodo of periodos" [value]=" periodo._id">{{ periodo.anio+ ' - '+periodo.mes +' - '+periodo.curso?.nombre + ' - '+periodo.modulos}}</option>
+      </select>
     </div>
-<!-- </div> -->
+  </div>
+
+
+  <!-- Countries -->
+  <div class="row mb-3" *ngIf="periodos.length > 0">
+    <div class="col">
+      <label class="form-label">Estudiante:</label>   
+      <select formControlName="estudiante" class="form-control">
+        <option value="">-- Seleccione Estudiante --</option>
+        <option *ngFor="let usuario of estudiante" [value]="usuario.id">{{  usuario.usuario?.nombre + ' ' + usuario.usuario?.apellido}}</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Countries -->
+   <div *ngIf="estudiante.length > 0">
+     <div class="row mb-3" *ngFor="let modulo of modulos" >
+       <div class="col" >
+         <label class="form-label">Modulo {{modulo }}</label>
+         <input formControlName="modulo" class="form-control" >
+           
+       </div>
+     </div>
+
+   </div>
+
+<button type="submit" class="btn btn-primary">
+  Enviar
+</button>
+</form>
+
+
+<h3>Formulario</h3>
+<code>
+  {{ myForm.value | json }}
+</code>
+<p>
+  is form valid: {{  myForm.valid }}
+</p>

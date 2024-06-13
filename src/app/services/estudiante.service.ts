@@ -53,6 +53,17 @@ this.headers)
 
 
 }
+obtenerEstudiantePorCursoId(id:string): Observable<Estudiante> {
+
+const url = `${ base_url }/estudiantes/curso/${id}`;
+return this.http.get<{ ok: boolean, estudiante: Estudiante }>(url,
+this.headers)
+.pipe(
+  map( (resp: { ok: boolean, estudiante: Estudiante } ) => resp.estudiante )
+);
+
+
+}
 
 crearEstudiante(estudiante:{nombre:string, curso:string} ) {
 

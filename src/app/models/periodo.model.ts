@@ -1,6 +1,7 @@
 import { Academia } from "./academia.model";
 import { Curso } from "./curso.model";
 import { Profesor } from "./profesor.model";
+import { Usuario } from "./usuario.model";
 
 interface _PeriodoUser{
     _id: string,
@@ -16,7 +17,7 @@ export class Periodo{
             public _id: string,
             public anio?: number,
             public mes?: number,
-            public usuario?: _PeriodoUser,
+            public usuario?: Usuario,
             public academia?: Academia,
             public curso?: Curso,
             public profesor?: Profesor,

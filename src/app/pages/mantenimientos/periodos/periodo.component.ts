@@ -65,7 +65,7 @@ public meses =[
   constructor(
             private fb: FormBuilder,
             private cursoService: CursoService,
-            private materiaService:MateriaService,
+           
             private periodoService:PeriodoService,
             private academiaService:AcademiaService,
             private usuarioService: UsuarioService,

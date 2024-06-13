@@ -104,12 +104,11 @@ export class UsuarioService {
 
   login(formData: LoginForm){
     
-    // console.log('creando usuarios')
 
     return this.http.post(`${ base_url }/login`,formData )
                     .pipe(
                       tap((resp:any) =>{
-                        console.log(resp);
+                        // console.log(resp);
                         localStorage.setItem('email',resp.email);
                         this.guardarLocalStorage(resp.token,resp.menu);
                       }
@@ -167,7 +166,6 @@ export class UsuarioService {
                               usuarios
                         
                             };
-                            console.log(usuarios)
                         })
                       )
     }
@@ -188,9 +186,29 @@ export class UsuarioService {
                                usuarios
                          
                              };
-                             console.log(usuarios)
                          })
                        )
+     }
+    cargarUsuariosEstudiante(id:string )  {
+    
+       // localhost:3000/api/usuarios?desde=0
+      
+       const url = `${base_url}/usuarios/${id}`;
+      
+       return this.http.get<CargarUsuario>(url, this.headers)
+                      .pipe(
+                        map(resp =>{
+                          const usuarios = resp.usuarios.map(
+                            user => new Usuario(user.nombre, user.apellido, user.email,user.cedula,user.telefono," ",user.img,user.google,user.role,user.academia,user.estado,user.uid)
+                            );
+                            return {
+                              ok: true,
+                              usuarios
+                        
+                            };
+                        })
+                      )
+                       
      }
     
 

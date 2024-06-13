@@ -115,7 +115,7 @@ console.log(this.estudiantes)
     }
     this.busquedaService.buscar('estudiantes',termino)
       .subscribe(resultados => {
-        this.estudiantes = resultados as Estudiante[];
+        this.estudiantes = resultados as any[];
       })
       return [];
 
