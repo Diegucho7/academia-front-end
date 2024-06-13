@@ -31,8 +31,8 @@
    <div *ngIf="estudiante.length > 0">
      <div class="row mb-3" *ngFor="let modulo of modulos" >
        <div class="col" >
-         <label class="form-label">Modulo {{modulo }}</label>
-         <input formControlName="modulo" class="form-control" >
+         <label class="form-label">Modulo {{modulo}}</label>
+         <input type="number" max="10" min="0" formControlName="{{'modulos '+modulo}}" class="form-control" >
            
        </div>
      </div>

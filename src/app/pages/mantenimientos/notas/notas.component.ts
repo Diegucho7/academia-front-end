@@ -44,8 +44,8 @@ import { Estudiante } from '../../../models/estudiante.model';
       modulo : this.fb.array([]),
       });
       
-      public modulo: FormArray = this.myForm.get('modulos') as FormArray;
       public modulos : number[] = [0];
+      public modulo: FormArray = this.myForm.get('modulo') as FormArray;
       public jd? :string = "0";
 
   constructor(
