@@ -19,11 +19,11 @@ import { NgFor } from '@angular/common';
 
 @Component({
   selector: 'app-selector-page',
-  templateUrl: './notas.component.html',
+  templateUrl: './respaldo.component.html',
   styles: [
   ]
   })
-  export class NotasComponent implements OnInit {
+  export class RespladoComponent implements OnInit {
 
     public periodo: Periodo[] = [];
     public period?: Periodo;
@@ -202,4 +202,4 @@ import { NgFor } from '@angular/common';
 
  }
 
-}
+  }

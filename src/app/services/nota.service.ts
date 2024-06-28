@@ -53,6 +53,7 @@ export class NotaService {
                           
                  
                   }
+                  
                 
                   crearNota(nota:{nombre:string, apellido: string, academia:string} ) {
                  

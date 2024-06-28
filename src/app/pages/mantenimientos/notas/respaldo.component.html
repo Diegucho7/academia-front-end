@@ -26,7 +26,16 @@
     </div>
   </div>
 
-  
+   <div *ngIf="estudiante.length > 0">
+    <div class="row mb-3" *ngFor="let modulo of modulos" >
+      <div class="col" >
+        <!-- <label class="form-label">Modulo {{modulo}}</label> -->
+        <!-- <input type="number" max="10" min="0" formControlName="{{modulo}}" class="form-control" > -->
+          
+      </div>
+    </div>
+
+   </div>
 
 
 
@@ -35,7 +44,7 @@
   
   <div *ngFor="let alias of modulo.controls; let i=index">
     <label>
-      {{"Modulo "+(i+1)}} 
+      {{"Modulo "+(i+1)}} <span (click)="deleteModulo(i)" class="btn btn-danger">X</span>
       <input  type="number" class="form-control" [formControlName]="i" max="10" min="0">
     </label>
   </div>

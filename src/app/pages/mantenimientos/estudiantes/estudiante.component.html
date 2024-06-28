@@ -48,7 +48,7 @@
                                     <option value="">Seleccione el curso</option>
                                     <option *ngFor="let curso  of periodos " 
                                     [value]="curso._id">
-                                    {{curso.anio + ' - ' + curso.mes  + ' - ' + curso.curso?.nombre + ' - ' +'$' +  curso.valor }}
+                                    {{curso.anio + ' - ' + curso.mes  + ' - ' + curso.curso?.nombre + ' - ' +'$' +  curso.valor + ' - ' + curso.modulos +' modulos' }}
                                 </option>
                                     
                                 </select>   

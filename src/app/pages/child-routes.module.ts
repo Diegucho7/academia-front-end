@@ -24,6 +24,7 @@ import { EstudianteComponent } from './mantenimientos/estudiantes/estudiante.com
 import { CursoComponent } from './mantenimientos/cursos/curso.component';
 import { PeriodosComponent } from './mantenimientos/periodos/periodos.component';
 import { PeriodoComponent } from './mantenimientos/periodos/periodo.component';
+import { RespladoComponent } from './mantenimientos/notas/respaldo.component';
 
 
 const childRoutes: Routes = [
@@ -52,6 +53,7 @@ const childRoutes: Routes = [
       {path: 'materias',canActivate: [adminGuard],component: MateriasComponent, data: {titulo: 'Materias de la aplicación'}},
       {path: 'materia/:id',canActivate: [adminGuard],component: MateriaComponent, data: {titulo: 'Materia de la aplicación'}},
       {path: 'notas',canActivate: [adminGuard],component: NotasComponent, data: {titulo: 'Notas de la aplicación'}},
+      {path: 'respaldo',canActivate: [adminGuard],component: RespladoComponent, data: {titulo: 'Notas de la aplicación'}},
       {path: 'resultados',canActivate: [adminGuard],component: ResultadosComponent, data: {titulo: 'Resultados de la aplicación'}},
       {path: 'periodos',canActivate: [adminGuard],component: PeriodosComponent, data: {titulo: 'Periodos de la aplicación'}},
       {path: 'periodo/:id',canActivate: [adminGuard],component: PeriodoComponent, data: {titulo: 'Periodos de la aplicación'}},

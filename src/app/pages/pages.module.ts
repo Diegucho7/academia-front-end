@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+
 import { ComponentsModule } from '../components/components.module';
 import { SharedModule } from "../shared/shared.module";
 
@@ -32,6 +33,7 @@ import { EstudianteComponent } from './mantenimientos/estudiantes/estudiante.com
 import { CursoComponent } from './mantenimientos/cursos/curso.component';
 import { PeriodosComponent } from './mantenimientos/periodos/periodos.component';
 import { PeriodoComponent } from './mantenimientos/periodos/periodo.component';
+import { RespladoComponent } from './mantenimientos/notas/respaldo.component';
 
 
 @NgModule({
@@ -58,7 +60,8 @@ import { PeriodoComponent } from './mantenimientos/periodos/periodo.component';
         EstudianteComponent,
         CursoComponent,
         PeriodosComponent,
-        PeriodoComponent
+        PeriodoComponent,
+        RespladoComponent
     ],
     exports: [
         DashboardComponent,
@@ -73,6 +76,9 @@ import { PeriodoComponent } from './mantenimientos/periodos/periodo.component';
         RouterOutlet,
         NgChartsModule, //Modulos de Graficos
         ReactiveFormsModule,
+
+
+
 
         PipesModule,
         FormsModule,

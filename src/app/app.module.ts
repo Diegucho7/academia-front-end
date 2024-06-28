@@ -9,6 +9,7 @@ import { AuthModule } from './auth/auth.module';
 import { AppComponent } from './app.component';
 import { NopagefoundComponent } from './nopagefound/nopagefound.component';
 import { PipesModule } from "./pipes/pipes.module";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import { PipesModule } from "./pipes/pipes.module";
         PagesModule,
         SharedModule,
         AuthModule,
-        PipesModule
+        PipesModule,
+        BrowserAnimationsModule
     ]
 })
 export class AppModule { }
