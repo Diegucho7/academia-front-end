@@ -3,13 +3,13 @@
         <div class="card">
             <div class="card-body">
                 
-                <input type="text"
+                <!-- <input type="text"
                         class="form-control"
                         placeholder="Buscar Usuario"
                         #txtTermino
                         (keyup)="buscar(txtTermino.value)"
 
-                />
+                /> -->
             
             </div>
         </div>
@@ -43,7 +43,7 @@
 
                 <div class="row">
                     <div class="col-8">
-                        <h4 class="card-title">Profesores ({{profesores.length}})</h4>
+                        <h4 class="card-title">Notas ({{nota.length}})</h4>
                         <h6 class="card-subtitle">Profesores registrados en la aplicación</h6>
 
                     </div>
@@ -68,29 +68,34 @@
                     <table class="table table-bordered">
                         <thead>
                             <tr>        
-                                <th class="w100">Imagen de Profesor</th>
-                                <th>Nombre</th>
-                                <th>Apellido</th>
+                                <th>Estudiante</th>
+                                <th>Periodo</th>
+                                <th>Notas por Modulos</th>
                                 <th class="text-nowrap w100">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let profesor of profesores">
-                                <td><img [src]=" profesor.img | imagen:'profesores'" [alt]="profesor.nombre"
-                                    class="avatar cursor"
-                                    (click)="abrirModal(profesor)"
-                                    ></td>
-                                <td>{{profesor.nombre}}</td>
-                                <td>{{profesor.apellido}}</td>
+                            <tr *ngFor="let item of nota">
+                               
+                                    <!-- (click)="abrirModal(profesor)" -->
+                                <td>
+                                    {{item.estudiante}}</td>
+                                <!-- <td>{{profesor.apellido}}</td> -->
                                 
                                 <td class="text-nowrap text-center">
-                                    <a [routerLink]="['/dashboard/profesor',profesor._id]" routerLinkActive="router-link-active"  data-toggle="tooltip" data-original-title="Editar"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
+                                    {{item.periodo}}
+                                    <!-- <a [routerLink]="['/dashboard/profesor',profesor._id]" routerLinkActive="router-link-active"  data-toggle="tooltip" data-original-title="Editar"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a> -->
                                    
                                    
+                               
+                                </td>
+
+                                <td>{{item.modulos}}</td>
+                                <td>
                                     <a class="cursor" data-toggle="tooltip" 
                                     data-original-title="Borrar"
-                                    (click)="borrarProfesor(profesor)"
                                     > 
+                                    <!-- (click)="borrarProfesor(profesor)" -->
                                     <i class="fa fa-close text-danger"></i> 
                                     </a>
                                 </td>

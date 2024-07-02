@@ -6,7 +6,7 @@ import { Usuario } from './usuario.model';
 interface _EstudianteUser{
     _id: string,
     nombre: string,
-    img: string
+    apellido: string
 }
 
  
@@ -15,7 +15,7 @@ export class Estudiante{
         constructor(
 
             public _id: string ,
-            public usuario?: Usuario ,
+            public usuario?: _EstudianteUser ,
             public curso?: Periodo,
             // public nombreCurso?: Curso
          

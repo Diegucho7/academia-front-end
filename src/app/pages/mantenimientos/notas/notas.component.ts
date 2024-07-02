@@ -122,6 +122,7 @@ import { NgFor } from '@angular/common';
     }
 
     if (this.myForm.get('periodo')?.value !== "") {
+      
       this.modulos = []
       
       this.jd = this.myForm.get('periodo')?.value ?? "0";
@@ -129,7 +130,7 @@ import { NgFor } from '@angular/common';
         
         this.periodoService.obtenerPeriodoPorId(this.jd!).subscribe(resp => {
           this.period = resp;
-            
+            console.log(resp)
           let array = this.myForm.get('modulos') as FormArray;
             for ( let index = 0 ; index  < this.period.modulos! ?? 0; index++) {
 
@@ -150,6 +151,9 @@ import { NgFor } from '@angular/common';
   }
 
   guardarNota(){
+
+    
+
     const {nota} =this.myForm.value;
 
     if (this.notaSeleccionada) {
@@ -181,7 +185,6 @@ import { NgFor } from '@angular/common';
   }
   guardarNotas() {
     console.log(this.myForm.value);
-    this.myForm.reset();
   }
 
 
@@ -199,7 +202,7 @@ import { NgFor } from '@angular/common';
       }
          );
 
-
+         console.log(this.periodo);
  }
 
 }

@@ -1,10 +1,18 @@
+import { Curso } from "./curso.model";
+import { Estudiante } from "./estudiante.model";
 import { Usuario } from "./usuario.model";
 
-export class EstudianteAc {
+interface _EstudianteUser{
+  _id: string,
+  nombre: string,
+  apellido: string
+}
+export class  EstudianteAc {
     constructor(
       
       public id: string,
-      public usuario?: Usuario
+      public usuario?: _EstudianteUser,
+      public curso?: string
     ){}
    }
 
