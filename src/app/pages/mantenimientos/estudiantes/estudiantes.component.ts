@@ -27,10 +27,9 @@ export class EstudiantesComponent implements OnInit, OnDestroy{
 usuario: any;
   constructor(
             private estudianteService: EstudianteService ,
-            private modalImagenService: ModalImagenService,
             private busquedaService: BusquedasService,
             private periodoService:PeriodoService,
-            private activateRoute:ActivatedRoute,
+        
   ){
 
   }
@@ -44,29 +43,8 @@ usuario: any;
     this.cargarPeriodos();
 
     this.cargarEstudiantes();
-console.log(this.estudiantes)
+
   }
-
-
-  // cargarPeriodos(){
-  //   this.cargando = true;
-  //   this.estudianteService.cargarEstudiantes()
-  //                       .subscribe(this.estudiantes=>{
-  //                         this.cargando = false;
-  //                        this.estudiante = this.estudiantes; 
-
-  //                        this.estudiantes   = this.estudiantes;
-  //                        this.periodosTemp = this.estudiantes;
-  //                        this.cargando = false;
-  //                       //  console.log(this.estudiantes)
-
-  //                        const data = Object.values(this.estudiantes)
-                          
-  //                     });
-
-
-
-  // }
 
 
   cargarPeriodos(){
@@ -79,8 +57,7 @@ console.log(this.estudiantes)
                          this.periodos   = periodos;
                          this.periodosTemp = periodos;
                          this.cargando = false;
-                        //  console.log(periodos)
-
+                       
                          const data = Object.values(periodos)
                           
                       });

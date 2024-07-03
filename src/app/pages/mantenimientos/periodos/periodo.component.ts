@@ -38,8 +38,7 @@ export class PeriodoComponent implements OnInit {
   public totalUsuarios:number = 0;
   public desde: number = 0;
   public role: string = "PROFESOR_ROLE";
-  // public academiaSeleccionado?: Curso;
-  // public cursoSeleccionado?: Curso;
+
   public cursoSeleccionado?: Curso;
 
   yearsRange: number[] = [];
@@ -86,8 +85,7 @@ public meses =[
     .subscribe( ({id}) => 
     {this.cargarPeriodo(id)});
 
-    // this.medicoService.obtenerMedicoPorId
-    // console.log(this.hospitalSeleccionado?.img)
+
 this.periodoForm = this.fb.group({
   anio: ['', Validators.required],
   mes: ['', Validators.required],
@@ -98,9 +96,9 @@ this.periodoForm = this.fb.group({
   valor: ['', Validators.required],
 })
     this.CargarUsuarios();
-    console.log(this.usuarios)
+    
     this.cargarCurso();
-    // this.cargarMaterias();
+
     this.cargarAcademias();
     this.periodoForm.get('academia')?.valueChanges.
                                     subscribe( AcademiaId =>{

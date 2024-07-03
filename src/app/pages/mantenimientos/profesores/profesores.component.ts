@@ -18,8 +18,7 @@ export class ProfesoresComponent implements OnInit, OnDestroy{
   private imgSubs?: Subscription;
   constructor(
             private notasService: NotaService,
-            private modalImagenService: ModalImagenService,
-            private busquedaService: BusquedasService
+       
   ){
 
   }
@@ -54,6 +53,7 @@ export class ProfesoresComponent implements OnInit, OnDestroy{
                          this.nota   = notas;
                        
                          this.cargando = false;
+                       
                         })
 
 
@@ -75,30 +75,30 @@ export class ProfesoresComponent implements OnInit, OnDestroy{
   //     return [];
 
   // }
-  // borrarProfesor(profesor:Profesor):any{
+  borrarNota(nota:Nota):any{
    
 
-  //   Swal.fire({
-  //     title: "¿Borrar profesor?",
-  //     text: `Esta a punto de eliminar a ${profesor.nombre} ${profesor.apellido}`,
-  //     icon: "question",
-  //     showCancelButton: true,
-  //     confirmButtonText: "Si, eliminar profesor"
-  //   }).then((result) => {
-  //     if (result.value) {
-  //       this.profesorService.borrarProfesor(profesor._id)
-  //       .subscribe(resp => {
-  //         this.cargarProfesores();
-  //         Swal.fire('Usuario borrado',
-  //                   `${profesor.nombre} ${profesor.apellido} fue eliminado correctamente`,
-  //                   'success'
-  //           )
+    Swal.fire({
+      title: "¿Borrar Nota?",
+      text: `Esta a punto de eliminar la nota de ${nota.estudiante?.nombre} ${nota.estudiante?.apellido}`,
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "Si, eliminar nota"
+    }).then((result) => {
+      if (result.value) {
+        this.notasService.borrarNota(nota._id)
+        .subscribe(resp => {
+          this.cargarNotas();
+          Swal.fire('Nota borrada',
+                    `La nota de ${nota.estudiante?.nombre} ${nota.estudiante?.apellido}} fue eliminado correctamente`,
+                    'success'
+            )
 
-  //           }
-  //         );
+            }
+          );
         
-  //     }
+      }
       
-  //   });
-  // }
+    });
+  }
 }

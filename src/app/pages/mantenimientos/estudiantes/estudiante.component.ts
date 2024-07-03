@@ -48,11 +48,6 @@ this.estudianteForm = this.fb.group({
   curso: ['', Validators.required],
 })
 
-    // this.cargarCurso();
-    // this.estudianteForm.get('curso')?.valueChanges.
-    //                                 subscribe( CursoId =>{
-    //                                   this.cursoSeleccionado = this.cursos.find(h => h._id === CursoId)
-    //                                 })
   }
 
 
@@ -67,7 +62,6 @@ this.estudianteForm = this.fb.group({
                          this.periodos   = periodos;
                          this.periodosTemp = periodos;
                          this.cargando = false;
-                        //  console.log(periodos)
 
                          const data = Object.values(periodos)
                           

@@ -88,23 +88,24 @@ import { NgFor } from '@angular/common';
     this.modulo.removeAt(index);
   }
   cargarNota(id:string){
-
     if (id === 'nuevo') {
       return;
     }
 
-    this.notaService.obtenerNotaPorId(id)
-
-                              .pipe(
-                                delay(100)
-                              )
-                              .subscribe( (nota:any) => {
-                                  const {  periodo: { _id } } = nota
-                                  this.notaSeleccionada = nota
-                                  // this.myForm.setValue( { nombre: nombre, curso: _id} )
-                              }, error => {
-                                return this.router.navigateByUrl(`/dashboard/notas`);
-                              })
+    // this.estudianteService.obtenerEstudiantePorId(id)
+    
+    //                           .pipe(
+    //                             delay(100)
+    //                           )
+    //                           .subscribe( (estudiante:any) => {
+    //                             console.log(estudiante)
+    //                               const {  curso: { _id } } = estudiante
+    //                               this.estudianteSeleccionada = estudiante
+    //                               this.estudianteForm.setValue( { curso: _id} )
+                                  
+    //                           }, error => {
+    //                             return this.router.navigateByUrl(`/dashboard/estudiantes`);
+    //                           })
   }
 
  
