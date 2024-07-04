@@ -1,4 +1,3 @@
-// import { alumno } from './../../../interfaces/country.interfaces';
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { delay, switchMap, tap } from 'rxjs';
@@ -11,15 +10,13 @@ import { EstudianteAc } from '../../../models/estudianteUser.model';
 import { Nota } from '../../../models/nota.model';
 import Swal from 'sweetalert2';
 import { NotaService } from '../../../services/nota.service';
-
 @Component({
   selector: 'app-selector-page',
-  templateUrl: './notas.component.html',
+  templateUrl: './reviso.component.html',
   styles: [
   ]
   })
-  export class NotasComponent implements OnInit {
-
+  export class RevisoComponent implements OnInit {
     public periodo: Periodo[] = [];
     public period?: Periodo;
     public estudiante: EstudianteAc[] = [];
@@ -59,9 +56,8 @@ import { NotaService } from '../../../services/nota.service';
     this.activateRoute.params
     .subscribe( ({id}) => 
       {this.cargarNota(id)});
-    
-    this.onPeriodoChanged();
-    this.numeroModulos();
+    this.ComprobadorAprobado();
+   
     this.cargarPeriodo ();
   }
   
@@ -90,12 +86,7 @@ import { NotaService } from '../../../services/nota.service';
 
     if (this.notaSeleccionada) {
 
-      
-       
-        
-
-        this.modulo.push(this.fb.control(this.notaSeleccionada?.modulos![index]));  
-       
+        this.modulo.push(this.fb.control(this.notaSeleccionada?.modulos![index]));   
       
     }
 
@@ -116,19 +107,11 @@ import { NotaService } from '../../../services/nota.service';
       } else {
         this.aprobado = false;
       }
-      
-      const Periodo = document.getElementById('periodo_id') as HTMLSelectElement;
-      Periodo.disabled = true;
-      const Estudiante = document.getElementById('estudiante_id') as HTMLSelectElement;
-      Estudiante.disabled = true;
- 
+     
     }
   }
 
-  deleteModulo(index:number){
-    
-    this.modulo.removeAt(index);
-  }
+
   cargarNota(id:string){
     if (id === 'nuevo') {
       return;
@@ -143,7 +126,7 @@ import { NotaService } from '../../../services/nota.service';
                               .subscribe( (nota:any) => {   
                                   const { periodo, estudiante,modulos} = nota
                                   this.notaSeleccionada = nota
-                                  
+                                  this.ComprobadorAprobado();
                                 
                                   this.myForm.setValue( { periodo: periodo._id , estudiante: estudiante._id, modulos: [] } )
                               }, error => {
@@ -154,95 +137,14 @@ import { NotaService } from '../../../services/nota.service';
     }
   }
 
- 
-
-  numeroModulos(){
-   
-   
-    if (this.cantidad > 0 ) {
-
-      for (let index = 0; index < this.cantidad; index++) {
-
-        this.modulo.removeAt(-1);
-        
-      }
-
-    }
-
-    if (this.myForm.get('periodo')?.value !== "") {
-      
-      this.modulos = []
-      
-      this.jd = this.myForm.get('periodo')?.value ?? "0";
-        
-        
-        this.periodoService.obtenerPeriodoPorId(this.jd!).subscribe(resp => {
-          this.period = resp;
-          let array = this.myForm.get('modulos') as FormArray;
-          
-
-            for ( let index = 0 ; index  < this.period.modulos! ?? 0; index++) {
-
-              
-              this.addModulo(index);
-             
-            } 
-            
-            this.ComprobadorAprobado();
-            this.cantidad = array.length
-            
-       
-    })
-    }
-  }
-
-  guardarNota(){
-
-    
-
-    const {nota} =this.myForm.value;
-
-    if (this.notaSeleccionada) {
-      //Actualizar
-      const data = {
-        ...this.myForm.value,
-        _id:this.notaSeleccionada._id
-      }
-      this.notaService.actualizarNota(data)
-      .subscribe(resp=>{
-       
-        Swal.fire('Actualizado',`Actualizado correctamente`, 'success');
-      })
-    }else{
-      //Crear
-      this.notaService.crearNota(this.myForm.value)
-        .subscribe((resp:any) =>{
-          Swal.fire('Creado',`Creado correctamente`, 'success');
-          this.router.navigateByUrl(`/dashboard/notas/${resp.nota._id}`)
-        })
-    }
-
-
-  }
+  
+  
   get periodos(): Periodo[] {
  
     return this.periodo;
 
   }
 
-  onPeriodoChanged(): void {
-   
-    this.myForm.get('periodo')?.valueChanges
-    .pipe(
-      tap( () => this.myForm.get('estudiante')!.setValue('') ),
+ 
 
-      switchMap( (periodo) => this.selectService.getEstudiantebyCurse(periodo) )
-      )
-      .subscribe( estudiantes => {
-        this.estudiante= estudiantes ;
-      }
-         );
-
- }
-
-}
+  }

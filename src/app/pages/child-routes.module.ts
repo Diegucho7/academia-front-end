@@ -24,7 +24,8 @@ import { EstudianteComponent } from './mantenimientos/estudiantes/estudiante.com
 import { CursoComponent } from './mantenimientos/cursos/curso.component';
 import { PeriodosComponent } from './mantenimientos/periodos/periodos.component';
 import { PeriodoComponent } from './mantenimientos/periodos/periodo.component';
-import { RespladoComponent } from './mantenimientos/notas/respaldo.component';
+import { RevisoComponent } from './mantenimientos/notas/reviso.component';
+import { RevisionComponent } from './mantenimientos/revision/revision.component';
 
 
 const childRoutes: Routes = [
@@ -54,10 +55,12 @@ const childRoutes: Routes = [
       {path: 'materia/:id',canActivate: [adminGuard],component: MateriaComponent, data: {titulo: 'Materia de la aplicación'}},
       {path: 'notas',canActivate: [adminGuard],component: NotasComponent, data: {titulo: 'Notas de la aplicación'}},
       {path: 'notas/:id',canActivate: [adminGuard],component: NotasComponent, data: {titulo: 'Notas de la aplicación'}},
-      {path: 'respaldo',canActivate: [adminGuard],component: RespladoComponent, data: {titulo: 'Notas de la aplicación'}},
+      // {path: 'respaldo',canActivate: [adminGuard],component: RespladoComponent, data: {titulo: 'Notas de la aplicación'}},
       {path: 'resultados',canActivate: [adminGuard],component: ResultadosComponent, data: {titulo: 'Resultados de la aplicación'}},
       {path: 'periodos',canActivate: [adminGuard],component: PeriodosComponent, data: {titulo: 'Periodos de la aplicación'}},
       {path: 'periodo/:id',canActivate: [adminGuard],component: PeriodoComponent, data: {titulo: 'Periodos de la aplicación'}},
+      {path: 'revision',canActivate: [adminGuard],component: RevisionComponent, data: {titulo: 'Periodos de la aplicación'}},
+      {path: 'reviso/:id',canActivate: [adminGuard],component: RevisoComponent, data: {titulo: 'Periodos de la aplicación'}},
 
       //Rutas Admin : Materias y Cursos
 ]

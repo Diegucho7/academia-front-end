@@ -10,12 +10,14 @@ import { AppComponent } from './app.component';
 import { NopagefoundComponent } from './nopagefound/nopagefound.component';
 import { PipesModule } from "./pipes/pipes.module";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RevisionComponent } from './pages/mantenimientos/revision/revision.component';
 
 
 @NgModule({
     declarations: [
         AppComponent,
         NopagefoundComponent,
+        RevisionComponent,
     ],
     bootstrap: [AppComponent],
     imports: [

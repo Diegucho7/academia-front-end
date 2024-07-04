@@ -7,12 +7,12 @@ import { NotaService } from '../../../services/nota.service';
 import { Nota } from '../../../models/nota.model';
 
 @Component({
-  selector: 'app-profesores',
-  templateUrl: './profesores.component.html',
+  selector: 'app-revicion',
+  templateUrl: './revision.component.html',
   styles: ``
 })
-export class ProfesoresComponent implements OnInit, OnDestroy{
 
+export class RevisionComponent implements OnInit, OnDestroy {
   public nota: Nota[] = [];
   public cargando: boolean = true;
   private imgSubs?: Subscription;
@@ -29,6 +29,8 @@ export class ProfesoresComponent implements OnInit, OnDestroy{
 
   ngOnInit(): void {
     this.cargarNotas();
+
+    
 
   }
 
@@ -54,7 +56,7 @@ export class ProfesoresComponent implements OnInit, OnDestroy{
 
   }
 
-
+  
   borrarNota(nota:Nota):any{
    
 

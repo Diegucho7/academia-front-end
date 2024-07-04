@@ -1,0 +1,65 @@
+
+<h1 class="mt-3" >Notas de estudiantes</h1>
+<hr>
+
+<div *ngIf="cread">
+
+  <div *ngIf="aprobado==true" class="alert alert-success">
+   <a class="alert-link" >Curso aprobado</a>
+  </div>
+
+  <div *ngIf="aprobado==false" class="alert alert-danger">
+    <a class="alert-link">Curso no aprobado</a>
+  </div>       
+</div>
+<hr>
+<form [formGroup]="myForm">
+
+  <!-- Region -->
+  <div class="row mb-3">
+    <div class="col">
+      <label class="form-label">Periodo:</label>
+    <div class="alert alert-primary d-flex align-items-center" role="alert">
+    <strong>{{notaSeleccionada?.periodo?.anio + ' - '+notaSeleccionada?.periodo?.mes +' - '+notaSeleccionada?.periodo?.curso?.nombre}}</strong>   
+    </div>
+    </div>
+  </div>
+
+
+  <div class="row mb-3" *ngIf="periodos.length > 0">
+    <div class="col">
+      <label class="form-label">Estudiante:</label>   
+
+      <div class="alert alert-primary d-flex align-items-center" role="alert">
+        <strong>{{notaSeleccionada?.estudiante?.nombre + ' ' + notaSeleccionada?.estudiante?.apellido}}</strong>   
+        </div>
+      
+    </div>
+  </div>
+
+  
+
+
+
+<div 
+formArrayName="modulos" class=" mb-3 "
+
+>
+
+  
+  <div *ngFor="let alias of notaSeleccionada?.modulos; let i=index">
+    <label>
+      <strong>
+
+        {{"Modulo "+(i+1)}} 
+      </strong>
+      <div class="alert alert-primary d-flex align-items-center" role="alert">
+        <strong>{{alias}}</strong>   
+        </div>
+    </label>
+  </div>
+</div>
+
+</form>
+
+
