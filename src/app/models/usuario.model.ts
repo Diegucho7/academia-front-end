@@ -23,7 +23,7 @@ export class User{
         public role?: string,
         public academia?: string,
         public estado?: boolean,
-        public uid?: string,
+        public _id?: string,
     ){}
 }
 

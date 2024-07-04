@@ -1,21 +1,16 @@
 // import { alumno } from './../../../interfaces/country.interfaces';
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { delay, filter, switchMap, tap } from 'rxjs';
+import { delay, switchMap, tap } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
-import {  SmallCountry } from '../../../interfaces/country.interfaces';
 import { SelectService } from '../../../services/select.service';
 import { PeriodoService } from '../../../services/periodo.service';
 import { Periodo } from '../../../models/periodo.model';
-import { Usuario, Credenciales, User } from '../../../models/usuario.model';
 import { EstudianteAc } from '../../../models/estudianteUser.model';
-import { UserIterfaz } from '../../../models/IntefazUser.model';
-import { EstudianteService } from '../../../services/estudiante.service';
-import { Estudiante } from '../../../models/estudiante.model';
+
 import { Nota } from '../../../models/nota.model';
 import Swal from 'sweetalert2';
 import { NotaService } from '../../../services/nota.service';
-import { NgFor } from '@angular/common';
 
 @Component({
   selector: 'app-selector-page',
@@ -29,59 +24,85 @@ import { NgFor } from '@angular/common';
     public period?: Periodo;
     public estudiante: EstudianteAc[] = [];
     public notaSeleccionada?: Nota;
+    public cantidad! : number ;
+    public cread : boolean = false;
 
-    public cantidad : number = 0;
-
-
+    public suma : number = 0;
+    public promedio : number = 0;
+    public aprobado : boolean = false;
+    
     public myForm: FormGroup = this.fb.group({
       periodo : ['', Validators.required ],
       estudiante: ['', Validators.required ],
-      modulos : this.fb.array([]
-      //   [
-      //   this.fb.control('')
-      // ]
-    ),
-      });
+      modulos : this.fb.array([])
 
-      public modulos : number[] = [0];
-      public jd? :string = "0";
-
-
-  constructor(
-    private fb: FormBuilder,
-    private selectService: SelectService,
-    private periodoService: PeriodoService,
-    private router : Router,
-    private notaService : NotaService
-
-  ) {
+   
+    });
     
+    public modulos : number[] = [0];
+    public jd? :string = "0";
+    
+    
+    constructor(
+      private fb: FormBuilder,
+      private selectService: SelectService,
+      private periodoService: PeriodoService,
+      private router : Router,
+      private notaService : NotaService,
+      private activateRoute:ActivatedRoute
+      
+    ) {
+      
   }
-
+  
   ngOnInit(): void {
+    this.activateRoute.params
+    .subscribe( ({id}) => 
+      {this.cargarNota(id)});
+    
     this.onPeriodoChanged();
     this.numeroModulos();
     this.cargarPeriodo ();
   }
-
+  
   cargarPeriodo(){
     this.periodoService.cargarPeriodos().subscribe(periodos => {
       this.periodo = periodos;
    
-  });
+    });
   }
-
-
+  
+  
   get modulo() {
-
+    
     return this.myForm.get('modulos') as FormArray;
     
   }
 
-  addModulo() {
-    this.modulo.push(this.fb.control(0));
+  addModulo(index:number) {
+
+    if (this.notaSeleccionada?.modulos === undefined) {
+      
+      this.modulo.push(this.fb.control(0));
+    }
+
     
+
+    if (this.notaSeleccionada) {
+
+      
+       
+        
+
+        this.modulo.push(this.fb.control(this.notaSeleccionada?.modulos![index]));  
+       
+      
+    }
+
+
+   
   }
+  
   
   deleteModulo(index:number){
     
@@ -91,28 +112,33 @@ import { NgFor } from '@angular/common';
     if (id === 'nuevo') {
       return;
     }
+ 
+    if (id !== undefined) {
 
-    // this.estudianteService.obtenerEstudiantePorId(id)
-    
-    //                           .pipe(
-    //                             delay(100)
-    //                           )
-    //                           .subscribe( (estudiante:any) => {
-    //                             console.log(estudiante)
-    //                               const {  curso: { _id } } = estudiante
-    //                               this.estudianteSeleccionada = estudiante
-    //                               this.estudianteForm.setValue( { curso: _id} )
+      this.notaService.obtenerNotaPorId(id)
+      .pipe(
+        delay(100)
+      )
+                              .subscribe( (nota:any) => {   
+                                  const { periodo, estudiante,modulos} = nota
+                                  this.notaSeleccionada = nota
                                   
-    //                           }, error => {
-    //                             return this.router.navigateByUrl(`/dashboard/estudiantes`);
-    //                           })
+                                
+                                  this.myForm.setValue( { periodo: periodo._id , estudiante: estudiante._id, modulos: [] } )
+                              }, error => {
+                                return this.router.navigateByUrl(`/dashboard/notas`);
+                              })
+
+
+    }
   }
 
  
 
   numeroModulos(){
    
-    if (this.cantidad > 0) {
+   
+    if (this.cantidad > 0 ) {
 
       for (let index = 0; index < this.cantidad; index++) {
 
@@ -131,19 +157,33 @@ import { NgFor } from '@angular/common';
         
         this.periodoService.obtenerPeriodoPorId(this.jd!).subscribe(resp => {
           this.period = resp;
-            console.log(resp)
           let array = this.myForm.get('modulos') as FormArray;
+          
+
             for ( let index = 0 ; index  < this.period.modulos! ?? 0; index++) {
 
               
-              this.addModulo();
-              const temporal = index
-              const element = [index];
-              
-              this.modulos = this.modulos.concat(element);
-              this.myForm.get(`${index}`)?.setValue('0')
+              this.addModulo(index);
+             
             } 
-            
+            if(this.notaSeleccionada){
+              this.cread = true;
+        
+              this.suma = (this.notaSeleccionada.modulos as number[]).reduce((accumulator, currentValue) => accumulator + currentValue, 0);        
+              
+              this.promedio = this.suma / this.notaSeleccionada.modulos!.length;
+              if (this.promedio >= 8) {
+                this.aprobado = true;
+              } else {
+                this.aprobado = false;
+              }
+              
+              const Periodo = document.getElementById('periodo_id') as HTMLSelectElement;
+              Periodo.disabled = true;
+              const Estudiante = document.getElementById('estudiante_id') as HTMLSelectElement;
+              Estudiante.disabled = true;
+         
+            }
             this.cantidad = array.length
             
        
@@ -165,7 +205,7 @@ import { NgFor } from '@angular/common';
       }
       this.notaService.actualizarNota(data)
       .subscribe(resp=>{
-        console.log(resp )
+       
         Swal.fire('Actualizado',`Actualizado correctamente`, 'success');
       })
     }else{
@@ -184,11 +224,6 @@ import { NgFor } from '@angular/common';
     return this.periodo;
 
   }
-  guardarNotas() {
-    console.log(this.myForm.value);
-  }
-
-
 
   onPeriodoChanged(): void {
    
@@ -203,7 +238,6 @@ import { NgFor } from '@angular/common';
       }
          );
 
-         console.log(this.periodo);
  }
 
 }

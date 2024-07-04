@@ -5,16 +5,15 @@ import Swal from 'sweetalert2';
 import { ActivatedRoute, Router } from '@angular/router';
 import { delay } from 'rxjs';
 import { CursoService } from '../../../services/curso.service';
-import { MateriaService } from '../../../services/materia.service';
 import { Curso } from '../../../models/curso.model';
 import { Materia } from '../../../models/materia.model';
 import { PeriodoService } from '../../../services/periodo.service';
 import { Academia } from '../../../models/academia.model';
 import { AcademiaService } from '../../../services/academia.service';
 import { Periodo } from '../../../models/periodo.model';
-import { FormsModule } from '@angular/forms';
+
 import { UsuarioService } from '../../../services/usuario.service';
-import { Usuario } from '../../../models/usuario.model';
+import {  Usuario } from '../../../models/usuario.model';
 
 
 @Component({
@@ -95,7 +94,7 @@ this.periodoForm = this.fb.group({
   modulos: ['', Validators.required],
   valor: ['', Validators.required],
 })
-    this.CargarUsuarios();
+    this.CargarProfesor();
     
     this.cargarCurso();
 
@@ -109,7 +108,7 @@ this.periodoForm = this.fb.group({
 
   
 
-  CargarUsuarios(){
+  CargarProfesor(){
     
     this.cargando = true;
     this.usuarioService.cargarUsuariosProfesor(this.desde)
@@ -120,6 +119,7 @@ this.periodoForm = this.fb.group({
         this.usuarios = usuarios;
         this.usuariosTemp = usuarios;
         this.cargando = false;
+        console.log(usuarios)
         
     })
   }
@@ -168,8 +168,10 @@ this.periodoForm = this.fb.group({
 
 
   guardarPeriodo(){
-    const {anio,mes} =this.periodoForm.value;
     
+    console.log(this.periodoForm.value)
+    const {anio,mes} =this.periodoForm.value;
+
     if (this.periodoSeleccionado) {
       //Actualizar
       const data = {
@@ -178,10 +180,10 @@ this.periodoForm = this.fb.group({
       } 
       this.periodoService.actualizarPeriodo(data)
       .subscribe(resp=>{
-        console.log(resp )
         Swal.fire('Actualizado el Periodo',`${anio}`+' del mes '+ `${mes} actualizado correctamente`, 'success');
       })
-    }else{
+    }
+    else{
 
     const {periodo} =this.periodoForm.value;
     this.periodoService.crearPeriodo(this.periodoForm.value)
@@ -190,8 +192,7 @@ this.periodoForm = this.fb.group({
       this.router.navigateByUrl(`/dashboard/periodo/${resp.periodo._id}`)
     })
   }
-  console.log(this.periodoForm.value)
-  console.log("hola mundo")
+  
   }
 
 

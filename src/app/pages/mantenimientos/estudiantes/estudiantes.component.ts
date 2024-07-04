@@ -75,7 +75,7 @@ usuario: any;
                          this.estudiantes   = estudiantes;
                          this.estudiantesTemp = estudiantes;
                          this.cargando = false;
-                         console.log(this.estudiantes)
+              
                         })
 
 

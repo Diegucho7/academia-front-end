@@ -26,7 +26,6 @@ export class EstudianteComponent implements OnInit {
   public cargando: boolean = true;
   public periodosTemp:Periodo[] =  [];
   public estudiantesTemp:Estudiante[] =  [];
-  private imgSubs?: Subscription;
   constructor(
             private fb: FormBuilder,
             private cursoService: CursoService,
@@ -41,11 +40,10 @@ export class EstudianteComponent implements OnInit {
     this.activateRoute.params
     .subscribe( ({id}) => 
     {this.cargarEstudiante(id)});
-    // this.medicoService.obtenerMedicoPorId
-    // console.log(this.hospitalSeleccionado?.img)
-this.estudianteForm = this.fb.group({
+
+      this.estudianteForm = this.fb.group({
  
-  curso: ['', Validators.required],
+      curso: ['', Validators.required],
 })
 
   }
@@ -78,7 +76,6 @@ this.estudianteForm = this.fb.group({
                                 delay(100)
                               )
                               .subscribe( (estudiante:any) => {
-                                console.log(estudiante)
                                   const {  curso: { _id } } = estudiante
                                   this.estudianteSeleccionada = estudiante
                                   this.estudianteForm.setValue( { curso: _id} )
