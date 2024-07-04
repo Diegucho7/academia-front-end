@@ -18,7 +18,8 @@ export class Nota{
         
             public estudiante?: User,
             public periodo?: Periodo,
-            public modulos?: number[]
+            public modulos?: number[],
+            public aprobado?: boolean
 
         ){}
         

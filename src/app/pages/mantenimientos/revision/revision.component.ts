@@ -14,8 +14,15 @@ import { Nota } from '../../../models/nota.model';
 
 export class RevisionComponent implements OnInit, OnDestroy {
   public nota: Nota[] = [];
+  public notaSeleccionada!: Nota
   public cargando: boolean = true;
   private imgSubs?: Subscription;
+
+
+
+  public suma : number = 0;
+  public promedio : number = 0;
+  public aprobado : boolean = false;
   constructor(
             private notasService: NotaService,
        
@@ -46,17 +53,38 @@ export class RevisionComponent implements OnInit, OnDestroy {
                           this.cargando = false;
                          this.nota = notas; 
 
-                         this.nota   = notas;
-                       
                          this.cargando = false;
-                       
+                         this.ComprobadorAprobado();
+                      
+                      
                         })
 
 
 
   }
 
-  
+  ComprobadorAprobado(){
+    if(this.nota){
+ 
+      for (let index = 0; index < this.nota.length; index++) {
+        this.notaSeleccionada = this.nota[index];
+        this.suma = (this.notaSeleccionada.modulos as number[]).reduce((accumulator, currentValue) => accumulator + currentValue, 0);        
+        
+        this.promedio = this.suma / this.notaSeleccionada.modulos!.length;
+        if (this.promedio >= 8) {
+          this.aprobado = true;
+         this.nota[index].aprobado = true;
+        } else {
+          this.aprobado = false;
+          this.nota[index].aprobado = false;
+        }
+       
+        
+      }
+
+    }
+  }
+
   borrarNota(nota:Nota):any{
    
 
