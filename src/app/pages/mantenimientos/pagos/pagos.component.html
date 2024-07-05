@@ -43,7 +43,7 @@
 
                 <div class="row">
                     <div class="col-8">
-                        <h4 class="card-title">Notas ({{nota.length}})</h4>
+                        <h4 class="card-title">Notas ({{pago.length}})</h4>
                         <h6 class="card-subtitle">Notas registradas en la aplicación</h6>
 
                     </div>
@@ -51,10 +51,10 @@
                     <div class="col">
                         <div class="text-right ">
                             <button 
-                            routerLink="/dashboard/notas/nuevo"
+                            routerLink="/dashboard/pagos/nuevo"
                             class="btn btn-primary">
                             <i class="fa-solid fa-person-chalkboard"></i>
-                                Crear Nota
+                                Crear Pago
                             </button>
                         </div>
     
@@ -71,12 +71,12 @@
                                 <th>Academia</th>
                                 <th>Estudiante</th>
                                 <th>Periodo</th>
-                                <th>Notas por Módulos</th>
+                                <th>Cuotas de Pagos</th>
                                 <th class="text-nowrap w100">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let item of nota">
+                            <tr *ngFor="let item of pago">
                                <td>
                                     {{item.periodo?.academia?.nombre}}
                                </td>
@@ -86,7 +86,7 @@
                                 <!-- <td>{{profesor.apellido}}</td> -->
                                 
                                 <td class="text-nowrap text-left">
-                                    {{item.periodo?.anio+'  -  '+item.periodo?.mes + ' - '+item.periodo?.curso?.nombre}}
+                                    {{item.periodo?.anio+'  -  '+item.periodo?.mes + ' - '+item.periodo?.curso?.nombre + ' - $'+item.periodo?.valor}}
                                     <!-- <a [routerLink]="['/dashboard/profesor',profesor._id]" routerLinkActive="router-link-active"  data-toggle="tooltip" data-original-title="Editar"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a> -->
                                    
                                    
@@ -95,11 +95,11 @@
 
                                 <td>{{item.modulos}}</td>
                                 <td>
-                                    <a [routerLink]="['/dashboard/notas',item._id]" routerLinkActive="router-link-active"  data-toggle="tooltip" data-original-title="Editar"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
+                                    <a [routerLink]="['/dashboard/pagos',item._id]" routerLinkActive="router-link-active"  data-toggle="tooltip" data-original-title="Editar"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
 
                                     <a class="cursor" data-toggle="tooltip" 
                                     data-original-title="Borrar"
-                                    (click)="borrarNota(item)"
+                                    (click)="borrarPago(item)"
                                     > 
                                     <i class="fa fa-close text-danger"></i> 
                                     </a>

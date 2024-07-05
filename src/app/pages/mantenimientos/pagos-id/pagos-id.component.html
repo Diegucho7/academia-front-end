@@ -1,19 +1,19 @@
 
-<h1 class="mt-3" >Notas de estudiantes</h1>
+<h1 class="mt-3" >Pagos del estudiantes</h1>
 <hr>
 
 <div *ngIf="cread">
 
   <div *ngIf="aprobado==true" class="alert alert-primary">
-   <a class="alert-link" >Curso aprobado</a>
+   <a class="alert-link" >Curso Cancelado</a>
   </div>
 
   <div *ngIf="aprobado==false" class="alert alert-danger">
-    <a class="alert-link">Curso no aprobado</a>
+    <a class="alert-link">Curso no cancelado</a>
   </div>       
 </div>
 <hr>
-<form [formGroup]="myForm" (ngSubmit)="guardarNota() ">
+<form [formGroup]="myForm" (ngSubmit)="guardarPago() ">
 
   <!-- Region -->
   <div class="row mb-3">
@@ -21,7 +21,7 @@
       <label class="form-label">Periodo:</label>
       <select id ="periodo_id" formControlName="periodo" class="form-control" (ngModelChange)="numeroModulos()">
         <option value="">-- Seleccione Periodo --</option>
-        <option *ngFor="let periodo of periodos" [value]=" periodo._id">{{ periodo.anio+ ' - '+periodo.mes +' - '+periodo.curso?.nombre + ' - '+periodo.modulos}}</option>
+        <option *ngFor="let periodo of periodos" [value]=" periodo._id">{{ periodo.anio+ ' - '+periodo.mes +' - '+periodo.curso?.nombre + ' - '+periodo.modulos+' - $'+periodo.valor}}</option>
       </select>
     </div>
   </div>
@@ -41,6 +41,9 @@
 
 
 
+
+<label class="form-label">Valores pagados por módulos:</label>
+<hr>
 <div 
 formArrayName="modulos" class=" mb-3 "
 *ngIf="periodos.length > 0 && estudiante.length > 0" 
@@ -50,7 +53,7 @@ formArrayName="modulos" class=" mb-3 "
   <div *ngFor="let alias of modulo.controls; let i=index">
     <label>
       {{"Módulo "+(i+1)}} 
-      <input  type="number" class="form-control" [formControlName]="i" max="10" min="0">
+      <input  type="number" class="form-control" [formControlName]="i"  min="0">
     </label>
   </div>
 </div>

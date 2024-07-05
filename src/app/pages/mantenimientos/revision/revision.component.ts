@@ -53,15 +53,19 @@ export class RevisionComponent implements OnInit, OnDestroy {
                           this.cargando = false;
                          this.nota = notas; 
 
-                         this.cargando = false;
                          this.ComprobadorAprobado();
-                      
-                      
+                         
+                         
+                         this.cargando = false;
                         })
 
 
 
   }
+
+
+  // ng generate component mi-componente --module=appng generate component mi-componente --skip-tests
+  // ng generate component mi-componente --module=app
 
   ComprobadorAprobado(){
     if(this.nota){

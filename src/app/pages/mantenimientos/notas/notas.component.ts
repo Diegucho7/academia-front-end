@@ -215,6 +215,7 @@ import { NotaService } from '../../../services/nota.service';
       })
     }else{
       //Crear
+      console.log(this.myForm.value)
       this.notaService.crearNota(this.myForm.value)
         .subscribe((resp:any) =>{
           Swal.fire('Creado',`Creado correctamente`, 'success');

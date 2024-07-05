@@ -1,4 +1,3 @@
-
 import { Periodo } from "./periodo.model";
 import { User } from "./usuario.model";
 
@@ -7,9 +6,6 @@ interface _NotaUser{
     nombre: string,
     apellido: string
 }
-
-
-
 
 export class Nota{
         constructor(

@@ -17,6 +17,10 @@ import { NotaService } from '../../../services/nota.service';
   ]
   })
   export class RevisoComponent implements OnInit {
+
+
+    public cargando: boolean = true;
+
     public periodo: Periodo[] = [];
     public period?: Periodo;
     public estudiante: EstudianteAc[] = [];
@@ -118,6 +122,7 @@ import { NotaService } from '../../../services/nota.service';
     }
  
     if (id !== undefined) {
+      this.cargando = true;
 
       this.notaService.obtenerNotaPorId(id)
       .pipe(
@@ -127,7 +132,7 @@ import { NotaService } from '../../../services/nota.service';
                                   const { periodo, estudiante,modulos} = nota
                                   this.notaSeleccionada = nota
                                   this.ComprobadorAprobado();
-                                
+                                  this.cargando = false;
                                   this.myForm.setValue( { periodo: periodo._id , estudiante: estudiante._id, modulos: [] } )
                               }, error => {
                                 return this.router.navigateByUrl(`/dashboard/notas`);
