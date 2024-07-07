@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Observable, map } from 'rxjs';
 import { Profesor } from '../models/profesor.model';
 import { environment } from '../../environments/environment';
+import { Usuario } from '../models/usuario.model';
 
 const base_url = environment.base_url;
 @Injectable({
@@ -40,6 +41,21 @@ export class ProfesorService {
         })
           .pipe(
             map( (resp: { ok: boolean, profesores: Profesor[] } ) => resp.profesores )
+          );
+          
+ 
+  }
+  cargarEstudiantes( ): Observable<Usuario[]> {
+ 
+    const url = `${ base_url }/usuarios/estudiantes`;
+    return this.http.get<{ ok: boolean, usuarios: Usuario[] }>(url,
+        {
+          headers: {
+            'x-token': this.token
+          }
+        })
+          .pipe(
+            map( (resp: { ok: boolean, usuarios: Usuario[] } ) => resp.usuarios )
           );
           
  

@@ -10,6 +10,12 @@ import { EstudianteAc } from '../../../models/estudianteUser.model';
 import Swal from 'sweetalert2';
 import { PagosService } from '../../../services/pagos.service';
 import { Pago } from '../../../models/pago.model';
+import { FileUploadService } from '../../../services/file-upload.service';
+import { EstudianteService } from '../../../services/estudiante.service';
+import { Estudiante } from '../../../models/estudiante.model';
+import { ProfesorService } from '../../../services/profesor.service';
+import { Usuario } from '../../../models/usuario.model';
+import { Profesor } from '../../../models/profesor.model';
 
 
 @Component({
@@ -22,6 +28,7 @@ export class PagosIdComponent implements OnInit {
   public periodo: Periodo[] = [];
   public period?: Periodo;
   public estudiante: EstudianteAc[] = [];
+  public estu: Usuario[]=[];
   public pagoSeleccionado?: Pago;
   public cantidad! : number ;
   public cread : boolean = false;
@@ -31,13 +38,19 @@ export class PagosIdComponent implements OnInit {
   public aprobado : boolean = false;
   
   public myForm: FormGroup = this.fb.group({
+    cursos : ['', Validators.required ],
     periodo : ['', Validators.required ],
     estudiante: ['', Validators.required ],
-    modulos : this.fb.array([])
+    modulos : this.fb.array([]),
+    img: this.fb.array([])
 
  
   });
   
+  public imagenSubir!: File;
+  public imgTemp: any = null ;
+
+  public img : number[] = [0];
   public modulos : number[] = [0];
   public jd? :string = "0";
   
@@ -48,7 +61,10 @@ export class PagosIdComponent implements OnInit {
     private periodoService: PeriodoService,
     private router : Router,
     private activateRoute : ActivatedRoute,
-    private pagoService : PagosService
+    private pagoService : PagosService,
+    private fileUploadservice: FileUploadService,
+    private estudianteService: EstudianteService,
+    private profesoresService: ProfesorService
     
   ) {
     
@@ -58,7 +74,8 @@ ngOnInit(): void {
   this.activateRoute.params
   .subscribe( ({id}) => 
     {this.cargarPago(id)});
-  
+  this.cargarEstudiante();
+
   this.onPeriodoChanged();
   this.numeroModulos();
   this.cargarPeriodo ();
@@ -71,12 +88,54 @@ cargarPeriodo(){
   });
 }
 
+get imagenes(){
+  return this.myForm.get('img') as FormArray;
+}
 
 get modulo() {
   
   return this.myForm.get('modulos') as FormArray;
   
 }
+
+subirImagen(){
+  // this.fileUploadservice.actualizarFoto(this.imagenSubir, 'usuarios', this.usuario.uid!)
+  // .then( img =>{
+  //   this.usuario.img = img ;
+    
+  
+  // Swal.fire('Guardado', 'Cambios fueron guardados','success');
+
+  // }).catch (err=>{
+  //   console.log(err);
+  //   Swal.fire('Error', err.error.msg,'error')
+
+  // })
+    
+}
+
+cargarEstudiante(){
+  this.profesoresService.cargarEstudiantes().subscribe( estudiantes => {
+    this.estu = estudiantes;
+    console.log(this.estu)  
+ 
+  });
+}
+
+cambiarImagen(file:File){
+  this.imagenSubir = file;
+
+
+  if(!file){return;}
+
+  const reader = new FileReader();
+  const url64 = reader.readAsDataURL(file);
+
+
+  reader.onloadend = () =>{
+   this.imgTemp = reader.result;
+  }
+ }
 
 addModulo(index:number) {
 
@@ -91,6 +150,11 @@ addModulo(index:number) {
       this.modulo.push(this.fb.control(this.pagoSeleccionado?.modulos![index]));   
   }
  
+}
+
+addFile(index:number) {
+  this.imagenes.push(this.fb.control([index]))
+  console.log("Probando")
 }
 
 ComprobadorAprobado(){
@@ -225,6 +289,21 @@ onPeriodoChanged(): void {
   .pipe(
     tap( () => this.myForm.get('estudiante')!.setValue('') ),
 
+    switchMap( (periodo) => this.selectService.getCursebyEstudiante(periodo) )
+    )
+    .subscribe( estudiantes => {
+      this.estudiante= estudiantes ;
+    }
+       );
+
+}
+
+onEstudianteChanged(): void {
+ 
+  this.myForm.get('cursos')?.valueChanges
+  .pipe(
+    tap( () => this.myForm.get('periodo')!.setValue('') ),
+
     switchMap( (periodo) => this.selectService.getEstudiantebyCurse(periodo) )
     )
     .subscribe( estudiantes => {
@@ -233,5 +312,7 @@ onPeriodoChanged(): void {
        );
 
 }
+
+
 
 }

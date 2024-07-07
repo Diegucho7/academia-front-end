@@ -79,8 +79,27 @@ export class SelectService {
       ) )
     );
     
-    
+  }
 
+  getCursebyEstudiante( periodo: EstudianteAc[] ){
+    if ( !periodo ) return of([]);
+
+    const url: string = `${ this.baseUrl }/estudiante/${ periodo }`;
+
+    return this.http.get<{ok: boolean, estudiante: Estudiante[]}>(url,
+          this.headers
+        )
+    .pipe(
+      map( estudiante  => estudiante.estudiante.map(user => (
+              {
+                id: user._id ,
+               usuario: user.usuario
+              })
+              
+        
+      ) )
+    );
+    
   }
 
   // getCountryByAlphaCode( estudiante: string ): Observable<Usuar[]>  {
