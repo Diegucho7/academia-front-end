@@ -5,6 +5,7 @@ import { Observable, map } from 'rxjs';
 import { Profesor } from '../models/profesor.model';
 import { environment } from '../../environments/environment';
 import { Usuario } from '../models/usuario.model';
+import { Estudiante } from '../models/estudiante.model';
 
 const base_url = environment.base_url;
 @Injectable({

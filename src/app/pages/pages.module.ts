@@ -36,6 +36,8 @@ import { PeriodoComponent } from './mantenimientos/periodos/periodo.component';
 import { RevisoComponent } from './mantenimientos/notas/reviso.component';
 import { PagosComponent } from './mantenimientos/pagos/pagos.component';
 import { PagosIdComponent } from './mantenimientos/pagos-id/pagos-id.component';
+import { RecibosComponent } from './mantenimientos/recibos/recibos.component';
+import { ReciboComponent } from './mantenimientos/recibos/recibo.component';
 
 
 @NgModule({
@@ -65,7 +67,9 @@ import { PagosIdComponent } from './mantenimientos/pagos-id/pagos-id.component';
         PeriodoComponent,
         RevisoComponent,
         PagosComponent,
-        PagosIdComponent
+        PagosIdComponent,
+        RecibosComponent,
+        ReciboComponent
     ],
     exports: [
         DashboardComponent,

@@ -81,19 +81,19 @@ export class SelectService {
     
   }
 
-  getCursebyEstudiante( periodo: EstudianteAc[] ){
-    if ( !periodo ) return of([]);
+  getCursebyEstudiante( curso: Estudiante[] ){
+    if ( !curso ) return of([]);
 
-    const url: string = `${ this.baseUrl }/estudiante/${ periodo }`;
+    const url: string = `${ this.baseUrl }/estudiante/${ curso }`;
 
-    return this.http.get<{ok: boolean, estudiante: Estudiante[]}>(url,
+    return this.http.get<{ok: boolean, curso: Estudiante[]}>(url,
           this.headers
         )
     .pipe(
-      map( estudiante  => estudiante.estudiante.map(user => (
+      map( estudiante  => estudiante.curso.map(user => (
               {
                 id: user._id ,
-               usuario: user.usuario
+               curso: user.curso
               })
               
         

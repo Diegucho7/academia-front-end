@@ -28,6 +28,8 @@ import { RevisoComponent } from './mantenimientos/notas/reviso.component';
 import { RevisionComponent } from './mantenimientos/revision/revision.component';
 import { PagosComponent } from './mantenimientos/pagos/pagos.component';
 import { PagosIdComponent } from './mantenimientos/pagos-id/pagos-id.component';
+import { RecibosComponent } from './mantenimientos/recibos/recibos.component';
+import { ReciboComponent } from './mantenimientos/recibos/recibo.component';
 
 
 const childRoutes: Routes = [
@@ -64,6 +66,12 @@ const childRoutes: Routes = [
       {path: 'reviso/:id',canActivate: [adminGuard],component: RevisoComponent, data: {titulo: 'Notas de la aplicación'}},
       {path: 'pagos',canActivate: [adminGuard],component: PagosComponent, data: {titulo: 'Pagos de la aplicación'}},
       {path: 'pagos/:id',canActivate: [adminGuard],component: PagosIdComponent, data: {titulo: 'Pagos de la aplicación'}},
+      
+      
+      //Ruta estudiantes y Contador
+
+      {path: 'recibos',canActivate: [adminGuard],component: RecibosComponent, data: {titulo: 'Pagos de la aplicación'}},
+      {path: 'recibo/:id',canActivate: [adminGuard],component: ReciboComponent, data: {titulo: 'Pagos de la aplicación'}},
 
       //Rutas Admin : Materias y Cursos
 ]

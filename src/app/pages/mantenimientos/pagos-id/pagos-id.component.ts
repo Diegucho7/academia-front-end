@@ -11,11 +11,13 @@ import Swal from 'sweetalert2';
 import { PagosService } from '../../../services/pagos.service';
 import { Pago } from '../../../models/pago.model';
 import { FileUploadService } from '../../../services/file-upload.service';
-import { EstudianteService } from '../../../services/estudiante.service';
-import { Estudiante } from '../../../models/estudiante.model';
+
 import { ProfesorService } from '../../../services/profesor.service';
 import { Usuario } from '../../../models/usuario.model';
-import { Profesor } from '../../../models/profesor.model';
+import { Recibo } from '../../../models/recibo.model';
+import { RecibosService } from '../../../services/recibos.service';
+import { ModalImagenService } from '../../../services/modal-imagen.service';
+
 
 
 @Component({
@@ -24,7 +26,19 @@ import { Profesor } from '../../../models/profesor.model';
   styles: ``
 })
 export class PagosIdComponent implements OnInit {
-  
+
+
+  public imagenSubir!: File;
+  public imgTemp: any = null ;
+
+  public img? : string;
+  public modulos : number[] = [0];
+  public jd? :string = "0";
+
+
+  public recib : Recibo[]= [];
+
+  public curso: EstudianteAc[] = [];
   public periodo: Periodo[] = [];
   public period?: Periodo;
   public estudiante: EstudianteAc[] = [];
@@ -32,27 +46,32 @@ export class PagosIdComponent implements OnInit {
   public pagoSeleccionado?: Pago;
   public cantidad! : number ;
   public cread : boolean = false;
-
+  
   public suma : number = 0;
   public promedio : number = 0;
   public aprobado : boolean = false;
   
+  public cargando: boolean = true;
+
+  public reciboForm: FormGroup = this.fb.group({
+    img : ['', Validators.required ],
+    valor: ['0', Validators.required ],
+
+
+  });
+
   public myForm: FormGroup = this.fb.group({
-    cursos : ['', Validators.required ],
+
+    estudiante : ['', Validators.required ],
     periodo : ['', Validators.required ],
-    estudiante: ['', Validators.required ],
+
     modulos : this.fb.array([]),
-    img: this.fb.array([])
+    // img: this.fb.array([])
 
  
   });
   
-  public imagenSubir!: File;
-  public imgTemp: any = null ;
-
-  public img : number[] = [0];
-  public modulos : number[] = [0];
-  public jd? :string = "0";
+  
   
   
   constructor(
@@ -63,9 +82,9 @@ export class PagosIdComponent implements OnInit {
     private activateRoute : ActivatedRoute,
     private pagoService : PagosService,
     private fileUploadservice: FileUploadService,
-    private estudianteService: EstudianteService,
-    private profesoresService: ProfesorService
-    
+    private profesoresService: ProfesorService,
+    private reciboService:RecibosService,
+    private modalImagenService: ModalImagenService
   ) {
     
 }
@@ -74,19 +93,15 @@ ngOnInit(): void {
   this.activateRoute.params
   .subscribe( ({id}) => 
     {this.cargarPago(id)});
+  this.activateRoute.params
+  .subscribe( ({id}) => 
+    {this.cargarRecibos(id)});
   this.cargarEstudiante();
 
-  this.onPeriodoChanged();
+  this.onEstudianteChanged();
   this.numeroModulos();
-  this.cargarPeriodo ();
 }
 
-cargarPeriodo(){
-  this.periodoService.cargarPeriodos().subscribe(periodos => {
-    this.periodo = periodos;
- 
-  });
-}
 
 get imagenes(){
   return this.myForm.get('img') as FormArray;
@@ -99,9 +114,22 @@ get modulo() {
 }
 
 subirImagen(){
-  // this.fileUploadservice.actualizarFoto(this.imagenSubir, 'usuarios', this.usuario.uid!)
+
+
+  // Subir imagen con comprobante de pago
+
+  this.reciboService.crearRecibo(this.reciboForm.value)
+      .subscribe((resp:any) =>{
+        Swal.fire('Subido',`Subido correctamente`, 'success');
+        // this.router.navigateByUrl(`/dashboard/pagos/${resp.recibo._id}`)
+      })
+
+// Fin
+
+
+  // this.fileUploadservice.actualizarFoto(this.imagenSubir, 'recibos', this.recibo._id!)
   // .then( img =>{
-  //   this.usuario.img = img ;
+  //   this.recibo.img = img ;
     
   
   // Swal.fire('Guardado', 'Cambios fueron guardados','success');
@@ -114,14 +142,58 @@ subirImagen(){
     
 }
 
+async abrirSweetAlert(){
+    
+  const {value = ''} = await Swal.fire<string>({
+    title:"Crear Academia",
+    text: "Ingrese el nombre del nuevo academia",
+    input: "text",
+    inputPlaceholder: "Nombre del academia",
+    showCancelButton: true,
+  });
+  // if (value!.trim().length > 0){
+  //   this.reciboService.crearRecibo( value! )
+  //                       .subscribe((resp:any) => {
+  //                         this.recibo.push(resp.academia)
+  //                       })
+
+  // }
+  
+}
+// guardarCambios(recibo:Recibo){
+//   this.reciboService.actualizarRecibo(recibo._id,recibo.nombre)
+//   .subscribe( resp => {
+//     Swal.fire('Actualizado', recibo.nombre, 'success')
+//   })
+// }
+// eliminarAcademia(recibo:Recibo){
+//   this.reciboService.borrarRecibo(recibo._id)
+//   .subscribe( resp => {
+//     this.cargarAcademias()
+//     Swal.fire('Borrado', recibo.valor, 'success')
+//   })
+// }
+
 cargarEstudiante(){
   this.profesoresService.cargarEstudiantes().subscribe( estudiantes => {
     this.estu = estudiantes;
-    console.log(this.estu)  
- 
+    
+    // this.cargando = false;
+
+  });
+}
+cargarRecibos(id:string){
+  this.reciboService.obtenerReciboPorPagoId(id).subscribe( recibos => {
+    this.recib = recibos;
+    
+    // this.cargando = false;
+
   });
 }
 
+abrirModal(recibo:Recibo){
+  this.modalImagenService.abrirModal('recibos', recibo._id, recibo.img);
+}
 cambiarImagen(file:File){
   this.imagenSubir = file;
 
@@ -188,40 +260,35 @@ cargarPago(id:string){
   }
 
   if (id !== undefined) {
-
+    this.cargando = true;
     this.pagoService.obtenerPagoPorId(id)
     .pipe(
       delay(100)
     )
                             .subscribe( (pago:any) => {   
-                              console.log(pago)
-                                const { periodo, estudiante,modulos} = pago
+                             
+                                const {  estudiante,periodo,modulos} = pago
                                 this.pagoSeleccionado = pago
-                                this.myForm.setValue( { periodo: periodo._id , estudiante: estudiante._id, modulos: [] } )
-                            }, error => {
+                                this.myForm.setValue( {estudiante: estudiante._id, periodo: periodo._id ,  modulos: [] } )
+                                this.cargando = false;
+                              }, error => {
                               return this.router.navigateByUrl(`/dashboard/pagos`);
                             })
-
-
   }
 }
 
-
-
 numeroModulos(){
- 
  
   if (this.cantidad > 0 ) {
 
     for (let index = 0; index < this.cantidad; index++) {
-
-      this.modulo.removeAt(-1);
       
+      this.modulo.removeAt(-1);  
     }
-
   }
-
+  
   if (this.myForm.get('periodo')?.value !== "") {
+    
     
     this.modulos = []
     
@@ -243,7 +310,6 @@ numeroModulos(){
           this.ComprobadorAprobado();
           this.cantidad = array.length
           
-     
   })
   }
 }
@@ -251,7 +317,6 @@ numeroModulos(){
 guardarPago(){
 
   
-
   const {pago} =this.myForm.value;
 
   if (this.pagoSeleccionado) {
@@ -283,36 +348,23 @@ get periodos(): Periodo[] {
 
 }
 
-onPeriodoChanged(): void {
- 
-  this.myForm.get('periodo')?.valueChanges
-  .pipe(
-    tap( () => this.myForm.get('estudiante')!.setValue('') ),
-
-    switchMap( (periodo) => this.selectService.getCursebyEstudiante(periodo) )
-    )
-    .subscribe( estudiantes => {
-      this.estudiante= estudiantes ;
-    }
-       );
-
-}
 
 onEstudianteChanged(): void {
  
-  this.myForm.get('cursos')?.valueChanges
-  .pipe(
-    tap( () => this.myForm.get('periodo')!.setValue('') ),
 
-    switchMap( (periodo) => this.selectService.getEstudiantebyCurse(periodo) )
-    )
-    .subscribe( estudiantes => {
-      this.estudiante= estudiantes ;
-    }
-       );
+      
+      this.myForm.get('estudiante')?.valueChanges
+      .pipe(
+        tap( () => this.myForm.get('periodo')!.setValue('') ),
+        
+        switchMap( (curso) => this.selectService.getCursebyEstudiante(curso) )
+      )
+      
+      .subscribe( cursos => {
+        this.curso = cursos;
+       
+    })
 
-}
-
-
+ }
 
 }
