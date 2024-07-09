@@ -114,7 +114,8 @@ formArrayName="modulos" class=" mb-3 "
   Enviar
 </button>
 </form>
-<form *ngIf="pagoSeleccionado" [formGroup]="reciboForm">
+
+<form *ngIf="pagoSeleccionado" >
 
 
   <div class="mt-4 card-body">
@@ -156,33 +157,41 @@ formArrayName="modulos" class=" mb-3 "
             <tbody>
                 <tr *ngFor="let recibos of recib">
                     <td class="text-center">
-                        <img [src]=" recibos.img | imagen:'academias'" [alt]="recibos.valor"
+                        <img [src]=" recibos.img | imagen:'recibos'" [alt]="recibos.valor"
                         class="avatar cursor"
                         (click)="abrirModal(recibos)"
                         >
                         
                         </td>
                     <td>
-                        <input type="text" 
+                      <input type="text" 
+                                            class="form-control"
+                                            placeholder="Valor del Recibo"
+                                            [(ngModel)]="recibos.valor"
+                                            [ngModelOptions]="{standalone: true}"
+                                            >
+                                            <!-- [value]="recibos.valor" -->
+                        <!-- <input type="number" 
+                                
                                 class="form-control"
-                                placeholder="valor"
-                                [(ngModel)]="recibos.valor"
-                                >
+                                [placeholder]="recibos.valor"
+                                [value]="recibos.valor"                              
+                                 > -->
+                                <!-- [(ngModel)]="recibos.valor" -->
                     </td>
                     <td class="text-nowrap text-center w100">
                       
-                      <!-- (click)="guardarCambios(recibos)"  -->
-                      <a
-                        data-toggle="tooltip" 
-                        class="cursor"
-                        data-original-title="Guardar cambio"> 
-                        <i class="fa fa-pencil text-inverse m-r-10"></i> 
+                      <a (click)="guardarCambios(recibos)" 
+                                    data-toggle="tooltip" 
+                                    class="cursor"
+                                    data-original-title="Guardar cambio"> 
+                                    <i class="fa fa-pencil text-inverse m-r-10"></i> 
+                                    
+                                    </a>
                         
-                        </a>
-                        
-                        <!-- (click)="eliminarAcademia(recibos)"  -->
-                        <a 
-                        data-toggle="tooltip" 
+                                    <a 
+                                    (click)="eliminarRecibo(recibos)" 
+                                    data-toggle="tooltip" 
                         data-original-title="Borrar"
                         class="cursor"
                         > 
@@ -190,12 +199,19 @@ formArrayName="modulos" class=" mb-3 "
                         
                         </a>
                     </td>
+                    <td>
+                      <select 
+                                                [(ngModel)]="recibos.aprobado" [ngModelOptions]="{standalone: true}"
+                                                 (change)="cambiarAprobado(recibos)"
+                                                name="" id="">
+                                                    <option  value="false">No Aprobado</option>
+                                                <option value=true>Aprobado</option>
+                                                
+                                                </select>
+                    </td>
                    <td>
-                    <div class="form-check form-check-reverse">
-                      <input class="form-check-input" type="checkbox" value="" id="reverseCheck1">
-                      <label class="form-check-label" for="reverseCheck1">
-                        Aprobado
-                      </label>
+                    <div >
+                      <input  class="form-check-input" type="radio" name="radioNoLabel" id="{{recibos._id}}" [value]="recibos.valor" aria-label="...">
                     </div>
 
                     </td>
@@ -205,14 +221,11 @@ formArrayName="modulos" class=" mb-3 "
             </tbody>
         </table>
     </div>
-    <!-- <button class="btn btn-secondary">Anterior</button>
-    &nbsp;
-    <button class="btn btn-secondary">Siguiente</button> -->
-
+   
 </div>
-<!-- {{reciboForm.value | json}} -->
 </form>
-<!-- {{myForm.value | json}} -->
+<!-- {{reciboForm.value | json}} -->
+<!-- {{myForm.value | json}}   -->
 
 
 

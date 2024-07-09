@@ -9,7 +9,7 @@ const base_url = environment.base_url;
 })
 export class ImagenPipe implements PipeTransform {
 
-  transform(img?: string, tipo?: 'usuarios'|'profesores'|'academias'|'cursos'|'materias'|'estudiantes'): string {
+  transform(img?: string, tipo?: 'usuarios'|'profesores'|'academias'|'cursos'|'materias'|'estudiantes'|'recibos'): string {
     if(!img){
       return `${ base_url }/uploads/uploads/no-img.jpg`;
 

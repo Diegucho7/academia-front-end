@@ -69,7 +69,8 @@ import { ReciboComponent } from './mantenimientos/recibos/recibo.component';
         PagosComponent,
         PagosIdComponent,
         RecibosComponent,
-        ReciboComponent
+        ReciboComponent,
+        
     ],
     exports: [
         DashboardComponent,

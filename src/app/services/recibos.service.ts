@@ -65,20 +65,28 @@ export class RecibosService {
                     }
                   
                 
-                  crearRecibo(recibo:{valor:number, apellido: string, academia:string} ) {
+                  crearRecibo(valor:number, pago:string ) {
                  
                     const url = `${ base_url }/recibos`;
-                    return this.http.post<{ ok: boolean, recibo: Recibo[] }>(url,recibo,this.headers);
+                    return this.http.post<{ ok: boolean, recibo: Recibo[] }>(url,{valor,pago},this.headers);
                          
                  
                   }
-                  actualizarRecibo(recibo: Recibo ) {
-                 
-                    const url = `${ base_url }/recibos/${recibo._id}`;
-                    return this.http.put<{ ok: boolean, recibos: Recibo[] }>(url,recibo,this.headers);
+                  actualizarRecibo(_id:string, valor:string) {
+ 
+                    const url = `${ base_url }/recibos/${_id}`;
+                    return this.http.put<{ ok: boolean, recibo: Recibo[] }>(url,{valor},this.headers);
                          
                  
                   }
+
+                  guardarAprobado(recibo:Recibo){
+
+       
+                    return this.http.put(`${ base_url }/recibos/${recibo._id}`,recibo, this.headers );
+                
+                  
+                }
                   borrarRecibo(_id:string) {
                  
                     const url = `${ base_url }/recibos/${_id}`;

@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { delay, switchMap, tap } from 'rxjs';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { delay, switchMap, tap, Subscription } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SelectService } from '../../../services/select.service';
 import { PeriodoService } from '../../../services/periodo.service';
 import { Periodo } from '../../../models/periodo.model';
 import { EstudianteAc } from '../../../models/estudianteUser.model';
+
 
 import Swal from 'sweetalert2';
 import { PagosService } from '../../../services/pagos.service';
@@ -18,6 +19,15 @@ import { Recibo } from '../../../models/recibo.model';
 import { RecibosService } from '../../../services/recibos.service';
 import { ModalImagenService } from '../../../services/modal-imagen.service';
 
+
+
+
+
+import { BusquedasService } from '../../../services/busquedas.service';
+import { UsuarioService } from '../../../services/usuario.service';
+import { Observable, Observer} from 'rxjs';
+import { AcademiaService } from '../../../services/academia.service';
+import { Academia } from '../../../models/academia.model';
 
 
 @Component({
@@ -35,9 +45,9 @@ export class PagosIdComponent implements OnInit {
   public modulos : number[] = [0];
   public jd? :string = "0";
 
-
+  // public reciboForm : FormGroup ;
   public recib : Recibo[]= [];
-
+  private imgSubs?: Subscription;
   public curso: EstudianteAc[] = [];
   public periodo: Periodo[] = [];
   public period?: Periodo;
@@ -53,24 +63,19 @@ export class PagosIdComponent implements OnInit {
   
   public cargando: boolean = true;
 
-  public reciboForm: FormGroup = this.fb.group({
-    img : ['', Validators.required ],
-    valor: ['0', Validators.required ],
-
-
-  });
-
+  
   public myForm: FormGroup = this.fb.group({
-
+    
     estudiante : ['', Validators.required ],
     periodo : ['', Validators.required ],
-
+    
     modulos : this.fb.array([]),
     // img: this.fb.array([])
-
- 
+    
+    
   });
   
+ 
   
   
   
@@ -90,6 +95,9 @@ export class PagosIdComponent implements OnInit {
 }
 
 ngOnInit(): void {
+
+  
+
   this.activateRoute.params
   .subscribe( ({id}) => 
     {this.cargarPago(id)});
@@ -100,6 +108,11 @@ ngOnInit(): void {
 
   this.onEstudianteChanged();
   this.numeroModulos();
+
+
+
+
+  
 }
 
 
@@ -118,11 +131,11 @@ subirImagen(){
 
   // Subir imagen con comprobante de pago
 
-  this.reciboService.crearRecibo(this.reciboForm.value)
-      .subscribe((resp:any) =>{
-        Swal.fire('Subido',`Subido correctamente`, 'success');
-        // this.router.navigateByUrl(`/dashboard/pagos/${resp.recibo._id}`)
-      })
+  // this.reciboService.crearRecibo(this.reciboForm.value)
+  //     .subscribe((resp:any) =>{
+  //       Swal.fire('Subido',`Subido correctamente`, 'success');
+  //       // this.router.navigateByUrl(`/dashboard/pagos/${resp.recibo._id}`)
+  //     })
 
 // Fin
 
@@ -143,37 +156,49 @@ subirImagen(){
 }
 
 async abrirSweetAlert(){
-    
-  const {value = ''} = await Swal.fire<string>({
-    title:"Crear Academia",
-    text: "Ingrese el nombre del nuevo academia",
-    input: "text",
-    inputPlaceholder: "Nombre del academia",
+  const id = this.activateRoute.snapshot.params['id']; 
+  const {value = 0} = await Swal.fire<number>({
+    title:"Ingresar Recibo",
+    text: "Ingrese el valor del Recibo",
+    input: "number",
+    inputPlaceholder: "Valor del Recibo",
     showCancelButton: true,
   });
-  // if (value!.trim().length > 0){
-  //   this.reciboService.crearRecibo( value! )
-  //                       .subscribe((resp:any) => {
-  //                         this.recibo.push(resp.academia)
-  //                       })
+  if (value! > 0){
+    this.reciboService.crearRecibo( value!,id )
+                        .subscribe((resp:any) => {
+                          this.recib.push(resp.recibo)
+                        })
 
-  // }
+  }
   
 }
-// guardarCambios(recibo:Recibo){
-//   this.reciboService.actualizarRecibo(recibo._id,recibo.nombre)
-//   .subscribe( resp => {
-//     Swal.fire('Actualizado', recibo.nombre, 'success')
-//   })
-// }
-// eliminarAcademia(recibo:Recibo){
-//   this.reciboService.borrarRecibo(recibo._id)
-//   .subscribe( resp => {
-//     this.cargarAcademias()
-//     Swal.fire('Borrado', recibo.valor, 'success')
-//   })
-// }
+guardarCambios(recibos:Recibo){
+  
+  this.reciboService.actualizarRecibo(recibos._id,`${recibos.valor}`)
+      .subscribe( resp => {
+        Swal.fire('Actualizado', recibos.valor?.toString(), 'success')
+      })
+}
 
+
+eliminarRecibo(recibo:Recibo){
+  const id = this.activateRoute.snapshot.params['id']; 
+  this.reciboService.borrarRecibo(recibo._id)
+  .subscribe( resp => {
+    this.cargarRecibos(id)
+    Swal.fire('Borrado', recibo.valor?.toString(), 'success')
+  })
+}
+
+
+cambiarAprobado(recibo:Recibo){
+  this.reciboService.guardarAprobado(recibo)
+  .subscribe(resp=>{
+    console.log(resp);
+    console.log(recibo)
+  })
+}
 cargarEstudiante(){
   this.profesoresService.cargarEstudiantes().subscribe( estudiantes => {
     this.estu = estudiantes;
@@ -183,8 +208,8 @@ cargarEstudiante(){
   });
 }
 cargarRecibos(id:string){
-  this.reciboService.obtenerReciboPorPagoId(id).subscribe( recibos => {
-    this.recib = recibos;
+  this.reciboService.obtenerReciboPorPagoId(id).subscribe( resp => {
+    this.recib = resp;
     
     // this.cargando = false;
 
