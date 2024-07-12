@@ -8,14 +8,12 @@ import { EstudianteService } from '../../../services/estudiante.service';
 import { Curso } from '../../../models/curso.model';
 import { Estudiante } from '../../../models/estudiante.model';
 import { PeriodoService } from '../../../services/periodo.service';
-import { Periodo } from '../../../models/periodo.model';
-
-@Component({
-  selector: 'app-estudiante',
-  templateUrl: './estudiante.component.html',
-  styles:''
+import { Periodo } from '../../../models/periodo.model';@Component({
+  selector: 'app-pagos-estudiante',
+  templateUrl: './pagos-estudiante.component.html',
+  styles: ``
 })
-export class EstudianteComponent implements OnInit {
+export class PagosEstudianteComponent implements  OnInit {
   public cursos: Curso[] = [];
   public estudianteForm!: FormGroup;
   public periodoSeleccionado?: Periodo;
@@ -106,6 +104,7 @@ export class EstudianteComponent implements OnInit {
       } 
       this.estudianteService.actualizarEstudiante(data)
       .subscribe(resp=>{
+        console.log(resp )
         Swal.fire('Actualizado',`Actualizado correctamente`, 'success');
       })
     }else{
@@ -119,9 +118,4 @@ export class EstudianteComponent implements OnInit {
 
 
   }
-
-
 }
-
-
-

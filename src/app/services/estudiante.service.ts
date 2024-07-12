@@ -42,6 +42,34 @@ headers: {
 
 
 }
+
+cargarEstudiantesPorNotas(id:string ): Observable<Estudiante[]> {
+  const url = `${ base_url }/todo/coleccion/estudiantes/${id}`;
+return this.http.get<{ ok: boolean, resultados: Estudiante[] }>(url,
+{
+headers: {
+  'x-token': this.token 
+}
+})
+.pipe(
+  map( (resp: { ok: boolean, resultados: Estudiante[] } ) => resp.resultados )
+);
+}
+cargarPeriodosPorId(id:string ): Observable<Estudiante[]> {
+
+const url = `${ base_url }/estudiantes/periodos/${id}`;
+return this.http.get<{ ok: boolean, estudiantes: Estudiante[] }>(url,
+{
+headers: {
+  'x-token': this.token 
+}
+})
+.pipe(
+  map( (resp: { ok: boolean, estudiantes: Estudiante[] } ) => resp.estudiantes )
+);
+
+
+}
 obtenerEstudiantePorId(id:string): Observable<Estudiante> {
 
 const url = `${ base_url }/estudiantes/${id}`;

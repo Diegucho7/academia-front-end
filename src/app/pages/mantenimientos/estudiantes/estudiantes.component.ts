@@ -1,6 +1,5 @@
 import { Estudiante } from './../../../models/estudiante.model';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ModalImagenService } from '../../../services/modal-imagen.service';
 import { EstudianteService } from '../../../services/estudiante.service';
 import { BusquedasService } from '../../../services/busquedas.service';
 import { Subscription, delay } from 'rxjs';
@@ -8,7 +7,6 @@ import Swal from 'sweetalert2';
 import { Curso } from '../../../models/curso.model';
 import { Periodo } from '../../../models/periodo.model';
 import { PeriodoService } from '../../../services/periodo.service';
-import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-estudiantes',
   templateUrl: './estudiantes.component.html',

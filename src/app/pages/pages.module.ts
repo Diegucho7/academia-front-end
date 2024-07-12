@@ -38,6 +38,9 @@ import { PagosComponent } from './mantenimientos/pagos/pagos.component';
 import { PagosIdComponent } from './mantenimientos/pagos-id/pagos-id.component';
 import { RecibosComponent } from './mantenimientos/recibos/recibos.component';
 import { ReciboComponent } from './mantenimientos/recibos/recibo.component';
+import { NotasEstudinateComponent } from './mantenimientos/revision/notas-estudinate.component';
+import { NotasCursosComponent } from './mantenimientos/notas/notas-cursos.component';
+import { PagosEstudianteComponent } from './mantenimientos/pagos-id/pagos-estudiante.component';
 
 
 @NgModule({
@@ -70,6 +73,9 @@ import { ReciboComponent } from './mantenimientos/recibos/recibo.component';
         PagosIdComponent,
         RecibosComponent,
         ReciboComponent,
+        NotasEstudinateComponent,
+        NotasCursosComponent,
+        PagosEstudianteComponent,
         
     ],
     exports: [

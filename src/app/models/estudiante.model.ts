@@ -17,6 +17,10 @@ export class Estudiante{
             public _id: string ,
             public usuario?: _EstudianteUser ,
             public curso?: Periodo,
+            public modulos?: number[],
+            public pagos?: number[],
+            public aprobado?: boolean,
+            public estado?: boolean,
             // public nombreCurso?: Curso
          
 

@@ -1,0 +1,125 @@
+import { Estudiante } from './../../../models/estudiante.model';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { EstudianteService } from '../../../services/estudiante.service';
+import { BusquedasService } from '../../../services/busquedas.service';
+import { Subscription, delay } from 'rxjs';
+import Swal from 'sweetalert2';
+import { Curso } from '../../../models/curso.model';
+import { Periodo } from '../../../models/periodo.model';
+import { PeriodoService } from '../../../services/periodo.service';
+import { ActivatedRoute } from '@angular/router';
+
+@Component({
+  selector: 'app-notas-estudinate',
+  templateUrl: './notas-estudinate.component.html',
+  styles: ``
+})
+export class NotasEstudinateComponent implements OnInit {
+  public cursoSeleccionado?: Curso;
+  public periodos: Periodo[] = [];
+  public cargando: boolean = true;
+  public periodosTemp:Periodo[] =  [];
+  private imgSubs?: Subscription;
+  public periodoSeleccionado?: Periodo;
+  public estudiantes: Estudiante[] = [];
+  public estudiantesTemp:Estudiante[] =  [];
+usuario: any;
+  constructor(
+            private estudianteService: EstudianteService ,
+            private busquedaService: BusquedasService,
+            private periodoService:PeriodoService,
+            private activateRoute:ActivatedRoute,
+  ){
+
+  }
+  ngOnDestroy(): void {
+    this.imgSubs?.unsubscribe();
+  }
+
+
+  ngOnInit(): void {
+
+    // this.cargarPeriodos();
+    
+    this.activateRoute.params
+    .subscribe( ({id}) => 
+    {this.cargarEstudiantes(id)});
+    // this.cargarEstudiantes();
+
+  }
+
+
+  // cargarPeriodos(){
+  //   this.cargando = true;
+  //   this.periodoService.cargarPeriodos()
+  //                       .subscribe(periodos=>{
+  //                         this.cargando = false;
+  //                        this.periodos = periodos; 
+
+  //                        this.periodos   = periodos;
+  //                        this.periodosTemp = periodos;
+  //                        this.cargando = false;
+                       
+  //                        const data = Object.values(periodos)
+                          
+  //                     });
+
+
+
+  // }
+  cargarEstudiantes(id:string){
+    this.cargando = true;
+    this.estudianteService.cargarEstudiantesPorNotas(id)
+                        .subscribe( estudiantes =>{
+                          this.cargando = false;
+                         this.estudiantes = estudiantes; 
+
+                         this.estudiantes   = estudiantes;
+                         this.estudiantesTemp = estudiantes;
+                         this.cargando = false;
+              
+                        })
+
+
+
+  }
+
+
+  // buscar(termino:string){
+  //   if (termino.length === 0) {
+  //     return this.estudiantes = this.estudiantesTemp;
+  //   }
+  //   this.busquedaService.buscar('estudiantes',termino)
+  //     .subscribe(resultados => {
+  //       this.estudiantes = resultados as any[];
+  //     })
+  //     return [];
+
+  // }
+  // borrarEstudiante(estudiante:Estudiante):any{
+   
+
+  //   Swal.fire({
+  //     title: "¿Borrar Curso?",
+  //     text: `Esta a punto de eliminar a el curso de ${estudiante.curso?.curso?.nombre } del mes ${ estudiante.curso?.mes} del año ${estudiante.curso?.anio}`,
+  //     icon: "question",
+  //     showCancelButton: true,
+  //     confirmButtonText: "Si, eliminar curso"
+  //   }).then((result) => {
+  //     if (result.value) {
+  //       this.estudianteService.borrarEstudiante(estudiante._id)
+  //       .subscribe(resp => {
+  //         this.cargarEstudiantes(estudiante._id);
+  //         Swal.fire('Usuario borrado',
+  //                   `${estudiante.curso?.curso?.nombre} fue eliminado correctamente`,
+  //                   'success'
+  //           )
+
+  //           }
+  //         );
+        
+  //     }
+      
+  //   });
+  // }
+}

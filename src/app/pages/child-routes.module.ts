@@ -13,7 +13,7 @@ import { AcademiasComponent } from './mantenimientos/academias/academias.compone
 import { ProfesoresComponent } from './mantenimientos/profesores/profesores.component';
 import { ProfesorComponent } from './mantenimientos/profesores/profesor.component';
 import { BusquedaComponent } from './busqueda/busqueda.component';
-import { adminGuard } from '../guards/admin.guard';
+import { adminGuard, contadorGuard, estudianteGuard, profeGuard, reciboGuard, revisionGuard } from '../guards/admin.guard';
 import { CursosComponent } from './mantenimientos/cursos/cursos.component';
 import { MateriaComponent } from './mantenimientos/materias/materia.component';
 import { MateriasComponent } from './mantenimientos/materias/materias.component';
@@ -30,50 +30,76 @@ import { PagosComponent } from './mantenimientos/pagos/pagos.component';
 import { PagosIdComponent } from './mantenimientos/pagos-id/pagos-id.component';
 import { RecibosComponent } from './mantenimientos/recibos/recibos.component';
 import { ReciboComponent } from './mantenimientos/recibos/recibo.component';
+import { NotasEstudinateComponent } from './mantenimientos/revision/notas-estudinate.component';
+import { NotasCursosComponent } from './mantenimientos/notas/notas-cursos.component';
 
 
 const childRoutes: Routes = [
       {path: '', component: DashboardComponent, data: {titulo: 'Dashboard'}},
       {path: 'acount-settings', component: AccountSettingsComponent, data: {titulo: 'acount-settings'}},
       {path: 'buscar/:termino', component: BusquedaComponent, data: {titulo: 'busquedas'}},
-      {path: 'grafica1', component: GraficaComponent, data: {titulo: 'Grafica'}},
-      {path: 'rxjs', component: RxjsComponent, data: {titulo: 'Rxjs'}},
-      {path: 'progress', component: ProgressComponent, data: {titulo: 'Progreso'}},
-      {path: 'promesas', component: PomesasComponent, data: {titulo: 'Promesas'}},
+      // {path: 'grafica1', component: GraficaComponent, data: {titulo: 'Grafica'}},
+      // {path: 'rxjs', component: RxjsComponent, data: {titulo: 'Rxjs'}},
+      // {path: 'progress', component: ProgressComponent, data: {titulo: 'Progreso'}},
+      // {path: 'promesas', component: PomesasComponent, data: {titulo: 'Promesas'}},
       {path: 'perfil', component: PerfilComponent, data: {titulo: 'Perfil de usuario'}},
       
       
       //Mantenimientos
-      {path: 'academias', component: AcademiasComponent, data: {titulo: 'Academias de la aplicación'}},
-      {path: 'profesores', component: ProfesoresComponent   , data: {titulo: 'Porfesores de la aplicación'}},
       {path: 'estudiantes', component: EstudiantesComponent   , data: {titulo: 'Cursos de la aplicación'}},
       {path: 'estudiante/:id', component: EstudianteComponent   , data: {titulo: 'Estudiante de la aplicación'}},
-      {path: 'profesor/:id', component: ProfesorComponent   , data: {titulo: 'Profesor de la aplicación'}},
-
-
-      //Rutas de Admin
+      
+      
+      //Rutas solo de Administrador
       {path: 'usuarios',canActivate: [adminGuard],component: UsuariosComponent, data: {titulo: 'Usuario de la aplicación'}},
+      
+      {path: 'academias',canActivate: [adminGuard], component: AcademiasComponent, data: {titulo: 'Academias de la aplicación'}},
       {path: 'cursos',canActivate: [adminGuard],component: CursosComponent, data: {titulo: 'Cursos de la aplicación'}},
       {path: 'curso/:id',canActivate: [adminGuard],component: CursoComponent, data: {titulo: 'Curso de la aplicación'}},
-      {path: 'materias',canActivate: [adminGuard],component: MateriasComponent, data: {titulo: 'Materias de la aplicación'}},
-      {path: 'materia/:id',canActivate: [adminGuard],component: MateriaComponent, data: {titulo: 'Materia de la aplicación'}},
-      {path: 'notas',canActivate: [adminGuard],component: NotasComponent, data: {titulo: 'Notas de la aplicación'}},
-      {path: 'notas/:id',canActivate: [adminGuard],component: NotasComponent, data: {titulo: 'Notas de la aplicación'}},
+      
+      
       {path: 'resultados',canActivate: [adminGuard],component: ResultadosComponent, data: {titulo: 'Resultados de la aplicación'}},
       {path: 'periodos',canActivate: [adminGuard],component: PeriodosComponent, data: {titulo: 'Periodos de la aplicación'}},
       {path: 'periodo/:id',canActivate: [adminGuard],component: PeriodoComponent, data: {titulo: 'Periodos de la aplicación'}},
-      {path: 'revision',canActivate: [adminGuard],component: RevisionComponent, data: {titulo: 'Notas de la aplicación'}},
-      {path: 'reviso/:id',canActivate: [adminGuard],component: RevisoComponent, data: {titulo: 'Notas de la aplicación'}},
-      {path: 'pagos',canActivate: [adminGuard],component: PagosComponent, data: {titulo: 'Pagos de la aplicación'}},
-      {path: 'pagos/:id',canActivate: [adminGuard],component: PagosIdComponent, data: {titulo: 'Pagos de la aplicación'}},
       
       
-      //Ruta estudiantes y Contador
+      // Rutas del Profesor
+      
+      {path: 'profesores',canActivate:[profeGuard], component: ProfesoresComponent   , data: {titulo: 'Porfesores de la aplicación'}},
+      {path: 'profesor/:id',canActivate:[profeGuard], component: ProfesorComponent   , data: {titulo: 'Profesor de la aplicación'}},
+      // {path: 'materias',component: MateriasComponent, data: {titulo: 'Materias de la aplicación'}},
+      // {path: 'materia/:id',component: MateriaComponent, data: {titulo: 'Materia de la aplicación'}},
+      
+      
+      
+      
+      
+      // RUTAS DE PROFESOR, ESTUDIANTE - ADMINISTRADOR
+      {path: 'revision',canActivate: [revisionGuard],component: RevisionComponent, data: {titulo: 'Notas de la aplicación'}},
+      {path: 'reviso/:id',canActivate: [revisionGuard],component: RevisoComponent, data: {titulo: 'Notas de la aplicación'}},
+      
+      
+      //Ruta estudiantes - Administrador
+      
+      {path: 'notas',canActivate:[profeGuard],component: NotasComponent, data: {titulo: 'Notas de la aplicación'}},
+      {path: 'notas/:id',canActivate:[profeGuard],component: NotasComponent, data: {titulo: 'Notas de la aplicación'}},
+      
+      
+      {path: 'notas-estudiante',canActivate:[estudianteGuard],component: NotasEstudinateComponent, data: {titulo: 'Notas de la aplicación'}},
+      {path: 'notas-curso',canActivate:[estudianteGuard],component: NotasCursosComponent, data: {titulo: 'Notas del estudiante'}},
+      // {path: 'notas-estudiante/:id',canActivate:[estudianteGuard],component: NotasComponent, data: {titulo: 'Notas de la aplicación'}},
+      
 
-      {path: 'recibos',canActivate: [adminGuard],component: RecibosComponent, data: {titulo: 'Pagos de la aplicación'}},
-      {path: 'recibo/:id',canActivate: [adminGuard],component: ReciboComponent, data: {titulo: 'Pagos de la aplicación'}},
 
-      //Rutas Admin : Materias y Cursos
+      
+      // Rutas del Contador - ADMINISTRADOR
+      {path: 'pagos',canActivate: [contadorGuard],component: PagosComponent, data: {titulo: 'Pagos de la aplicación'}},
+      {path: 'pagos/:id',canActivate: [contadorGuard],component: PagosIdComponent, data: {titulo: 'Pagos de la aplicación'}},
+      
+      
+      // RUTAS DE PROFESOR, ESTUDIANTE Y ADMINISTRADOR
+      {path: 'recibos',canActivate: [reciboGuard],component: RecibosComponent, data: {titulo: 'Pagos de la aplicación'}},
+      {path: 'recibo/:id',canActivate: [reciboGuard],component: ReciboComponent, data: {titulo: 'Pagos de la aplicación'}},
 ]
 
 
