@@ -14,7 +14,7 @@ import { Periodo } from '../../../models/periodo.model';@Component({
   styles: ``
 })
 export class PagosEstudianteComponent implements  OnInit {
-  public cursos: Curso[] = [];
+ public cursos: Curso[] = [];
   public estudianteForm!: FormGroup;
   public periodoSeleccionado?: Periodo;
   public estudianteSeleccionada?: Estudiante;

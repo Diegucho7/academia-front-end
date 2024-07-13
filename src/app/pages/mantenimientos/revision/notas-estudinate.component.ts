@@ -23,6 +23,15 @@ export class NotasEstudinateComponent implements OnInit {
   public periodoSeleccionado?: Periodo;
   public estudiantes: Estudiante[] = [];
   public estudiantesTemp:Estudiante[] =  [];
+
+  public valores? : number[]= []
+
+  public resultados: boolean[] = [];
+
+  public suma : number = 0;
+  public promedio : number = 0;
+  public aprobado : boolean = false;
+
 usuario: any;
   constructor(
             private estudianteService: EstudianteService ,
@@ -43,7 +52,10 @@ usuario: any;
     
     this.activateRoute.params
     .subscribe( ({id}) => 
-    {this.cargarEstudiantes(id)});
+    {this.cargarEstudiantes(id)
+
+    });
+    // this.ciclo();
     // this.cargarEstudiantes();
 
   }
@@ -67,23 +79,64 @@ usuario: any;
 
 
   // }
+
+  
   cargarEstudiantes(id:string){
+    // const data = this.activateRoute.params;
+    
     this.cargando = true;
     this.estudianteService.cargarEstudiantesPorNotas(id)
-                        .subscribe( estudiantes =>{
-                          this.cargando = false;
+    .subscribe( estudiantes =>{
+      this.cargando = false;
                          this.estudiantes = estudiantes; 
 
                          this.estudiantes   = estudiantes;
                          this.estudiantesTemp = estudiantes;
                          this.cargando = false;
-              
+
+              this.ciclo();
                         })
 
 
 
   }
 
+
+  ciclo(){
+    this.aprobado = false;
+    for (let index = 0; index < this.estudiantes.length; index++) {
+
+      this.valores = this.estudiantes[index].modulos
+
+      this.suma = (this.valores as number[]).reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+      this.promedio = this.suma / this.estudiantes[index].curso?.modulos! as number;
+      if (this.promedio >= 8) {
+        this.aprobado = true;
+        this.estudiantes[index].aprobado = true;
+        console.log(this.aprobado);
+      } else {
+        this.aprobado = false;
+        this.estudiantes[index].aprobado = false;
+        console.log(this.aprobado);
+      }
+      // this.ComprobadorAprobado();
+
+    }
+    console.log(this.resultados);
+  }
+  // ComprobadorAprobado(){
+  
+  //     this.suma = (this.estudiantes?.modulos as number[]).reduce((accumulator, currentValue) => accumulator + currentValue, 0);        
+      
+  //     this.promedio = this.suma / this.estudiantesTemp?.curso?.modulos! as number;
+  //     if (this.promedio >= 8) {
+  //       this.aprobado = true;
+  //     } else {
+  //       this.aprobado = false;
+  //     }
+     
+  //   }
+  
 
   // buscar(termino:string){
   //   if (termino.length === 0) {

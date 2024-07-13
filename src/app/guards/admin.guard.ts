@@ -17,7 +17,7 @@ export const profeGuard: CanActivateFn = (route, state) => {
   const usuarioService = inject(UsuarioService);
   const router = inject(Router);
 
-  if (usuarioService.role === 'PROFESOR_ROLE' ||'ADMIN_ROLE') {
+  if (usuarioService.role === 'PROFESOR_ROLE' || usuarioService.role === 'ADMIN_ROLE') {
       return true;
   }else{
     router.navigateByUrl('/dashboard');
@@ -28,7 +28,7 @@ export const estudianteGuard: CanActivateFn = (route, state) => {
   const usuarioService = inject(UsuarioService);
   const router = inject(Router);
 
-  if (usuarioService.role === 'ESTUDIANTE_ROLE' || 'ADMIN_ROLE') {
+  if (usuarioService.role === 'ESTUDIANTE_ROLE' || usuarioService.role === 'ADMIN_ROLE') {
       return true;
   }else{
     router.navigateByUrl('/dashboard');
@@ -39,7 +39,7 @@ export const contadorGuard: CanActivateFn = (route, state) => {
   const usuarioService = inject(UsuarioService);
   const router = inject(Router);
 
-  if (usuarioService.role === 'ADMIN_ROLE' || 'CONTADOR_ROLE') {
+  if (usuarioService.role === 'ADMIN_ROLE' || usuarioService.role === 'CONTADOR_ROLE') {
       return true;
   }else{
     router.navigateByUrl('/dashboard');
@@ -50,7 +50,7 @@ export const reciboGuard: CanActivateFn = (route, state) => {
   const usuarioService = inject(UsuarioService);
   const router = inject(Router);
 
-  if (usuarioService.role === 'ADMIN_ROLE' || 'CONTADOR_ROLE'||'ESTUDIANTE_ROLE') {
+  if (usuarioService.role === 'ADMIN_ROLE' || usuarioService.role ===  'CONTADOR_ROLE'|| usuarioService.role === 'ESTUDIANTE_ROLE') {
       return true;
   }else{
     router.navigateByUrl('/dashboard');
@@ -61,7 +61,7 @@ export const revisionGuard: CanActivateFn = (route, state) => {
   const usuarioService = inject(UsuarioService);
   const router = inject(Router);
 
-  if (usuarioService.role === 'ADMIN_ROLE' || 'PROFESOR_ROLE'||'ESTUDIANTE_ROLE') {
+  if (usuarioService.role === 'ADMIN_ROLE' || usuarioService.role ===  'PROFESOR_ROLE'|| usuarioService.role === 'ESTUDIANTE_ROLE') {
       return true;
   }else{
     router.navigateByUrl('/dashboard');

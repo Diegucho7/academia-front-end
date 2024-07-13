@@ -89,20 +89,9 @@ import { NotaService } from '../../../services/nota.service';
     
 
     if (this.notaSeleccionada) {
-
-      
-       
-        
-
         this.modulo.push(this.fb.control(this.notaSeleccionada?.modulos![index]));  
-       
-      
     }
-
-
-   
   }
-  
   
   ComprobadorAprobado(){
     if(this.notaSeleccionada){

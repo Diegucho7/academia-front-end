@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, map } from 'rxjs';
 import { environment } from '../../environments/environment';
+import { Estudiante } from '../models/estudiante.model';
 const base_url = environment.base_url;
 
 
@@ -27,21 +28,34 @@ export class PagosService {
                       };
                   }
 
-                  cargarPagos( ): Observable<Pago[]> {
+                  cargarPagos( ): Observable<Estudiante[]> {
  
-                    const url = `${ base_url }/pagos`;
-                    return this.http.get<{ ok: boolean, pagos: Pago[] }>(url,
+                    const url = `${ base_url }/estudiantes/`;
+                    return this.http.get<{ ok: boolean, estudiantes: Estudiante[] }>(url,
                         {
                           headers: {
                             'x-token': this.token
                           }
                         })
                           .pipe(
-                            map( (resp: { ok: boolean, pagos: Pago[] } ) => resp.pagos )
+                            map( (resp: { ok: boolean, estudiantes: Estudiante[] } ) => resp.estudiantes )
                           );
                           
-                 
-                  }
+                      }
+                  cargarPagosCurso( id:string): Observable<Estudiante[]> {
+ 
+                    const url = `${ base_url }/todo/coleccion/estudiantes/${id}`;
+                    return this.http.get<{ ok: boolean, resultados: Estudiante[] }>(url,
+                        {
+                          headers: {
+                            'x-token': this.token
+                          }
+                        })
+                          .pipe(
+                            map( (resp: { ok: boolean, resultados: Estudiante[] } ) => resp.resultados )
+                          );
+                          
+                      }
                   obtenerPagoPorId(id:string ): Observable<Pago> {
                  
                     const url = `${ base_url }/pagos/${id}`;

@@ -5,6 +5,9 @@ import { Subscription, delay } from 'rxjs';
 import Swal from 'sweetalert2';
 import { NotaService } from '../../../services/nota.service';
 import { Nota } from '../../../models/nota.model';
+import { ActivatedRoute } from '@angular/router';
+import { EstudianteService } from '../../../services/estudiante.service';
+import { Estudiante } from '../../../models/estudiante.model';
 
 @Component({
   selector: 'app-revicion',
@@ -18,6 +21,9 @@ export class RevisionComponent implements OnInit, OnDestroy {
   public cargando: boolean = true;
   private imgSubs?: Subscription;
 
+  public estudiantes: Estudiante[] = [];
+  public estudiantesTemp:Estudiante[] =  [];
+
 
 
   public suma : number = 0;
@@ -25,6 +31,8 @@ export class RevisionComponent implements OnInit, OnDestroy {
   public aprobado : boolean = false;
   constructor(
             private notasService: NotaService,
+            private activateRoute:ActivatedRoute,
+            private estudianteService:EstudianteService
        
   ){
 
@@ -35,33 +43,58 @@ export class RevisionComponent implements OnInit, OnDestroy {
 
 
   ngOnInit(): void {
-    this.cargarNotas();
+
+    this.activateRoute.params
+    .subscribe( ({id}) => 
+    {this.cargarEstudiantes(id)
+
+    });
+
+
+    // this.cargarNotas();
 
     
 
   }
 
 
-
-  cargarNotas(){
+  cargarEstudiantes(id:string){
     this.cargando = true;
-
-    
-
-    this.notasService.cargarNotas()
-                        .subscribe(notas=>{
+    this.estudianteService.cargarEstudiantesPorNotas(id)
+                        .subscribe( estudiantes =>{
                           this.cargando = false;
-                         this.nota = notas; 
+                         this.estudiantes = estudiantes; 
 
-                         this.ComprobadorAprobado();
-                         
-                         
+                         this.estudiantes   = estudiantes;
+                         this.estudiantesTemp = estudiantes;
+                         console.log(this.estudiantes);
                          this.cargando = false;
+              
                         })
 
 
 
   }
+
+  // cargarNotas(){
+  //   this.cargando = true;
+
+    
+
+  //   this.notasService.cargarNotas()
+  //                       .subscribe(notas=>{
+  //                         this.cargando = false;
+  //                        this.nota = notas; 
+
+  //                        this.ComprobadorAprobado();
+                         
+                         
+  //                        this.cargando = false;
+  //                       })
+
+
+
+  // }
 
 
   // ng generate component mi-componente --module=appng generate component mi-componente --skip-tests
@@ -89,30 +122,30 @@ export class RevisionComponent implements OnInit, OnDestroy {
     }
   }
 
-  borrarNota(nota:Nota):any{
+  // borrarNota(nota:Nota):any{
    
 
-    Swal.fire({
-      title: "¿Borrar Nota?",
-      text: `Esta a punto de eliminar la nota de ${nota.estudiante?.nombre} ${nota.estudiante?.apellido}`,
-      icon: "question",
-      showCancelButton: true,
-      confirmButtonText: "Si, eliminar nota"
-    }).then((result) => {
-      if (result.value) {
-        this.notasService.borrarNota(nota._id)
-        .subscribe(resp => {
-          this.cargarNotas();
-          Swal.fire('Nota borrada',
-                    `La nota de ${nota.estudiante?.nombre} ${nota.estudiante?.apellido}} fue eliminado correctamente`,
-                    'success'
-            )
+  //   Swal.fire({
+  //     title: "¿Borrar Nota?",
+  //     text: `Esta a punto de eliminar la nota de ${nota.estudiante?.nombre} ${nota.estudiante?.apellido}`,
+  //     icon: "question",
+  //     showCancelButton: true,
+  //     confirmButtonText: "Si, eliminar nota"
+  //   }).then((result) => {
+  //     if (result.value) {
+  //       this.notasService.borrarNota(nota._id)
+  //       .subscribe(resp => {
+  //         this.cargarEstudiantes();
+  //         Swal.fire('Nota borrada',
+  //                   `La nota de ${nota.estudiante?.nombre} ${nota.estudiante?.apellido}} fue eliminado correctamente`,
+  //                   'success'
+  //           )
 
-            }
-          );
+  //           }
+  //         );
         
-      }
+  //     }
       
-    });
-  }
+  //   });
+  // }
 }

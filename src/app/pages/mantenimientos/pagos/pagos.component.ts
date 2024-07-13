@@ -4,6 +4,7 @@ import { Subscription, delay } from 'rxjs';
 import Swal from 'sweetalert2';
 import { Pago } from '../../../models/pago.model';
 import { PagosService } from '../../../services/pagos.service';
+import { Estudiante } from '../../../models/estudiante.model';
 
 @Component({
   selector: 'app-pagos',
@@ -12,7 +13,7 @@ import { PagosService } from '../../../services/pagos.service';
 })
 export class PagosComponent implements OnInit, OnDestroy {
   
-  public pago: Pago[] = [];
+  public pago: Estudiante[] = [];
   public cargando: boolean = true;
   private imgSubs?: Subscription;
   constructor(

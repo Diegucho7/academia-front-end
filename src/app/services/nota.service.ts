@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, map } from 'rxjs';
 import { environment } from '../../environments/environment';
+import { Estudiante } from '../models/estudiante.model';
 const base_url = environment.base_url;
 
 @Injectable({
@@ -49,6 +50,17 @@ export class NotaService {
                         this.headers)
                           .pipe(
                             map( (resp: { ok: boolean, nota: Nota } ) => resp.nota )
+                          );
+                          
+                 
+                  }
+                  obtenerNotaPorIdNuevo(id:string ): Observable<Estudiante> {
+                 
+                    const url = `${ base_url }/estudiantes/${id}`;
+                    return this.http.get<{ ok: boolean, nota: Estudiante }>(url,
+                        this.headers)
+                          .pipe(
+                            map( (resp: { ok: boolean, nota: Estudiante } ) => resp.nota )
                           );
                           
                  
