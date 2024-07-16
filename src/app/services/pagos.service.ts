@@ -69,7 +69,7 @@ export class PagosService {
                   }
                   
                 
-                  crearPago(pago:{nombre:string, apellido: string, academia:string} ) {
+                  crearPago(pago:{valor:Number} ) {
                  
                     const url = `${ base_url }/pagos`;
                     return this.http.post<{ ok: boolean, pago: Pago[] }>(url,pago,this.headers);

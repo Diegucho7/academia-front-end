@@ -55,7 +55,7 @@ const childRoutes: Routes = [
       //Rutas solo de Administrador
       {path: 'usuarios',canActivate: [adminGuard],component: UsuariosComponent, data: {titulo: 'Usuario de la aplicación'}},
       
-      {path: 'academias',canActivate: [adminGuard], component: AcademiasComponent, data: {titulo: 'Academias de la aplicación'}},
+      {path: 'academias',canActivate: [estudianteGuard], component: AcademiasComponent, data: {titulo: 'Academias de la aplicación'}},
       {path: 'cursos',canActivate: [adminGuard],component: CursosComponent, data: {titulo: 'Cursos de la aplicación'}},
       {path: 'curso/:id',canActivate: [adminGuard],component: CursoComponent, data: {titulo: 'Curso de la aplicación'}},
       

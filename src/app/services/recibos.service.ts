@@ -68,7 +68,11 @@ export class RecibosService {
                   crearRecibo(valor:number, pago:string ) {
                  
                     const url = `${ base_url }/recibos`;
-                    return this.http.post<{ ok: boolean, recibo: Recibo[] }>(url,{valor,pago},this.headers);
+                    return this.http.post<{ ok: boolean, recibo: Recibo }>(url,{valor,pago},this.headers)
+                                        .pipe(
+                                          map( (resp: { ok: boolean, recibo: Recibo } ) => resp.recibo._id )
+                                        )
+                    ;
                          
                  
                   }
