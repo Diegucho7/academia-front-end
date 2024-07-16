@@ -113,16 +113,13 @@ usuario: any;
       if (this.promedio >= 8) {
         this.aprobado = true;
         this.estudiantes[index].aprobado = true;
-        console.log(this.aprobado);
       } else {
         this.aprobado = false;
         this.estudiantes[index].aprobado = false;
-        console.log(this.aprobado);
       }
       // this.ComprobadorAprobado();
 
     }
-    console.log(this.resultados);
   }
   // ComprobadorAprobado(){
   

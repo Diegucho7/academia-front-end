@@ -1,85 +1,66 @@
 
-<div class="row">
-    
-    <div class="col-md-6">
-        <div class="card">
-            <div class="card-body">
-                <h4 class="card-title">Estudiante</h4>
-                <h6 class="card-subtitle">Actualizar Información</h6>
-                <form class="form-horizontal p-t-20"
-                [formGroup]="estudianteForm"
-                (ngSubmit)="guardarEstudiante()"
-                >
-    
-                <div class="form-group row"
-                *ngIf="estudianteSeleccionada"
-                    >
-                        <!-- <label for="exampleInputuname3" class="col-sm-3 control-label">Foto</label>
-                        <div class="col-sm-9">
-                            <div class="input-group">
-                            </div>
-                        </div> -->
-                    </div>
-    
-    
-                        <!-- <div class="form-group row">
-                            <label for="exampleInputuname3" class="col-sm-3 control-label">Nombre</label>
-                            <div class="col-sm-9">
-                                <div class="input-group">
-                                    <div class="input-group-addon"><i class="ti-user"></i></div>
-                                    <input type="text" 
-                                    class="form-control" 
-                                    id="exampleInputuname3" 
-                                    placeholder="Nombre de la materia"
-                                    formControlName="nombre"
-                                    >
-                                </div>
-                            </div>
-                        </div> -->
-    
-    
-                    <div class="form-group row">
-                        <label for="exampleInputEmail3" class="col-sm-3 control-label">Curso</label>
-                        <div class="col-sm-9">
-                            <div class="input-group">
-                                
-                                <select class="form-control" 
-                                formControlName="curso">
-                                    <option value="">Seleccione el curso</option>
-                                    <option *ngFor="let curso  of periodos " 
-                                    [value]="curso._id">
-                                    {{curso.anio + ' - ' + curso.mes  + ' - ' + curso.curso?.nombre + ' - ' +'$' +  curso.valor + ' - ' + curso.modulos +' modulos' }}
-                                </option>
-                                    
-                                </select>   
-                            </div>
-                        </div>
-                    </div>
-                    
-             
-                    <div class="form-group row m-b-0">
-                        <div class="offset-sm-3 col-sm-9">
-                            <button type="submit"
-                            [disabled]="estudianteForm.invalid"
-                            class="btn btn-success waves-effect waves-light"><i class="fa fa-save"></i> Guardar</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-  
-    <div class="col-md-6 animated fadeIn fast" *ngIf="cursoSeleccionado">
-        <div class="card">
-            <div class="card-body">
-                <h4 class="card-title">Curso</h4>
-                <h6 class="card-subtitle">{{cursoSeleccionado.nombre}}</h6>
-  
-               
-                    <img [src]="cursoSeleccionado.img | imagen: 'cursos'" alt=""
-                    class="img-thumbnail">
-             
-            </div>
-        </div>
+<h1 class="mt-3" >Pagos de estudiantes</h1>
+<hr>
+
+<div *ngIf="cread">
+
+  <div *ngIf="aprobado==true" class="alert alert-primary">
+   <a class="alert-link" >Curso Cancelado</a>
+  </div>
+
+  <div *ngIf="aprobado==false" class="alert alert-danger">
+    <a class="alert-link">Curso no Cancelado</a>
+  </div>       
+</div>
+<hr>
+<form [formGroup]="myForm" (ngSubmit)="guardarNota() ">
+
+  <!-- Region -->
+  <div class="row mb-3">
+    <div class="col">
+      <label class="form-label">Periodo:</label>
+      <select id ="periodo_id" formControlName="periodo" class="form-control" (ngModelChange)="numeroModulos()">
+        <option value="">-- Seleccione Periodo --</option>
+        <option *ngFor="let periodo of periodos" [value]=" periodo._id">{{ periodo.anio+ ' - '+periodo.mes +' - '+periodo.curso?.nombre + ' - '+periodo.modulos+' módulos'+' - $'+periodo.valor }}</option>
+      </select>
     </div>
   </div>
+
+
+  <div class="row mb-3" *ngIf="periodos.length > 0">
+    <div class="col">
+      <label class="form-label">Estudiante:</label>   
+      <select id ="estudiante_id" formControlName="estudiante" class="form-control">
+        <option value="">-- Seleccione Estudiante --</option>
+        <option *ngFor="let usuario of estudiante" [value]="usuario.usuario?._id">{{  usuario.usuario?.nombre + ' ' + usuario.usuario?.apellido}}</option>
+      </select>
+    </div>
+  </div>
+
+  
+
+
+
+<div 
+formArrayName="modulos" class=" mb-3 "
+*ngIf="periodos.length > 0 && estudiante.length > 0" 
+>
+
+  
+  <div *ngFor="let alias of modulo.controls; let i=index">
+    <label>
+      {{"Módulo "+(i+1)}} 
+      <input  type="number" class="form-control" [formControlName]="i" max="10" min="0">
+    </label>
+  </div>
+</div>
+<button type="submit" class="btn btn-primary" 
+[disabled]="myForm.invalid"
+ >
+  Enviar
+</button>
+<pre>{{ myForm.value | json }}</pre>
+
+</form>
+
+

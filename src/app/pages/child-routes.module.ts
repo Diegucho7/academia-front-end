@@ -91,7 +91,7 @@ const childRoutes: Routes = [
       {path: 'notas-curso/:id',canActivate:[estudianteGuard],component: NotasCursosComponent, data: {titulo: 'Notas del estudiante'}},
      
       {path: 'pagos-curso',canActivate:[estudianteGuard],component: PagosEstudianteCursosComponent, data: {titulo: 'Notas del estudiante'}},
-      {path: 'pagos-estudiante',canActivate:[estudianteGuard],component: PagosEstudianteComponent, data: {titulo: 'Notas del estudiante'}},
+      {path: 'pagos-estudiante/:id',canActivate:[estudianteGuard],component: PagosEstudianteComponent, data: {titulo: 'Notas del estudiante'}},
       // {path: 'notas-estudiante/:id',canActivate:[estudianteGuard],component: NotasComponent, data: {titulo: 'Notas de la aplicación'}},
       
 

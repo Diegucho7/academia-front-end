@@ -5,6 +5,7 @@ import Swal from 'sweetalert2';
 import { Pago } from '../../../models/pago.model';
 import { PagosService } from '../../../services/pagos.service';
 import { Estudiante } from '../../../models/estudiante.model';
+import { EstudianteService } from '../../../services/estudiante.service';
 
 @Component({
   selector: 'app-pagos',
@@ -18,6 +19,7 @@ export class PagosComponent implements OnInit, OnDestroy {
   private imgSubs?: Subscription;
   constructor(
             private pagosService: PagosService,
+            private estudianteService: EstudianteService
        
   ){
 
@@ -39,7 +41,7 @@ export class PagosComponent implements OnInit, OnDestroy {
 
     
 
-    this.pagosService.cargarPagos()
+    this.estudianteService.cargarEstudiantes()
                         .subscribe(pagos=>{
                           this.cargando = false;
                          this.pago = pagos; 

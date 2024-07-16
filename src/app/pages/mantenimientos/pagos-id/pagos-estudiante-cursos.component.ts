@@ -14,6 +14,14 @@ import { Estudiante } from '../../../models/estudiante.model';
   styles: ``
 })
 export class PagosEstudianteCursosComponent implements OnInit, OnDestroy {
+
+
+  public suma : number = 0;
+  public promedio : number = 0;
+  public aprobado : boolean = false;
+  
+  public valores? : number[]= []
+
   
   public pago: Pago[] = [];
   public cargando: boolean = true;
@@ -39,7 +47,7 @@ export class PagosEstudianteCursosComponent implements OnInit, OnDestroy {
     {this.cargarEstudiantes(id)
 
     });
-
+    // this.ciclo();
     this.cargarPagos();
 
   }
@@ -77,12 +85,32 @@ export class PagosEstudianteCursosComponent implements OnInit, OnDestroy {
                          this.estudiantes   = estudiantes;
                          this.estudiantesTemp = estudiantes;
                          this.cargando = false;
-
-              
+                        //  console.log(this.estudiantes);
+                         this.ciclo();
                         })
 
 
 
+  }
+
+  ciclo(){
+    // console.log(this.estudiantes.length)
+    this.aprobado = false;
+    for (let index = 0; index < this.estudiantes.length; index++) {
+
+      this.valores = this.estudiantes[index].pagos
+      this.suma = (this.valores as number[]).reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+ 
+      if (this.suma == this.estudiantes[index].curso?.valor!) {
+        this.aprobado = true;
+        this.estudiantes[index].aprobado = true;
+      } else {
+        this.aprobado = false;
+        console.log(this.valores)
+        this.estudiantes[index].aprobado = false;
+      }
+
+    }
   }
 
   borrarPago(pago:Pago):any{
