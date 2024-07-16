@@ -120,7 +120,6 @@ if (this.estudiantesTemp?.curso?.modulos === undefined) {
 
   if (this.estudiantesTemp?.curso?.modulos !== undefined) {
     this.modulo.push(this.fb.control(this.estudiantesTemp?.modulos![index]));   
-    console.log("hola mundo");
     
   }
 

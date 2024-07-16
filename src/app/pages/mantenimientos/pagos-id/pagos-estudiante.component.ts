@@ -1,4 +1,3 @@
-// import { alumno } from './../../../interfaces/country.interfaces';
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { delay, switchMap, tap } from 'rxjs';
@@ -20,33 +19,36 @@ import { Estudiante } from '../../../models/estudiante.model';
   styles: ``
 })
 export class PagosEstudianteComponent  implements OnInit {
+
+
   public cargando: boolean = true;
+
   public periodo: Periodo[] = [];
-  public period?: Estudiante;
+  public period?: Periodo;
   public estudiante: EstudianteAc[] = [];
-  public notaSeleccionada?: Estudiante;
+  public notaSeleccionada?: Nota;
   public cantidad! : number ;
   public cread : boolean = false;
+
+public hdh: number = 0
 
   public suma : number = 0;
   public promedio : number = 0;
   public aprobado : boolean = false;
-  public valores? : number[]= []
+
+  public est?: Estudiante
   public estudiantes: Estudiante[] = [];
-  public estudiantesTemp:Estudiante[] =  [];
-
-  public modu:number = 0;
-
+  public estudiantesTemp?:Estudiante;
+  
   public myForm: FormGroup = this.fb.group({
     periodo : ['', Validators.required ],
     estudiante: ['', Validators.required ],
-    modulos : this.fb.array([])
+    pagos : this.fb.array([])
 
  
   });
   
-  
-  public modulos : number[] = [0];
+  public pagos : number[] = [0];
   public jd? :string = "0";
   
   
@@ -57,29 +59,20 @@ export class PagosEstudianteComponent  implements OnInit {
     private router : Router,
     private notaService : NotaService,
     private activateRoute:ActivatedRoute,
-    private estudianteService: EstudianteService,
-  
+    private estudianteService:EstudianteService
     
   ) {
     
 }
 
 ngOnInit(): void {
-
-  // this.activateRoute.params
-  // .subscribe( ({id}) => 
-  // {this.cargarEstudiantes(id)
-
-  // });
-
   this.activateRoute.params
   .subscribe( ({id}) => 
-    {this.cargarPago(id)});
-  
-  
-  this.onPeriodoChanged();
-  this.cargarPeriodo ();
-  this.numeroModulos();
+    {this.cargarEstudiantes(id)});
+  // this.ComprobadorAprobado();
+ 
+  // this.cargarPeriodo ();
+  // this.numeroModulos();
 }
 
 cargarPeriodo(){
@@ -90,69 +83,43 @@ cargarPeriodo(){
 }
 
 
-get modulo() {
+get pago() {
   
-  return this.myForm.get('modulos') as FormArray;
+  return this.myForm.get('pagos') as FormArray;
   
 }
 
-
 cargarEstudiantes(id:string){
-  // const data = this.activateRoute.params;
-  
   this.cargando = true;
-  this.estudianteService.cargarEstudiantesPorNotas(id)
-  .subscribe( estudiantes =>{
-    this.cargando = false;
-                       this.estudiantes = estudiantes; 
+  this.estudianteService.obtenerEstudiantePorId(id)
+                      .subscribe( est =>{
+                        this.cargando = false;
+                       this.est = est; 
 
-                       this.estudiantes   = estudiantes;
-                       this.estudiantesTemp = estudiantes;
+                       this.est   = est;
+                       this.estudiantesTemp = est;
                        this.cargando = false;
-
-            this.ciclo();
+                       this.hdh = this.estudiantesTemp.pagos?.length as number;
+                       this.ComprobadorAprobado(this.hdh);
                       })
 
 
 
+
 }
 
-ciclo(){
-  this.aprobado = false;
-  for (let index = 0; index < this.estudiantes.length; index++) {
 
-    this.valores = this.estudiantes[index].modulos
-
-    this.suma = (this.valores as number[]).reduce((accumulator, currentValue) => accumulator + currentValue, 0);
-    this.promedio = this.suma / this.estudiantes[index].curso?.modulos! as number;
-    if (this.promedio >= 8) {
-      this.aprobado = true;
-      this.estudiantes[index].aprobado = true;
-    } else {
-      this.aprobado = false;
-      this.estudiantes[index].aprobado = false;
-    }
-    // this.ComprobadorAprobado();
-
-  }
-}
 addModulo(index:number) {
 
-  if (this.notaSeleccionada?.modulos === undefined) {
+if (this.estudiantesTemp?.curso?.valor === undefined) {
     
-    this.modulo.push(this.fb.control(0));
+    this.pago.push(this.fb.control(0));
   }
 
   
 
-  if (this.notaSeleccionada) {
-
-    
-     
-      
-
-      this.modulo.push(this.fb.control(this.notaSeleccionada?.pagos![index]));  
-     
+  if (this.estudiantesTemp?.curso?.valor !== undefined) {
+    this.pago.push(this.fb.control(this.estudiantesTemp?.pagos![index]));   
     
   }
 
@@ -161,51 +128,43 @@ addModulo(index:number) {
 }
 
 
-ComprobadorAprobado(){
-  if(this.notaSeleccionada){
+ComprobadorAprobado(ne:Number){
+  if(this.estudiantesTemp?.pagos){
     this.cread = true;
-
-    this.suma = (this.notaSeleccionada.pagos as number[]).reduce((accumulator, currentValue) => accumulator + currentValue, 0);        
-
-    if (this.suma == this.notaSeleccionada.curso?.valor! as number) {
+    this.suma = (this.estudiantesTemp?.pagos as number[]).reduce((accumulator, currentValue) => accumulator + currentValue, 0);        
+    
+    this.promedio = this.suma / this.estudiantesTemp?.curso?.valor! as number;
+    if (this.promedio >= 8) {
       this.aprobado = true;
-      
     } else {
-      // this.promedio = this.suma  this.notaSeleccionada.curso?.valor! as number;
       this.aprobado = false;
     }
-    
-    const Periodo = document.getElementById('periodo_id') as HTMLSelectElement;
-    Periodo.disabled = true;
-    const Estudiante = document.getElementById('estudiante_id') as HTMLSelectElement;
-    Estudiante.disabled = true;
-
+   
   }
 }
 
-deleteModulo(index:number){
-  
-  this.modulo.removeAt(index);
-}
-cargarPago(id:string){
+
+cargarNota(id:string){
   if (id === 'nuevo') {
     return;
   }
 
   if (id !== undefined) {
+    this.cargando = true;
 
     this.estudianteService.obtenerEstudiantePorId(id)
     .pipe(
       delay(100)
     )
                             .subscribe( (estudiantes:any) => {   
-                              
-                              const { curso, usuario,modulos} = estudiantes
-                                this.notaSeleccionada = estudiantes
-                                this.myForm.setValue( { periodo: curso._id , estudiante: usuario._id, modulos: []} )
-                                // this.cdRef.detectChanges();
-                              }, error => {
-                              return this.router.navigateByUrl(`/dashboard/pagos`);
+                                const { curso, estudiante,pagos} = estudiantes
+                                this.estudiantesTemp = estudiantes
+                                this.cargando = false;
+                                this.myForm.setValue( { periodo: curso._id , estudiante: estudiante._id, pagos: [] } )
+                                this.ComprobadorAprobado(estudiante.pagos?.length);
+                                console.log(this.estudiantesTemp);
+                            }, error => {
+                              return this.router.navigateByUrl(`/dashboard//pagos-estudiante`);
                             })
 
 
@@ -214,95 +173,51 @@ cargarPago(id:string){
 
 
 
-numeroModulos(){
- 
- 
-  if (this.cantidad > 0 ) {
-
-    for (let index = 0; index < this.cantidad; index++) {
-
-      this.modulo.removeAt(-1);
-      
-    }
-
-  }
-
-  if (this.myForm.get('periodo')?.value !== "") {
-    
-    this.modulos = []
-    
-    this.jd = this.myForm.get('periodo')?.value ?? "0";
-      
-      this.modu = this.notaSeleccionada?.curso?.modulos ?? 0
-      // this.estudianteService.obtenerEstudiantePorId(this.jd!).subscribe(resp => {
-        // this.period = resp;
-        let array = this.myForm.get('modulos') as FormArray;
-
-          for ( let index = 0 ; index  < this.modu ?? 0; index++) {
-
-            
-            this.addModulo(index);
-           
-          } 
-          
-          this.ComprobadorAprobado();
-          this.cantidad = array.length
-          
-     
-  // })
-  }
-}
-
-guardarNota(){
-
-  
-
-  const {nota} =this.myForm.value;
-    console.log(nota)
-
-  // if (this.notaSeleccionada) {
-  //   //Actualizar
-  //   const data = {
-  //     ...this.myForm.value,
-  //     _id:this.notaSeleccionada._id
-  //   }
-  //   this.estudianteService.actualizarEstudiante(data)
-  //   .subscribe(resp=>{
-     
-  //     Swal.fire('Actualizado',`Actualizado correctamente`, 'success');
-  //   })
-  // }else{
-  //   //Crear
-  //   console.log(this.myForm.value)
-  //   this.notaService.crearNota(this.myForm.value)
-  //     .subscribe((resp:any) =>{
-  //       Swal.fire('Creado',`Creado correctamente`, 'success');
-  //       this.router.navigateByUrl(`/dashboard/notas/${resp.nota._id}`)
-  //     })
-  // }
-
-
-}
 get periodos(): Periodo[] {
 
   return this.periodo;
 
 }
+numeroModulos(){
+   
+   
+  // if (this.cantidad > 0 ) {
 
-onPeriodoChanged(): void {
- 
-  this.myForm.get('periodo')?.valueChanges
-  .pipe(
-    tap( () => this.myForm.get('estudiante')!.setValue('') ),
+  //   for (let index = 0; index < this.cantidad; index++) {
 
-    switchMap( (periodo) => this.selectService.getEstudiantebyCurse(periodo) )
-    )
-    .subscribe( estudiantes => {
-      this.estudiante= estudiantes ;
-    }
-       );
+  //     this.modulo.removeAt(-1);
+      
+  //   }
 
-}
+  // }
+
+  // if (this.myForm.get('periodo')?.value !== "") {
+    
+    this.pagos = []
+    
+    this.jd = this.myForm.get('periodo')?.value ?? "0";
+      
+      
+    //   this.periodoService.obtenerPeriodoPorId(this.jd!).subscribe(resp => {
+    //     this.period = resp;
+    let array = this.myForm.get('pagos') as FormArray;
+    
+    
+    for ( let index = 0 ; index  < this.estudiantesTemp?.curso?.valor! ?? 0; index++) {
+      
+      
+      this.addModulo(index);
+      console.log("hola mundo");
+           
+          } 
+          
+          // this.ComprobadorAprobado(hdh);
+          this.cantidad = array.length
+          
+     
+  // })
+  }
+// }
 
 
 }

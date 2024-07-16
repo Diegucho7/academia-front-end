@@ -106,7 +106,6 @@ export class PagosEstudianteCursosComponent implements OnInit, OnDestroy {
         this.estudiantes[index].aprobado = true;
       } else {
         this.aprobado = false;
-        console.log(this.valores)
         this.estudiantes[index].aprobado = false;
       }
 
