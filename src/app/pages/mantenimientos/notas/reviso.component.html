@@ -51,26 +51,35 @@
   </div>       
 </div>
 <hr>
-<form [formGroup]="myForm">
+<form [formGroup]="myForm" (ngSubmit)="guardarNota() ">
 
   <!-- Region -->
   <div class="row mb-3">
     <div class="col">
       <label class="form-label">Periodo:</label>
     <div class="alert alert-primary d-flex align-items-center" role="alert">
-    <strong>{{notaSeleccionada?.periodo?.anio + ' - '+notaSeleccionada?.periodo?.mes +' - '+notaSeleccionada?.periodo?.curso?.nombre}}</strong>   
+    <strong>{{periodoSeleccionado?.anio + ' - '+periodoSeleccionado?.mes +' - '+periodoSeleccionado?.curso?.nombre + ' - '+periodoSeleccionado?.modulos+' módulos'}}</strong>   
     </div>
     </div>
   </div>
 
 
-  <div class="row mb-3" *ngIf="periodos.length > 0">
+  <div class="row mb-3" >
     <div class="col">
       <label class="form-label">Estudiante:</label>   
 
-      <div class="alert alert-primary d-flex align-items-center" role="alert">
-        <strong>{{notaSeleccionada?.estudiante?.nombre + ' ' + notaSeleccionada?.estudiante?.apellido}}</strong>   
-        </div>
+      <div class="">
+
+        <select class="form-control"  formControlName="estudiante" (ngModelChange)="onPeriodoChanged()" >
+          <option value="">Seleccione Estudiante</option>
+          <option *ngFor="let item of lista" value={{item._id}}>{{item.usuario?.nombre+' '+item.usuario?.apellido}}</option>
+        </select>
+
+      </div>
+
+      <!-- <div class="alert alert-primary d-flex align-items-center" role="alert"> -->
+        <!-- <strong>{{notaSeleccionada?.estudiante?.nombre + ' ' + notaSeleccionada?.estudiante?.apellido}}</strong>    -->
+        <!-- </div> -->
       
     </div>
   </div>
@@ -78,27 +87,51 @@
   
 
 
+   
+ <div formArrayName="modulos" class=" mb-3 "
+  >
+  
+  
+  <div *ngFor="let alias of modulo.controls; let i=index">
+    <label>
+      <strong>
+        
+        {{"Pago "+(i+1)}} 
+      </strong>
+      <input  type="number" class="form-control" [formControlName]="i" max="10" min="0">
 
-<div 
+      <!-- <div class="alert alert-primary d-flex align-items-center" role="alert">
+        <strong>{{alias}}</strong>   
+      </div> -->
+    </label>
+  </div>
+</div>
+
+<!-- <div 
 formArrayName="modulos" class=" mb-3 "
 
->
+> -->
 
   
-  <div *ngFor="let alias of notaSeleccionada?.modulos; let i=index">
+  <!-- <div *ngFor="let alias of notaSeleccionada?.modulos; let i=index"> -->
+  <!-- <div *ngFor="let alias of estudiante?.modulos; let i=index">
     <label>
       <strong>
 
         {{"Modulo "+(i+1)}} 
       </strong>
-      <div class="alert alert-primary d-flex align-items-center" role="alert">
-        <strong>{{alias}}</strong>   
-        </div>
+
+      <input class="form-control" type="text" value={{alias}} >
+
+      
     </label>
   </div>
-</div>
+</div> -->
 
+
+<button type="submit" class="btn btn-primary" [disabled]="myForm.invalid">Guardar</button>
 </form>
+
 
 
 </div>

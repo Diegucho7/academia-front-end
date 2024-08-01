@@ -43,8 +43,8 @@
 
                 <div class="row">
                     <div class="col-8">
-                        <h4 class="card-title">Notas ({{nota.length}})</h4>
-                        <h6 class="card-subtitle">Notas registradas en la aplicación</h6>
+                        <h4 class="card-title">Periodos ({{periodos.length}})</h4>
+                        <h6 class="card-subtitle">Periodos registrados</h6>
 
                     </div>
 
@@ -59,32 +59,33 @@
                         <thead>
                             <tr>        
                                 <!-- <th>Academia</th> -->
-                                <th>Estudiante</th>
+                                <!-- <th>Estudiante</th> -->
                                 <th>Periodo</th>
-                                <th>Notas por Módulos</th>
-                                <th class="text-nowrap w100">Estado</th>
+                                <!-- <th>Notas por Módulos</th>
+                                <th class="text-nowrap w100">Estado</th> -->
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let item of nota" >
+                            <tr *ngFor="let item of periodos" >
                              
-                                <td [routerLink]="['/dashboard/reviso',item._id]" routerLinkActive="router-link-active">
+                                <!-- <td [routerLink]="['/dashboard/reviso',item._id]" routerLinkActive="router-link-active">
                                     {{item.estudiante?.nombre+' '+item.estudiante?.apellido}}</td>
-                            
+                             -->
                                 
-                                <td [routerLink]="['/dashboard/reviso',item._id]" routerLinkActive="router-link-active" class="text-nowrap text-left">
-                                    {{item.periodo?.anio+'  -  '+item.periodo?.mes + ' - '+item.periodo?.curso?.nombre}}
+                                <td [routerLink]="['/dashboard/reviso/',item._id]" routerLinkActive="router-link-active" class="text-nowrap text-left">
+                                    <!-- {{item.periodo?.anio+'  -  '+item.periodo?.mes + ' - '+item.periodo?.curso?.nombre}} -->
+                                    {{item.anio+'  -  '+item.mes + ' - '+item.curso?.nombre + '  - Módulos - ' + item.modulos}}
                                   
 
                                 </td>
 
-                                <td [routerLink]="['/dashboard/reviso',item._id]" routerLinkActive="router-link-active">{{item.modulos}}</td>
-                                <td>
+                                <!-- <td [routerLink]="['/dashboard/reviso',item._id]" routerLinkActive="router-link-active">{{item.modulos}}</td>
+                                <td> -->
 
                                    
-                                    <span *ngIf="item.aprobado" class="label label-success">Aprobado </span>
-                                    <span *ngIf="item.aprobado==false" class="label label-danger">Reprobado</span>
-                                </td>
+                                    <!-- <span *ngIf="item.aprobado" class="label label-success">Aprobado </span>
+                                    <span *ngIf="item.aprobado==false" class="label label-danger">Reprobado</span> -->
+                                <!-- </td> -->
                             </tr>
                             
                         </tbody>

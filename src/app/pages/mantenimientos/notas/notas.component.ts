@@ -11,6 +11,8 @@ import { EstudianteAc } from '../../../models/estudianteUser.model';
 import { Nota } from '../../../models/nota.model';
 import Swal from 'sweetalert2';
 import { NotaService } from '../../../services/nota.service';
+import { EstudianteService } from '../../../services/estudiante.service';
+import { UsuarioService } from '../../../services/usuario.service';
 
 @Component({
   selector: 'app-selector-page',
@@ -20,7 +22,13 @@ import { NotaService } from '../../../services/nota.service';
   })
   export class NotasComponent implements OnInit {
 
-    public periodo: Periodo[] = [];
+    public cargando: boolean = true;
+
+    public periodo: Periodo[]= [];
+    public periodosTemp: Periodo[]= [];
+
+    public cursos : Periodo[]=[];
+
     public period?: Periodo;
     public estudiante: EstudianteAc[] = [];
     public notaSeleccionada?: Nota;
@@ -49,27 +57,41 @@ import { NotaService } from '../../../services/nota.service';
       private periodoService: PeriodoService,
       private router : Router,
       private notaService : NotaService,
-      private activateRoute:ActivatedRoute
+      private activateRoute:ActivatedRoute,
+      private estudianteService:EstudianteService,
+      private usuarioService:UsuarioService
       
     ) {
       
   }
   
   ngOnInit(): void {
-    this.activateRoute.params
-    .subscribe( ({id}) => 
-      {this.cargarNota(id)});
+    // this.activateRoute.params
+    // .subscribe( ({id}) => 
+    //   {this.cargarNota(id)});
     
     this.onPeriodoChanged();
     this.numeroModulos();
-    this.cargarPeriodo ();
+    this.cargarPeriodo (this.usuarioService.uid);
+    this.cargarNota (this.usuarioService.uid);
   }
   
-  cargarPeriodo(){
-    this.periodoService.cargarPeriodos().subscribe(periodos => {
-      this.periodo = periodos;
+  cargarPeriodo(id:string){
+    // this.periodoService.cargarPeriodos().subscribe(periodos => {
+    //   this.periodo = periodos;
    
-    });
+    this.cargando = true;
+    this.estudianteService.cargarNotasPorProfesor(id)
+                        .subscribe( resp =>{
+                          this.cargando = false;
+                         this.cursos = resp; 
+
+                         this.cursos   = resp;
+                         this.periodosTemp = resp;
+                         console.log(this.cursos);
+                         this.cargando = false;
+              
+                        })
   }
   
   
@@ -125,7 +147,7 @@ import { NotaService } from '../../../services/nota.service';
  
     if (id !== undefined) {
 
-      this.notaService.obtenerNotaPorId(id)
+      this.estudianteService.cargarNotasPorProfesor(id)
       .pipe(
         delay(100)
       )

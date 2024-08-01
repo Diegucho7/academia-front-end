@@ -18,6 +18,7 @@ export class Recibo{
         public valor?: Number,
         public img?: string,
         public pago?: Pago,
+        public referencia?: string,
         public fecha?: Date,
         public aprobado?: boolean 
 

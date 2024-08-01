@@ -8,6 +8,8 @@ import { Curso } from '../../../models/curso.model';
 import { Periodo } from '../../../models/periodo.model';
 import { PeriodoService } from '../../../services/periodo.service';
 import { ActivatedRoute } from '@angular/router';
+import { UsuarioService } from '../../../services/usuario.service';
+import { uid } from 'chart.js/dist/helpers/helpers.core';
 
 @Component({
   selector: 'app-notas-estudinate',
@@ -32,12 +34,15 @@ export class NotasEstudinateComponent implements OnInit {
   public promedio : number = 0;
   public aprobado : boolean = false;
 
-usuario: any;
+  public id! : string 
+
+// usuario: any;
   constructor(
             private estudianteService: EstudianteService ,
             private busquedaService: BusquedasService,
             private periodoService:PeriodoService,
             private activateRoute:ActivatedRoute,
+            private usuarioService: UsuarioService
   ){
 
   }
@@ -50,15 +55,19 @@ usuario: any;
 
     // this.cargarPeriodos();
     
-    this.activateRoute.params
-    .subscribe( ({id}) => 
-    {this.cargarEstudiantes(id)
+this.cargarEstudiantes(this.usuarioService.uid);
 
-    });
+    // this.activateRoute.params
+    // .subscribe( ({id}) => 
+    // {this.cargarEstudiantes(id)
+
+    // });
     // this.ciclo();
     // this.cargarEstudiantes();
 
   }
+
+
 
 
   // cargarPeriodos(){
@@ -80,7 +89,9 @@ usuario: any;
 
   // }
 
-  
+  // usuario(){
+  //   this.usuarioService.
+  // }
   cargarEstudiantes(id:string){
     // const data = this.activateRoute.params;
     

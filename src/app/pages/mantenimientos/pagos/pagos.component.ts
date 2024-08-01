@@ -6,6 +6,8 @@ import { Pago } from '../../../models/pago.model';
 import { PagosService } from '../../../services/pagos.service';
 import { Estudiante } from '../../../models/estudiante.model';
 import { EstudianteService } from '../../../services/estudiante.service';
+import { BusquedasService } from '../../../services/busquedas.service';
+import { Usuario } from '../../../models/usuario.model';
 
 @Component({
   selector: 'app-pagos',
@@ -14,12 +16,16 @@ import { EstudianteService } from '../../../services/estudiante.service';
 })
 export class PagosComponent implements OnInit, OnDestroy {
   
+
+  public usuario :  Usuario[] = [];
+  public usuarioTemp: Usuario[] = [];
   public pago: Estudiante[] = [];
   public cargando: boolean = true;
   private imgSubs?: Subscription;
   constructor(
             private pagosService: PagosService,
-            private estudianteService: EstudianteService
+            private estudianteService: EstudianteService,
+            private busquedaService: BusquedasService
        
   ){
 
@@ -34,7 +40,33 @@ export class PagosComponent implements OnInit, OnDestroy {
 
   }
 
+  buscar(termino:string){
+    if (termino.length === 0) {
+      return this.usuario = this.usuarioTemp;
+    }
+    
+    
+    this.busquedaService.buscar('usuarios',termino)
+      .subscribe(resultados => {
+        // console.log(resultados);
+        this.usuario = resultados as Usuario[];
+        for (let i = 0; i < this.usuario.length; i++) {
 
+          this.busquedaService.buscar('estudiantes',this.usuario[i].uid)
+          .subscribe(resultados => {
+           this.pago = resultados as Estudiante[];
+          })
+
+            // console.log(this.usuario[i].uid);
+            // console.log(this.pago);
+
+        }
+        // console.log(this.usuario);
+
+      })
+      return [];
+
+  }
 
   cargarPagos(){
     this.cargando = true;

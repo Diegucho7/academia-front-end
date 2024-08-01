@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit  } from '@angular/core';
 import Swal from 'sweetalert2';
 import { Usuario } from '../../../models/usuario.model';
 
@@ -29,7 +29,8 @@ export class UsuariosComponent implements OnInit, OnDestroy{
   constructor( private usuarioService: UsuarioService,
               private busquedaService: BusquedasService,
               private modalImagenService: ModalImagenService,
-              private academiaService: AcademiaService       
+              private academiaService: AcademiaService    ,
+      
       ){
       
     }
@@ -43,7 +44,7 @@ export class UsuariosComponent implements OnInit, OnDestroy{
      
       this.imgSubs = this.modalImagenService.nuevaImagen
       .pipe(
-        delay(100))
+        delay(2000))
       
       .subscribe(img=> 
         this.CargarUsuarios());
@@ -138,25 +139,25 @@ export class UsuariosComponent implements OnInit, OnDestroy{
     cambiarRole(usuario:Usuario){
         this.usuarioService.guardarUsuario(usuario)
         .subscribe(resp=>{
-          console.log(resp);
-          console.log(usuario)
+          
         })
     }
     cambiarEstado(usuario:Usuario){
         this.usuarioService.guardarUsuario(usuario)
         .subscribe(resp=>{
-          console.log(resp);
-          console.log(usuario)
+          
         })
     }
     cambiarAcademia(usuario:Usuario){
       this.usuarioService.guardarUsuario(usuario)
       .subscribe(resp=>{
-        console.log(resp);
-        console.log(usuario)
+       
       })
     }
     abrirModal(usuario:Usuario){
+
+      // console.log(usuario)
+
       this.modalImagenService.abrirModal('usuarios', usuario.uid!, usuario.img);
       
     }

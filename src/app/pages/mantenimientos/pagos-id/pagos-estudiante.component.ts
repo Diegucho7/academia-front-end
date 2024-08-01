@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { delay, switchMap, tap } from 'rxjs';
+import { delay, Subscription, switchMap, tap } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SelectService } from '../../../services/select.service';
 import { PeriodoService } from '../../../services/periodo.service';
@@ -16,6 +16,8 @@ import { EstudianteService } from '../../../services/estudiante.service';
 import { Estudiante } from '../../../models/estudiante.model';
 import { PagosService } from '../../../services/pagos.service';
 import { RecibosService } from '../../../services/recibos.service';
+import { ModalImagenService } from '../../../services/modal-imagen.service';
+import { FileUploadService } from '../../../services/file-upload.service';
 
 @Component({
   selector: 'app-pagos-estudiante',
@@ -24,6 +26,8 @@ import { RecibosService } from '../../../services/recibos.service';
 })
 export class PagosEstudianteComponent  implements OnInit {
 
+
+  public Recib?: Recibo[]
 
   public recibo?: Recibo;
 
@@ -37,7 +41,7 @@ export class PagosEstudianteComponent  implements OnInit {
   public cread : boolean = false;
   public  idRecibo?: string;
 
-public hdh: number = 0
+  public hdh: number = 0
 
   public suma : number = 0;
   public promedio : number = 0;
@@ -51,12 +55,15 @@ public hdh: number = 0
   public estudiantes: Estudiante[] = [];
   public estudiantesTemp?:Estudiante;
   public reciboTemp?:Recibo;
-  
+  public imagenSubir!: File;
+  public ultimo?: Recibo
+
+  private imgSubs?: Subscription;
+  public imgTemp: any = null ;
   public myForm: FormGroup = this.fb.group({
     periodo : ['', Validators.required ],
     estudiante: ['', Validators.required ],
     pagos : this.fb.array([])
-
  
   });
   
@@ -72,12 +79,16 @@ public hdh: number = 0
     private notaService : NotaService,
     private activateRoute:ActivatedRoute,
     private estudianteService:EstudianteService,
-    private reciboService: RecibosService
-    
+    private reciboService: RecibosService,
+    private modalImagenService: ModalImagenService,
+    private fileUploadservice: FileUploadService
   ) {
     
 }
 
+ngOnDestroy(): void {
+  this.imgSubs?.unsubscribe();
+}
 ngOnInit(): void {
 
   this.idPago = this.activateRoute.snapshot.params['id'];
@@ -86,12 +97,22 @@ ngOnInit(): void {
   .subscribe( ({id}) => 
     {this.cargarEstudiantes(id)});
 
-  this.cargarRecibo(this.idRecibo?? "");
-  // this.ComprobadorAprobado();
- 
-  // this.cargarPeriodo ();
-  // this.numeroModulos();
-}
+
+  this.imgSubs = this.modalImagenService.nuevaImagen
+      .pipe(
+        delay(3000))
+      
+      .subscribe(img=> 
+        this.cargarReciboPorPago(this.idPago));
+        
+      
+
+    this.activateRoute.params
+    .subscribe( ({id}) => 
+      {this.cargarReciboPorPago(id)});
+  }
+
+
 
 cargarPeriodo(){
   this.periodoService.cargarPeriodos().subscribe(periodos => {
@@ -119,6 +140,7 @@ cargarEstudiantes(id:string){
                        this.cargando = false;
                        this.hdh = this.estudiantesTemp.pagos?.length as number;
                        this.ComprobadorAprobado();
+                       console.log(this.estudiantesTemp)
                       })
 
 
@@ -150,7 +172,6 @@ ComprobadorAprobado(){
   if(this.estudiantesTemp?.modulos){
     this.cread = true;
     this.suma = (this.estudiantesTemp?.pagos as number[]).reduce((accumulator, currentValue) => accumulator + currentValue, 0);        
-    // console.log(this.suma)
     
     if (this.suma == this.estudiantesTemp?.curso?.valor) {
       this.aprobado = true;
@@ -197,6 +218,8 @@ get periodos(): Periodo[] {
   return this.periodo;
 
 }
+
+
 numeroModulos(){
    
   
@@ -225,38 +248,16 @@ numeroModulos(){
   }
 // }
 
-cargarRecibo(idRecibo:string){
-  if (idRecibo === undefined) {
-    return;
-  }
-
-  if (this.idRecibo !== undefined) {
-    this.cargando = true;
-
-    this.reciboService.obtenerReciboPorId(idRecibo)
-    .pipe(
-      delay(100)
-    )
-                            .subscribe( (recibo:any) => {   
-                                // const { curso, estudiante,pagos} = recibo
-                                this.reciboTemp = recibo
-                                this.cargando = false;
-                                console.log(this.reciboTemp);
-                              }, error => {
-                              return this.router.navigateByUrl(`/dashboard//pagos-estudiante`);
-                            })
-
-
-  }
-
-}
+// }
 async abrirSweetAlert(){
     
-  const {value = 0} = await Swal.fire<number>({
+  const {value = undefined} = await Swal.fire<number>({
     title:"Ingrese comprobante de pago",
     text: "Ingrese el valor del comprobante de pago",
     input: "number",
-    inputPlaceholder: "Valor del comprobante de pago",
+    // inputPlaceholder: "Valor del comprobante de pago" +
+    // input: "number",
+    inputPlaceholder: "Referencia del comprobante de pago",
     showCancelButton: true,
   });
   if (value!.toString().trim().length > 0){
@@ -265,15 +266,77 @@ async abrirSweetAlert(){
       this.reciboService.obtenerReciboPorId(resp)
       .subscribe((resp:any) =>{
         this.reciboTemp = resp
-        console.log(this.reciboTemp);
       })
-      console.log(resp);
                           // this.router.navigateByUrl(`/dashboard/notas/${resp.id}`)
                           // this.academias.push(resp.academia)
                         })
+                        this.activateRoute.params
+                        .subscribe( ({id}) => 
+                          {this.cargarReciboPorPago(id)});
+                      
 
   }
   
 }
+abrirModal(recibo:Recibo){
 
+  this.modalImagenService.abrirModal('recibos', recibo._id, recibo.img!);
+
+}
+
+ cambiarImagen(file:File){
+  this.imagenSubir = file;
+
+
+  if(!file){return;}
+
+  const reader = new FileReader();
+  const url64 = reader.readAsDataURL(file);
+
+
+  reader.onloadend = () =>{
+   this.imgTemp = reader.result;
+  }
+ }
+
+ subirImagen(){
+ 
+                          // this.router.navigateByUrl(`/dashboard/notas/${resp.id}`)
+                          // this.academias.push(resp.academia)
+                        // })
+   this.fileUploadservice.actualizarFoto(this.imagenSubir, 'recibos', this.recibo?._id!)
+   .then( img =>{
+    this.recibo = img ;
+     // Swal.fire('Guardado', 'Cambios fueron guardados','success');
+
+   }).catch (err=>{
+     Swal.fire('Error', err.error.msg,'error')
+
+   })
+     
+ }
+
+cargarReciboPorPago(id:string){
+  if (id === undefined) {
+    return;
+  }
+
+
+  
+    this.cargando = true;
+
+    this.reciboService.obtenerReciboPorPagoId( id ).subscribe( (resp:any) => {
+
+      this.Recib = resp
+      this.cargando = false;
+
+      if (this.Recib?.length === 0) {
+        return;
+      }
+        this.ultimo = this.Recib![this.Recib!.length-1]
+     
+      
+    }) 
+
+}
 }

@@ -18,25 +18,26 @@ export class ModalImagenService {
     return this._ocultarModal;
   }
 
-    abrirModal(
+    
+
+
+
+  abrirModal( 
     tipo: 'usuarios'|'profesores'|'academias'|'cursos'|'materias'|'estudiantes'|'recibos',
     id: string,
-    img :string = 'no-image'
-  ){
+    img: string = 'no-img'
+  ) {
     this._ocultarModal = false;
-    this.tipo = tipo;
-    this.id = id;
-    // this.img = img;
-    if (img.includes('https')) {
-
+  this.tipo = tipo;
+  this.id = id;
+  
+  // localhost:3000/api/upload/medicos/no-img
+    if ( img.includes('https') ) {
       this.img = img;
-    }   else {
-      this.img = `${base_url}/uploads/${tipo}/${img}`;
+    } else {
+      this.img = `${ base_url }/uploads/${ tipo }/${ img }`;
     }
-    //http://localhost:3000/api/uploads/usuarios/d69fb091-133f-4409-9cfb-33d08f5838d5.jpg
-
-
-  }
+}
   cerrarModal(){
     this._ocultarModal = true;
   }

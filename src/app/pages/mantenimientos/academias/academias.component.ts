@@ -84,6 +84,7 @@ export class AcademiasComponent implements OnInit, OnDestroy{
                           .subscribe((resp:any) => {
                             this.academias.push(resp.academia)
                           })
+                          
 
     }
     
@@ -91,6 +92,11 @@ export class AcademiasComponent implements OnInit, OnDestroy{
 
   abrirModal(academia:Academia){
     this.modalImagenService.abrirModal('academias', academia._id, academia.img);
+    this.imgSubs = this.modalImagenService.nuevaImagen
+    .pipe(
+      delay(100))
+    .subscribe(img=> 
+      this.cargarAcademias());
   }
 
   buscar(termino:string){

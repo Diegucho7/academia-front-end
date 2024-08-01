@@ -43,6 +43,20 @@ headers: {
 
 }
 
+
+cargarNotasPorProfesor(id:String){
+  const url = `${ base_url }/todo/coleccion/profesores/${id}`;
+  return this.http.get<{ ok: boolean, resultados: Periodo[] }>(url,
+  {
+  headers: {
+    'x-token': this.token 
+  }
+  })
+  .pipe(
+    map( (resp: { ok: boolean, resultados: Periodo[] } ) => resp.resultados )
+  );
+}
+
 cargarEstudiantesPorNotas(id:string ): Observable<Estudiante[]> {
   const url = `${ base_url }/todo/coleccion/estudiantes/${id}`;
 return this.http.get<{ ok: boolean, resultados: Estudiante[] }>(url,
@@ -55,32 +69,43 @@ headers: {
   map( (resp: { ok: boolean, resultados: Estudiante[] } ) => resp.resultados )
 );
 }
-cargarPeriodosPorId(id:string ): Observable<Estudiante[]> {
+cargarPeriodosPorId(id:string ): Observable<Periodo[]> {
 
-const url = `${ base_url }/estudiantes/periodos/${id}`;
-return this.http.get<{ ok: boolean, estudiantes: Estudiante[] }>(url,
+const url = `${ base_url }/todo/coleccion/periodos/${id}`;
+return this.http.get<{ ok: boolean, resultados: Periodo[] }>(url,
 {
 headers: {
   'x-token': this.token 
 }
 })
 .pipe(
-  map( (resp: { ok: boolean, estudiantes: Estudiante[] } ) => resp.estudiantes )
+  map( (resp: { ok: boolean, resultados: Periodo[] } ) => resp.resultados )
 );
 
 
 }
 obtenerEstudiantePorId(id:string): Observable<Estudiante> {
 
-const url = `${ base_url }/estudiantes/${id}`;
-return this.http.get<{ ok: boolean, estudiante: Estudiante }>(url,
-this.headers)
-.pipe(
-  map( (resp: { ok: boolean, estudiante: Estudiante } ) => resp.estudiante )
-);
+  const url = `${ base_url }/estudiantes/${id}`;
+  return this.http.get<{ ok: boolean, estudiante: Estudiante }>(url,
+    this.headers)
+    .pipe(
+      map( (resp: { ok: boolean, estudiante: Estudiante } ) => resp.estudiante )
+    );
 
 
 }
+
+obtenerEstudiantePorCurso(id:string): Observable<Estudiante[]> {
+
+const url = `${ base_url }/todo/coleccion/notas/${id}`;
+return this.http.get<{ ok: boolean, resultados: Estudiante[] }>(url,
+  this.headers)
+  .pipe(
+    map( (resp: { ok: boolean, resultados: Estudiante []} ) => resp.resultados )
+  );
+}
+
 obtenerEstudiantePorCursoId(id:string): Observable<Estudiante> {
 
 const url = `${ base_url }/estudiantes/curso/${id}`;

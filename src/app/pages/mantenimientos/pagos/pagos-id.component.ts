@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { delay, switchMap, tap } from 'rxjs';
+import { delay, Subscription, switchMap, tap } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SelectService } from '../../../services/select.service';
 import { PeriodoService } from '../../../services/periodo.service';
@@ -12,6 +12,9 @@ import Swal from 'sweetalert2';
 import { NotaService } from '../../../services/nota.service';
 import { EstudianteService } from '../../../services/estudiante.service';
 import { Estudiante } from '../../../models/estudiante.model';
+import { ModalImagenService } from '../../../services/modal-imagen.service';
+import { RecibosService } from '../../../services/recibos.service';
+import { Recibo } from '../../../models/recibo.model';
 
 
 @Component({
@@ -19,15 +22,18 @@ import { Estudiante } from '../../../models/estudiante.model';
   templateUrl: './pagos-id.component.html',
   styles: ``
 })
-export class PagosIdComponent  implements OnInit {
+export class PagosIdComponent  implements OnInit, OnDestroy {
 
-
+  ngOnDestroy(): void {
+    this.imgSubs?.unsubscribe();
+  }
+  public Recib?: Recibo[];
   public cargando: boolean = true;
-
+  private imgSubs?: Subscription;
   public periodo: Periodo[] = [];
   public period?: Periodo;
   public estudiante: EstudianteAc[] = [];
-  public notaSeleccionada?: Nota;
+  public pagoSeleccionado?: Estudiante;
   public cantidad! : number ;
   public cread : boolean = false;
 
@@ -39,14 +45,14 @@ public hdh: number = 0
 
   public valores? : number[]= []
 
-
+  public idPago:string = "";
   public est?: Estudiante
   public estudiantes: Estudiante[] = [];
   public estudiantesTemp?:Estudiante;
   
   public myForm: FormGroup = this.fb.group({
-    periodo : ['', Validators.required ],
-    estudiante: ['', Validators.required ],
+      // periodo : ['', Validators.required ],
+    // estudiante: ['', Validators.required ],
     pagos : this.fb.array([])
 
  
@@ -55,42 +61,74 @@ public hdh: number = 0
   public pagos : number[] = [0];
   public jd? :string = "0";
   
+
   
   constructor(
     private fb: FormBuilder,
-    private selectService: SelectService,
-    private periodoService: PeriodoService,
+
     private router : Router,
-    private notaService : NotaService,
     private activateRoute:ActivatedRoute,
-    private estudianteService:EstudianteService
+    private estudianteService:EstudianteService,
+    private modalImagenService: ModalImagenService,
+    private reciboService: RecibosService,
+    
     
   ) {
     
 }
 
 ngOnInit(): void {
+
+  // this.idPago = this.activateRoute.snapshot.params['id'];
+
+  // this.imgSubs = this.reciboService.actualizacion
+  // .pipe(
+  //   delay(3000))
+  
+  this.activateRoute.params
+  .subscribe(({id})=> 
+    this.cargarReciboPorPago(id));
+    
   this.activateRoute.params
   .subscribe( ({id}) => 
-    {this.cargarEstudiantes(id)});
-  // this.ComprobadorAprobado();
- 
-  // this.cargarPeriodo ();
-  // this.numeroModulos();
+    {this.cargarPagos(id)});
+
+  this.activateRoute.params
+  .subscribe(resp => 
+    this.cargarReciboPorPago(this.idPago));
 }
 
-cargarPeriodo(){
-  this.periodoService.cargarPeriodos().subscribe(periodos => {
-    this.periodo = periodos;
- 
-  });
-}
+
 
 
 get pago() {
   
   return this.myForm.get('pagos') as FormArray;
   
+}
+
+
+cargarReciboPorPago(id:string){
+  if (id === undefined) {
+    return;
+  }
+
+
+  this.cargando = true;
+  
+  this.reciboService.obtenerReciboPorPagoId( id ).subscribe( (resp:any) => {
+    
+    this.Recib = resp
+    this.cargando = false;
+    
+    if (this.Recib?.length === 0) {
+      return;
+    }
+    
+     
+      
+    }) 
+
 }
 
 cargarEstudiantes(id:string){
@@ -104,26 +142,25 @@ cargarEstudiantes(id:string){
                        this.estudiantesTemp = est;
                        this.cargando = false;
                        this.hdh = this.estudiantesTemp.pagos?.length as number;
+                       console.log(this.estudiantesTemp)
                        this.ComprobadorAprobado();
+
                       })
-
-
-
 
 }
 
 
 addModulo(index:number) {
 
-if (this.estudiantesTemp?.curso?.valor === undefined) {
+if (this.pagoSeleccionado?.curso?.valor === undefined) {
     
     this.pago.push(this.fb.control(0));
   }
 
   
 
-  if (this.estudiantesTemp?.curso?.valor !== undefined) {
-    this.pago.push(this.fb.control(this.estudiantesTemp?.pagos![index]));   
+  if (this.pagoSeleccionado?.curso?.valor !== undefined) {
+    this.pago.push(this.fb.control(this.pagoSeleccionado?.pagos![index]));   
     
   }
 
@@ -133,7 +170,7 @@ if (this.estudiantesTemp?.curso?.valor === undefined) {
 
 
 ComprobadorAprobado(){
-  if(this.estudiantesTemp?.modulos){
+  if(this.estudiantesTemp?.pagos?.length == this.estudiantesTemp?.curso?.valor){
     this.cread = true;
     this.suma = (this.estudiantesTemp?.pagos as number[]).reduce((accumulator, currentValue) => accumulator + currentValue, 0);        
     // console.log(this.suma)
@@ -150,81 +187,134 @@ ComprobadorAprobado(){
 }
 
 
-cargarNota(id:string){
+cargarPagos(id:string){
   if (id === 'nuevo') {
     return;
   }
 
   if (id !== undefined) {
-    this.cargando = true;
 
     this.estudianteService.obtenerEstudiantePorId(id)
     .pipe(
       delay(100)
     )
-                            .subscribe( (estudiantes:any) => {   
-                                const { curso, estudiante,pagos} = estudiantes
-                                this.estudiantesTemp = estudiantes
-                                this.cargando = false;
-                                this.myForm.setValue( { periodo: curso._id , estudiante: estudiante._id, pagos: [] } )
-                                console.log("hola");
-                                this.ComprobadorAprobado();
-                              }, error => {
-                              return this.router.navigateByUrl(`/dashboard//pagos-estudiante`);
+                            .subscribe( (estudianteP:Estudiante) => {   
+                                // const { curso, usuario } = estudianteP
+                                this.pagoSeleccionado = estudianteP
+                            
+                                // this.myForm.setValue( {  pagos: [] } )
+
+                                this.numeroModulos()
+                            }, error => {
+                              return this.router.navigateByUrl(`/dashboard/notas`);
                             })
 
 
   }
 }
 
+cambiarEstado(recibo:Recibo){
 
+
+  Swal.fire({
+    title: "Quiere Actualizar el recibo?",
+    showDenyButton: true,
+    showCancelButton: true,
+    confirmButtonText: "Actualizar",
+    denyButtonText: `No Actualizar`
+  }).then((result) => {
+    /* Read more about isConfirmed, isDenied below */
+    if (result.isConfirmed) {
+      Swal.fire("Actualización con exito" , "", "success");
+      this.reciboService.actualizarRecibo(recibo)
+
+      
+      
+      // .subscribe(resp=>{
+      // })
+    } else if (result.isDenied) {
+      Swal.fire("No se Actualizo la información", "", "info");
+    }
+  });
+
+  // this.reciboService.actualizarRecibo(recibo)
+  // .subscribe(resp=>{
+
+  //   Swal.fire('Actualizado',`Actualizado correctamente`, 'success');
+  // })
+}
 
 get periodos(): Periodo[] {
 
   return this.periodo;
 
 }
+
+eliminarRecibo(recibo:Recibo){
+  Swal.fire({
+    title: "Esta seguro de eliminar el recibo?",
+    showDenyButton: true,
+    showCancelButton: true,
+    confirmButtonText: "Borrar",
+    denyButtonText: `No Borrar`
+  }).then((result) => {
+    /* Read more about isConfirmed, isDenied below */
+    if (result.isConfirmed) {
+      Swal.fire("Borrado con exito" , "", "success");
+      this.reciboService.borrarRecibo(recibo)
+  .subscribe(resp=>{
+    })
+    } else if (result.isDenied) {
+      Swal.fire("No se Actualizo la información", "", "info");
+    }
+  });
+
+  
+}
 numeroModulos(){
    
-   
-  // if (this.cantidad > 0 ) {
-
-  //   for (let index = 0; index < this.cantidad; index++) {
-
-  //     this.modulo.removeAt(-1);
-      
-  //   }
-
-  // }
-
-  // if (this.myForm.get('periodo')?.value !== "") {
     
     this.pagos = []
     
     this.jd = this.myForm.get('periodo')?.value ?? "0";
       
-      
-    //   this.periodoService.obtenerPeriodoPorId(this.jd!).subscribe(resp => {
-    //     this.period = resp;
+    
     let array = this.myForm.get('pagos') as FormArray;
     
-    
-    for ( let index = 0 ; index  < this.estudiantesTemp?.curso?.valor! ?? 0; index++) {
-      
+    // console.log(this.pagoSeleccionado)
+    for ( let index = 0 ; index  < this.pagoSeleccionado?.curso?.modulos! ?? 0; index++) {
       
       this.addModulo(index);
            
           } 
           
-          // this.ComprobadorAprobado(hdh);
+         
           this.cantidad = array.length
           
      
   // })
   }
 // }
+guardarNota(){
 
+    
 
+  const {nota} =this.myForm.value;
+
+  if (this.pagoSeleccionado) {
+    //Actualizar
+    const data = {
+      ...this.myForm.value,
+      _id:this.pagoSeleccionado._id
+    }
+    this.estudianteService.actualizarEstudiante(data)
+    .subscribe(resp=>{
+     
+      Swal.fire('Actualizado',`Actualizado correctamente`, 'success');
+    })
+  }
+
+}
 
 
 }

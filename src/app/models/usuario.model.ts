@@ -63,5 +63,13 @@ export class Usuario{
         } else {
             return `${ base_url }/uploads/uploads/no-img.jpg`;
         }
+
+
+
+
+
+
+
+        
     }
 }

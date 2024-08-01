@@ -7,6 +7,7 @@ import { PagosService } from '../../../services/pagos.service';
 import { ActivatedRoute } from '@angular/router';
 import { EstudianteService } from '../../../services/estudiante.service';
 import { Estudiante } from '../../../models/estudiante.model';
+import { UsuarioService } from '../../../services/usuario.service';
 
 @Component({
   selector: 'app-pagos-estudiante-cursos',
@@ -31,7 +32,8 @@ export class PagosEstudianteCursosComponent implements OnInit, OnDestroy {
   constructor(
             private pagosService: PagosService,
             private activateRoute:ActivatedRoute,
-            private estudianteService: EstudianteService
+            private estudianteService: EstudianteService,
+            private usuarioService: UsuarioService
   ){
 
   }
@@ -41,12 +43,13 @@ export class PagosEstudianteCursosComponent implements OnInit, OnDestroy {
 
 
   ngOnInit(): void {
+    // this.activateRoute.params
+    // .subscribe( ({id}) => 
+    // {this.cargarEstudiantes(id)
 
-    this.activateRoute.params
-    .subscribe( ({id}) => 
-    {this.cargarEstudiantes(id)
+    // });
 
-    });
+    this.cargarEstudiantes(this.usuarioService.uid)
     // this.ciclo();
     this.cargarPagos();
 
@@ -56,7 +59,6 @@ export class PagosEstudianteCursosComponent implements OnInit, OnDestroy {
 
   cargarPagos(){
     this.cargando = true;
-
     
 
     this.pagosService.cargarPagos()
@@ -85,7 +87,6 @@ export class PagosEstudianteCursosComponent implements OnInit, OnDestroy {
                          this.estudiantes   = estudiantes;
                          this.estudiantesTemp = estudiantes;
                          this.cargando = false;
-                        //  console.log(this.estudiantes);
                          this.ciclo();
                         })
 

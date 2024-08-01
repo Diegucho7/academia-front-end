@@ -52,6 +52,128 @@
 </div>
 <hr>
 
+
+</div>
+<form [formGroup]="myForm">
+  
+  <!-- Region -->
+  <div class="row mb-3">
+    <div class="col">
+      <label class="form-label">Periodo:</label>
+      <div class="alert alert-primary d-flex align-items-center" role="alert">
+        <strong>{{est?.curso?.anio + ' - '+est?.curso?.mes +' - '+est?.curso?.curso?.nombre+ ' - '+est?.curso?.modulos+' módulos' +' - $'+est?.curso?.valor}}</strong>   
+      </div>
+    </div>
+  </div>
+
+
+  <div class="row mb-3" *ngIf="periodos.length > 0">
+    <div class="col">
+      <label class="form-label">Estudiante:</label>   
+      
+      <div class="alert alert-primary d-flex align-items-center" role="alert">
+        <strong>{{est?.usuario?.nombre + ' ' + est?.usuario?.apellido}}</strong>   
+      </div>
+      
+    </div>
+  </div>
+  
+  
+  
+  
+  
+  <div 
+  formArrayName="pagos" class=" mb-3 "
+  
+  >
+  
+  
+  <div *ngFor="let alias of estudiantesTemp?.pagos; let i=index">
+    <label>
+      <strong>
+        
+        {{"Pago "+(i+1)}} 
+      </strong>
+      <div class="alert alert-primary d-flex align-items-center" role="alert">
+        <strong>{{alias}}</strong>   
+      </div>
+    </label>
+  </div>
+</div>
+
+<div *ngIf="reciboTemp">
+  
+  
+  <div class="col-12">
+    <div class="card">
+      
+      
+      <div class="card-body">
+        
+        <div class="row">
+          <div class="col-8">
+            <h4 class="card-title">Recibo de Pago</h4>
+            
+          </div>
+          
+          
+        </div>
+        
+        
+        
+        <div class="table-responsive">
+          <table class="table table-bordered">
+            <thead>
+                      <tr>        
+                          <th class="w100">Documento de recibo</th>
+                         
+                          <th>Valor</th>
+                          
+                  
+                        </tr>
+                  </thead>
+                  <tbody>
+                    <tr >
+                      <td class="text-center">
+                        <img  [src]=" ultimo?.img| imagen:'recibos'" [alt]="recibo?.valor"
+                        class="avatar cursor"
+                        (click)="abrirModal(this.Recib![this.Recib!.length-1])"
+                        >
+                        <img *ngIf="recibo?.img" [src]="recibo?.img" [alt]="recibo"
+
+
+                        
+
+                        class="avatar cursor"
+                        (click)="abrirModal(reciboTemp)"
+                        >
+                        <!-- <img *ngIf="!imgTemp" [src]="usuario.imagenUrl" class="img-avatar" alt="Usuario">
+                        <img *ngIf="imgTemp" [src]="imgTemp" class="img-avatar" alt="Usuario"> -->
+                              
+                      </td>
+                      <td>
+                              <input type="number" 
+                                      class="form-control"
+                                      placeholder="Valor del Recibo"
+                                      [(ngModel)]="reciboTemp.valor" [ngModelOptions]="{standalone: true}"
+                                      >
+                                    </td>
+                         
+                                    
+                       
+                        </tr>
+                        
+                      </tbody>
+              </table>
+            </div>
+        
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+</form>
 <div class="col">
   <div class="text-right ">
       <button 
@@ -61,56 +183,6 @@
           Ingresar recibo de pago
       </button>
   </div>
-
-</div>
-<form [formGroup]="myForm">
-
-  <!-- Region -->
-  <div class="row mb-3">
-    <div class="col">
-      <label class="form-label">Periodo:</label>
-    <div class="alert alert-primary d-flex align-items-center" role="alert">
-    <strong>{{est?.curso?.anio + ' - '+est?.curso?.mes +' - '+est?.curso?.curso?.nombre+ ' - '+est?.curso?.modulos+' módulos' +' - $'+est?.curso?.valor}}</strong>   
-    </div>
-    </div>
-  </div>
-
-
-  <div class="row mb-3" *ngIf="periodos.length > 0">
-    <div class="col">
-      <label class="form-label">Estudiante:</label>   
-
-      <div class="alert alert-primary d-flex align-items-center" role="alert">
-        <strong>{{est?.usuario?.nombre + ' ' + est?.usuario?.apellido}}</strong>   
-        </div>
-      
-    </div>
-  </div>
-
-  
-
-
-
-<div 
-formArrayName="pagos" class=" mb-3 "
-
->
-
-  
-  <div *ngFor="let alias of estudiantesTemp?.pagos; let i=index">
-    <label>
-      <strong>
-
-        {{"Pago "+(i+1)}} 
-      </strong>
-      <div class="alert alert-primary d-flex align-items-center" role="alert">
-        <strong>{{alias}}</strong>   
-        </div>
-    </label>
-  </div>
-</div>
-
-</form>
 
 
 </div>

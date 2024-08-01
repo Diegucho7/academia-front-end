@@ -1,6 +1,6 @@
 import { Recibo } from './../models/recibo.model';
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, map } from 'rxjs';
 import { environment } from '../../environments/environment';
@@ -9,6 +9,7 @@ const base_url = environment.base_url;
   providedIn: 'root'
 })
 export class RecibosService {
+  public actualizacion: EventEmitter<string> = new EventEmitter<string>();
 
   constructor(private http:HttpClient,
     private router:Router
@@ -76,10 +77,16 @@ export class RecibosService {
                          
                  
                   }
-                  actualizarRecibo(_id:string, valor:string) {
+                  actualizarRecibo(recibo:Recibo) {
  
-                    const url = `${ base_url }/recibos/${_id}`;
-                    return this.http.put<{ ok: boolean, recibo: Recibo[] }>(url,{valor},this.headers);
+                    return this.http.put(`${ base_url }/recibos/${recibo._id}`,recibo, this.headers );
+
+                    // const url = `${ base_url }/recibos/${usuario.uid}`,usuario, this.headers;
+                    // return this.http.put<{ ok: boolean, recibo: Recibo[] }>(url, {
+                    //   headers: {
+                    //     'x-token': this.token
+                    //   }
+                    // });
                          
                  
                   }
@@ -91,9 +98,9 @@ export class RecibosService {
                 
                   
                 }
-                  borrarRecibo(_id:string) {
+                  borrarRecibo(recibo:Recibo) {
                  
-                    const url = `${ base_url }/recibos/${_id}`;
+                    const url = `${ base_url }/recibos/${recibo._id}`;
                     return this.http.delete(url,this.headers);
                          
                  

@@ -8,6 +8,8 @@ import { Nota } from '../../../models/nota.model';
 import { ActivatedRoute } from '@angular/router';
 import { EstudianteService } from '../../../services/estudiante.service';
 import { Estudiante } from '../../../models/estudiante.model';
+import { UsuarioService } from '../../../services/usuario.service';
+import { Periodo } from '../../../models/periodo.model';
 
 @Component({
   selector: 'app-revicion',
@@ -24,7 +26,8 @@ export class RevisionComponent implements OnInit, OnDestroy {
   public estudiantes: Estudiante[] = [];
   public estudiantesTemp:Estudiante[] =  [];
 
-
+public periodos: Periodo[]= [];
+public periodosTemp: Periodo[]= [];
 
   public suma : number = 0;
   public promedio : number = 0;
@@ -32,7 +35,8 @@ export class RevisionComponent implements OnInit, OnDestroy {
   constructor(
             private notasService: NotaService,
             private activateRoute:ActivatedRoute,
-            private estudianteService:EstudianteService
+            private estudianteService:EstudianteService,
+            private usuarioService: UsuarioService
        
   ){
 
@@ -44,11 +48,12 @@ export class RevisionComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
 
-    this.activateRoute.params
-    .subscribe( ({id}) => 
-    {this.cargarEstudiantes(id)
+this.cargarCursosProfesor(this.usuarioService.uid)
+    // this.activateRoute.params
+    // .subscribe( ({id}) => 
+    // {this.cargarEstudiantes(id)
 
-    });
+    // });
 
 
     // this.cargarNotas();
@@ -67,15 +72,27 @@ export class RevisionComponent implements OnInit, OnDestroy {
 
                          this.estudiantes   = estudiantes;
                          this.estudiantesTemp = estudiantes;
-                         console.log(this.estudiantes);
+                        //  console.log(this.estudiantes);
                          this.cargando = false;
               
                         })
-
-
-
   }
 
+
+  cargarCursosProfesor(id:String){
+    this.cargando = true;
+    this.estudianteService.cargarNotasPorProfesor(id)
+                        .subscribe( resp =>{
+                          this.cargando = false;
+                         this.periodos = resp; 
+
+                         this.periodos   = resp;
+                         this.periodosTemp = resp;
+                        //  console.log(this.periodos);
+                         this.cargando = false;
+              
+                        })
+  }
   // cargarNotas(){
   //   this.cargando = true;
 
