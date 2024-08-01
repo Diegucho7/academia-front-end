@@ -100,7 +100,7 @@ ngOnInit(): void {
 
   this.imgSubs = this.modalImagenService.nuevaImagen
       .pipe(
-        delay(3000))
+        delay(2000))
       
       .subscribe(img=> 
         this.cargarReciboPorPago(this.idPago));
@@ -140,7 +140,7 @@ cargarEstudiantes(id:string){
                        this.cargando = false;
                        this.hdh = this.estudiantesTemp.pagos?.length as number;
                        this.ComprobadorAprobado();
-                       console.log(this.estudiantesTemp)
+                      //  console.log(this.estudiantesTemp)
                       })
 
 

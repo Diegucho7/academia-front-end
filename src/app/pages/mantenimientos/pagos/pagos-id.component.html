@@ -80,7 +80,7 @@ formArrayName="pagos" class=" mb-3 "
   <div *ngFor="let alias of pago.controls; let i=index">
     <label>
       {{"Pagos "+(i+1)}} 
-      <input  type="number" class="form-control" [formControlName]="i" max="10" min="0">
+      <input  type="number" class="form-control" [formControlName]="i" >
     </label>
   </div>
 </div>
@@ -98,9 +98,9 @@ formArrayName="pagos" class=" mb-3 "
         <th class="w100">Comprobante de Pago</th>
         
         <th>Valor de Pago</th>
-        <th>
+        <!-- <th>
           Referencia
-        </th>
+        </th> -->
 
         <th>Estado</th>
         
@@ -124,14 +124,14 @@ formArrayName="pagos" class=" mb-3 "
           [(ngModel)]="recibos.valor"
           >
         </td>
-        <td>
+        <!-- <td>
           <input type="number" 
           class="form-control"
           placeholder="Referencia de pago"
-          >
-          <!-- (change)="cambiarEstado(recibos)"
-          [(ngModel)]="recibos.valor" -->
-        </td>
+          > 
+           (change)="cambiarEstado(recibos)"
+          [(ngModel)]="recibos.valor"
+        </td> -->
 
 
 
@@ -141,7 +141,7 @@ formArrayName="pagos" class=" mb-3 "
           [(ngModel)]="recibos.aprobado"
           (change)="cambiarEstado(recibos)"
           >
-          <!-- [formControlName]="recibos._id" -->
+          <!-- [formControlName]="recibos.aprobado " -->
               <option selected value="false">No Aprobado</option>
               <option value="true">Aprobado</option>
               <option value="false">No Aprobado</option>

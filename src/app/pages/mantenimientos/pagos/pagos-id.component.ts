@@ -215,23 +215,24 @@ cargarPagos(id:string){
 
 cambiarEstado(recibo:Recibo){
 
-
+console.log(recibo)
   Swal.fire({
     title: "Quiere Actualizar el recibo?",
     showDenyButton: true,
-    showCancelButton: true,
+    showCancelButton: false,
     confirmButtonText: "Actualizar",
     denyButtonText: `No Actualizar`
   }).then((result) => {
     /* Read more about isConfirmed, isDenied below */
     if (result.isConfirmed) {
       Swal.fire("Actualización con exito" , "", "success");
+      console.log(recibo)
       this.reciboService.actualizarRecibo(recibo)
 
       
       
-      // .subscribe(resp=>{
-      // })
+      .subscribe(resp=>{
+      })
     } else if (result.isDenied) {
       Swal.fire("No se Actualizo la información", "", "info");
     }
