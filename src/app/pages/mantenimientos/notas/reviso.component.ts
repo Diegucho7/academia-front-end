@@ -217,7 +217,7 @@ import { Estudiante } from '../../../models/estudiante.model';
       let array = this.myForm.get('modulos') as FormArray;
       
       
-      for ( let index = 0 ; index  < this.estudiantesTemp?.curso?.modulos! ?? 0; index++) {
+      for ( let index = 0 ; index  < (this.estudiantesTemp?.curso?.modulos! ?? 0); index++) {
         
         
         this.addModulo(index);

@@ -34,15 +34,17 @@ import { NotasCursosComponent } from './mantenimientos/notas/notas-cursos.compon
 import { PagosEstudianteComponent } from './mantenimientos/pagos-id/pagos-estudiante.component';
 import { PagosEstudianteCursosComponent } from './mantenimientos/pagos-id/pagos-estudiante-cursos.component';
 import { PagosIdComponent } from './mantenimientos/pagos/pagos-id.component';
+import { PizarraComponent } from './mantenimientos/pizarra/pizarra.component';
+import { ChatComponent } from './mantenimientos/chat/chat.component';
 
 
 const childRoutes: Routes = [
       {path: '', component: DashboardComponent, data: {titulo: 'Dashboard'}},
       {path: 'acount-settings', component: AccountSettingsComponent, data: {titulo: 'acount-settings'}},
       {path: 'buscar/:termino', component: BusquedaComponent, data: {titulo: 'busquedas'}},
-      // {path: 'grafica1', component: GraficaComponent, data: {titulo: 'Grafica'}},
+      {path: 'grafica1', component: GraficaComponent, data: {titulo: 'Grafica'}},
       // {path: 'rxjs', component: RxjsComponent, data: {titulo: 'Rxjs'}},
-      // {path: 'progress', component: ProgressComponent, data: {titulo: 'Progreso'}},
+      {path: 'progress', component: ProgressComponent, data: {titulo: 'Progreso'}},
       // {path: 'promesas', component: PomesasComponent, data: {titulo: 'Promesas'}},
       {path: 'perfil', component: PerfilComponent, data: {titulo: 'Perfil de usuario'}},
       
@@ -60,6 +62,7 @@ const childRoutes: Routes = [
       {path: 'curso/:id',canActivate: [adminGuard],component: CursoComponent, data: {titulo: 'Curso de la aplicación'}},
       
       
+      // {path: 'pizarra',canActivate: [adminGuard],component: PizarraComponent, data: {titulo: 'Pizarra de la aplicación'}},
       {path: 'resultados',canActivate: [adminGuard],component: ResultadosComponent, data: {titulo: 'Resultados de la aplicación'}},
       {path: 'periodos',canActivate: [adminGuard],component: PeriodosComponent, data: {titulo: 'Periodos de la aplicación'}},
       {path: 'periodo/:id',canActivate: [adminGuard],component: PeriodoComponent, data: {titulo: 'Periodos de la aplicación'}},
@@ -79,6 +82,8 @@ const childRoutes: Routes = [
       // RUTAS DE PROFESOR, ESTUDIANTE - ADMINISTRADOR
       {path: 'revision',canActivate: [revisionGuard],component: RevisionComponent, data: {titulo: 'Notas de la aplicación'}},
       {path: 'reviso/:id',canActivate: [revisionGuard],component: RevisoComponent, data: {titulo: 'Notas de la aplicación'}},
+      // {path: 'pizarra',canActivate: [revisionGuard],component: PizarraComponent, data: {titulo: 'Pizarra de la aplicación'}},
+      {path: 'chat',component: ChatComponent, data: {titulo: 'Chat de la aplicación'}},
       
       
       //Ruta estudiantes - Administrador

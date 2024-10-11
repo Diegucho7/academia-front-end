@@ -2,7 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
+import { RxjsComponent } from './rxjs/rxjs.component';
+// import { NgChartsModule } from 'ng2-charts' ;
 
 import { ComponentsModule } from '../components/components.module';
 import { SharedModule } from "../shared/shared.module";
@@ -11,11 +12,9 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { ProgressComponent } from './progress/progress.component';
 import { GraficaComponent } from './grafica/grafica.component';
 import { PagesComponent } from './pages.component';
-import { NgChartsModule } from 'ng2-charts';
 import { DonaComponent } from '../components/dona/dona.component';
 import { AccountSettingsComponent } from './account-settings/account-settings.component';
 import { PomesasComponent } from './pomesas/pomesas.component';
-import { RxjsComponent } from './rxjs/rxjs.component';
 import { PerfilComponent } from './perfil/perfil.component';
 import { UsuariosComponent } from './mantenimientos/usuarios/usuarios.component';
 import { AcademiasComponent } from './mantenimientos/academias/academias.component';
@@ -42,6 +41,15 @@ import { NotasCursosComponent } from './mantenimientos/notas/notas-cursos.compon
 import { PagosEstudianteComponent } from './mantenimientos/pagos-id/pagos-estudiante.component';
 import { PagosEstudianteCursosComponent } from './mantenimientos/pagos-id/pagos-estudiante-cursos.component';
 import { PagosIdComponent } from './mantenimientos/pagos/pagos-id.component';
+import { PizarraComponent } from './mantenimientos/pizarra/pizarra.component';
+
+
+import {AngularFireModule} from '@angular/fire/compat';
+import {AngularFirestore} from '@angular/fire/compat/firestore';
+import { ChatService } from '../services/chat.service';
+import { ChatComponent } from './mantenimientos/chat/chat.component';
+import { ChatsComponent } from '../components/chats/chats.component';
+import { environment } from '../../environments/environment';
 
 
 @NgModule({
@@ -78,6 +86,9 @@ import { PagosIdComponent } from './mantenimientos/pagos/pagos-id.component';
         NotasCursosComponent,
         PagosEstudianteComponent,
         PagosEstudianteCursosComponent,
+        PizarraComponent,
+        ChatComponent,
+        
         
     ],
     exports: [
@@ -85,23 +96,27 @@ import { PagosIdComponent } from './mantenimientos/pagos/pagos-id.component';
         ProgressComponent,
         GraficaComponent,
         PagesComponent,
-        DonaComponent,
+        // DonaComponent,
         AccountSettingsComponent
     ],
     imports: [
+        // NgChartsModule, //Modulos de Graficos
         CommonModule,
         RouterOutlet,
-        NgChartsModule, //Modulos de Graficos
         ReactiveFormsModule,
 
 
+        ComponentsModule,
 
 
         PipesModule,
         FormsModule,
         SharedModule,
-        ComponentsModule,
-        RouterLink
-    ]
+        RouterLink,
+        AngularFireModule.initializeApp(environment.firebase),
+    ],
+    providers: [AngularFirestore, ChatService],
+//   bootstrap: [AppComponent]
+
 })
 export class PagesModule { }

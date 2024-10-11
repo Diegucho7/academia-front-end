@@ -192,7 +192,7 @@ import { UsuarioService } from '../../../services/usuario.service';
           let array = this.myForm.get('modulos') as FormArray;
           
 
-            for ( let index = 0 ; index  < this.period.modulos! ?? 0; index++) {
+            for ( let index = 0 ; index  < (this.period.modulos! ?? 0); index++) {
 
               
               this.addModulo(index);

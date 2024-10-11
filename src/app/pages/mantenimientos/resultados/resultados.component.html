@@ -1,22 +1,46 @@
-<div class="container-fluid"  *ngFor="let curso of cursos">
+<select id="curso_id" class="form-control" (change)="select($event)">
+    <option value="" >-- Seleccione Periodo --</option>
+    <option  *ngFor="let item of curso" [value]="item._id">{{item.curso?.nombre + ' - '+ item.anio+' - '+item.mes}}</option>
+</select>
+
+<pre></pre>
+
+<select id="curso_idB" class="form-control" (change)="selectb($event)">
+    <option value="" >-- Seleccione Periodo --</option>
+    <option  *ngFor="let item of curso" [value]="item._id">{{item.curso?.nombre + ' - '+ item.anio+' - '+item.mes}}</option>
+</select>
+<div class="container-fluid"
+>
+<!-- *ngFor="let cursos of curso" -->
+
+
+
     <div class="row"   >
-    
 
         <div class="col-md-4">
             <div class="card card-danger">
                 <div class="card-header">
-                    <h3 class="card-title ">{{curso.nombre}}</h3>
+                    <h3 class="card-title ">{{titulo}}</h3>
+                    {{arreglo}}
                 </div>
-                        <div class="card-body">
-                                <app-dona 
+                        <!-- <div class="card-body">
+                                <app-resultados
                                     [title]="'EGA'"
                                     [labels]="['Estudiantes', 'Profesores']"
-                                    [data]="[ cursos.length,  10]"
+                                    [data]="[doughtnutChartData]"
                                     [backgroundColor]="['#f44336', '#242C68']">
-                                </app-dona>
-                        
-                        </div>
+                                </app-resultados>
+
+                        </div> -->
             </div>
+        </div>
+        <div class="card">
+        <div class="card-body">
+            <h3>{{title}}</h3>
+            <div style="display: block">
+                
+            </div>
+        </div>
         </div>
         <!-- <div class="col-md-4">
             <div class="card card-danger">
@@ -24,13 +48,13 @@
                     <h3 class="card-title ">{{titulo}}</h3>
                 </div>
                         <div class="card-body">
-                                <app-dona 
+                                <app-dona
                                 [title]="'ESDA'"
                                     [labels]="['Estudiantes', 'Profesores']"
                                     [data]="[ 10, 20 ]"
                                     [backgroundColor]="['#E7E8F0', '#F02108']">
                                 </app-dona>
-                        
+
                         </div>
             </div>
         </div> -->
@@ -40,13 +64,13 @@
                     <h3 class="card-title ">{{titulo}}</h3>
                 </div>
                         <div class="card-body">
-                                <app-dona 
+                                <app-dona
                                 [title]="'ACADEMIA CEC'"
                                 [labels]="['Estudiantes', 'Profesores']"
                                 [data]="[ 10, 20 ]"
                                 [backgroundColor]="['#4EB3D6', '#A74ED6']">
                                 </app-dona>
-                        
+
                         </div>
             </div>
         </div> -->
@@ -56,14 +80,14 @@
                     <h3 class="card-title ">{{titulo}}</h3>
                 </div>
                         <div class="card-body">
-                                <app-dona  
+                                <app-dona
                                 [title]="'KENNEDY'"
                                 [labels]="['Estudiantes', 'Profesores']"
                                 [data]="[ 10, 20 ]"
                                 [backgroundColor]="['#080CF0', '#F08E08']">
-                                  
+
                                 </app-dona>
-                        
+
                         </div>
             </div>
         </div> -->

@@ -35,6 +35,14 @@ export class UsuarioService {
     return this.usuario.uid || '';
   }
 
+  get nombre():string{
+
+    return this.usuario.nombre || '';
+  }
+  get apellido():string{
+
+    return this.usuario.apellido || '';
+  }
   get role(): 'ADMIN_ROLE' | 'USER_ROLE' | 'PROFESOR_ROLE' | 'ESTUDIANTE_ROLE'|'CONTADOR_ROLE' | undefined {
     
     return this.usuario.role;

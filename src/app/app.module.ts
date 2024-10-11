@@ -1,3 +1,4 @@
+// import { initializeApp } from 'firebase/app';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -11,6 +12,16 @@ import { NopagefoundComponent } from './nopagefound/nopagefound.component';
 import { PipesModule } from "./pipes/pipes.module";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RevisionComponent } from './pages/mantenimientos/revision/revision.component';
+
+
+// import {AngularFireModule} from '@angular/fire/compat';
+// import {AngularFirestore} from '@angular/fire/compat/firestore';
+
+
+// import { AngularFireAuth } from '@angular/fire/compat/auth';
+// import { environment } from '../environments/environment';
+// import { ChatService } from './services/chat.service';
+// import { NgChartsModule } from 'ng2-charts';
 
 
 @NgModule({
@@ -27,7 +38,12 @@ import { RevisionComponent } from './pages/mantenimientos/revision/revision.comp
         SharedModule,
         AuthModule,
         PipesModule,
-        BrowserAnimationsModule
-    ]
+        BrowserAnimationsModule,
+        // AngularFireModule.initializeApp(environment.firebase),
+        // NgChartsModule
+    ],
+    // providers: [
+    //     AngularFirestore, ChatService
+    // ]
 })
 export class AppModule { }

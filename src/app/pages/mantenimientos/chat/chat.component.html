@@ -1,0 +1,23 @@
+<div class="container main-container">
+    <h1>Atención al Cliente</h1>
+  
+    <div class="col-md-12 text-end " *ngIf="cs.usuario.uid">
+      <button type="button" class="btn btn-outline-danger" (click)="cs.logout()">Salir</button>
+  
+    </div>
+  
+    <!-- <div *ngIf="!cs.usuario.uid">
+      <app-login ></app-login>
+  
+    </div> -->
+  
+    
+    <div class="chat-window"
+    >
+    <!-- *ngIf="cs.usuario.uid" -->
+      <app-chats></app-chats>
+  
+    </div>
+  
+  
+  </div>

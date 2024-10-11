@@ -283,7 +283,7 @@ numeroModulos(){
     let array = this.myForm.get('pagos') as FormArray;
     
     // console.log(this.pagoSeleccionado)
-    for ( let index = 0 ; index  < this.pagoSeleccionado?.curso?.modulos! ?? 0; index++) {
+    for ( let index = 0 ; index  < (this.pagoSeleccionado?.curso?.modulos ?? 0); index++) {
       
       this.addModulo(index);
            
