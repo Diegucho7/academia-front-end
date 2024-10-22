@@ -45,7 +45,7 @@ export class RegisterComponent {
       //Realiza el posteo
       this.usuarioService.crearUsuario( this.registerForm.value)
                           .subscribe( resp  => {
-                            this.route.navigateByUrl('/')
+                            this.route.navigateByUrl('/login')
                           }, (err) => {
 
                             // Si sucede un error

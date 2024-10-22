@@ -1,12 +1,21 @@
-
-
-
-
-
-<h1>Chat</h1>
-
-<hr>
 <div class="app-mensajes" id="app-mensajes">
+    <div class="row animated fadeIn fast">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    
+                    <input type="text"
+                            class="form-control"
+                            placeholder="Buscar Estudiante"
+                            #txtTermino
+                            (keyup)="buscar(txtTermino.value)"
+                            />
+                
+                </div>
+            </div>
+        </div>
+      </div>
+
     
     <!-- <div  *ngFor="let chat of _cs.chats" -->
     <div  *ngFor="let chat of filtrarChats()"
@@ -29,9 +38,10 @@
 
 </div>
 
-
-<input type="text" name="mensaje" 
+<input *ngIf="txtTermino.value" type="text" name="mensaje" 
                     [(ngModel)]="mensaje" 
                     class="form-control"
                     (keyup.enter)="enviar_mensaje()"
                     placeholder="Escribe tu mensaje">
+
+

@@ -1,4 +1,4 @@
-<div class="container main-container">
+<div class="container main-container ">
     <h1>Atención al Cliente</h1>
   
     <div class="col-md-12 text-end " *ngIf="cs.usuario.uid">
@@ -12,12 +12,19 @@
     </div> -->
   
     
-    <div class="chat-window"
+    
+    <div class="chat-window mt-5 "
     >
     <!-- *ngIf="cs.usuario.uid" -->
-      <app-chats></app-chats>
+    <app-chats></app-chats>
+    
+  </div>
   
-    </div>
+  <br>
   
+  <div class="chat-window mt-5" *ngIf="cs.usuarioService.role=='ADMIN_ROLE'">
+    
+    <app-chats-admin></app-chats-admin>
+</div>
   
   </div>

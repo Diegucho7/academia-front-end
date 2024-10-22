@@ -10,6 +10,7 @@ import { LoginComponent } from './login/login.component';
 import {AngularFireModule} from '@angular/fire/compat';
 import {AngularFirestore} from '@angular/fire/compat/firestore';
 import { ChatService } from '../services/chat.service';
+import { ChatsAdminComponent } from './chats-admin/chats-admin.component';
 
 @NgModule({
   declarations: [
@@ -17,14 +18,16 @@ import { ChatService } from '../services/chat.service';
     DonaComponent,
     ModalImagenComponent,
     ChatsComponent,
-    LoginComponent
+    LoginComponent,
+    ChatsAdminComponent
   ],
   exports:[
     IncrementadorComponent,
     DonaComponent,
     ModalImagenComponent,
     ChatsComponent,
-    LoginComponent
+    LoginComponent,
+    ChatsAdminComponent
   ],
   // providers: [
     // { provide: 
