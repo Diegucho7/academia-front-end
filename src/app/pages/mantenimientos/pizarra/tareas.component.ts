@@ -53,13 +53,9 @@ export class TareasComponent implements OnInit {
     .subscribe( ({id}) => 
     {this.cargarTarea(id)});
     // throw new Error('Method not implemented.');
-    console.log(this.role),
     this.cargarPeriodo(this.uid)
   }
 
-  enviar(){
-    console.log(this.myForm.value)
-  }
 
 
   guardarTarea(){
@@ -103,14 +99,21 @@ export class TareasComponent implements OnInit {
                               .pipe(
                                 delay(100)
                               )
-                              .subscribe( (pizarra:any) => {   
-                                  const { periodo, asunto, tarea} = pizarra
-                                  this.tareaSeleccionada = pizarra
-                                  console.log(this.tareaSeleccionada)
-                                  this.myForm.setValue( { periodo: periodo, asunto: asunto , tarea: tarea} )
-                              }, error => {
-                                return this.router.navigateByUrl(`/dashboard/pizarra`);
-                              })
+                              .subscribe({
+                                next: (pizarra: any) => {
+                                  const { periodo, asunto, tarea } = pizarra ?? {};
+                                  this.tareaSeleccionada = pizarra;
+                                  this.myForm.setValue({ periodo, asunto, tarea });
+                                },
+                                error: (error) => {
+                                  console.error('Error occurred:', error);
+
+                                  return this.router.navigateByUrl(`/dashboard/pizarra`);
+                                },
+                                complete: () => {
+                                  // You can add a callback for the completion event if needed
+                                }
+                              });
   }
 
   cargarPeriodo(id:string){
@@ -125,7 +128,6 @@ export class TareasComponent implements OnInit {
 
                          this.cursos   = resp;
                          this.periodosTemp = resp;
-                         console.log(this.cursos);
                          this.cargando = false;
               
                         })

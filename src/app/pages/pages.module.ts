@@ -51,6 +51,7 @@ import { ChatComponent } from './mantenimientos/chat/chat.component';
 import { ChatsComponent } from '../components/chats/chats.component';
 import { environment } from '../../environments/environment';
 import { TareasComponent } from './mantenimientos/pizarra/tareas.component';
+import { TareasPeriodosComponent } from './mantenimientos/pizarra/tareas-periodos.component';
 
 
 @NgModule({
@@ -90,6 +91,7 @@ import { TareasComponent } from './mantenimientos/pizarra/tareas.component';
         PizarraComponent,
         ChatComponent,
         TareasComponent,
+        TareasPeriodosComponent,
         
         
     ],

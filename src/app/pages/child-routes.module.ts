@@ -37,6 +37,7 @@ import { PagosIdComponent } from './mantenimientos/pagos/pagos-id.component';
 import { PizarraComponent } from './mantenimientos/pizarra/pizarra.component';
 import { ChatComponent } from './mantenimientos/chat/chat.component';
 import { TareasComponent } from './mantenimientos/pizarra/tareas.component';
+import { TareasPeriodosComponent } from './mantenimientos/pizarra/tareas-periodos.component';
 
 
 const childRoutes: Routes = [
@@ -64,6 +65,7 @@ const childRoutes: Routes = [
       
       
       {path: 'pizarra',canActivate: [profeGuard],component: PizarraComponent, data: {titulo: 'Pizarra de la aplicación'}},
+      {path: 'TareasPeriodos/:id',canActivate: [profeGuard],component: TareasPeriodosComponent, data: {titulo: 'Tareas por periodo'}},
       {path: 'pizarra/:id',canActivate: [profeGuard],component: TareasComponent, data: {titulo: 'Tarea de la aplicación'}},
      
      
