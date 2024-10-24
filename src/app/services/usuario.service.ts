@@ -34,6 +34,10 @@ export class UsuarioService {
    
     return this.usuario.uid || '';
   }
+  get cedula():string{
+   
+    return this.usuario.cedula || '';
+  }
 
   get nombre():string{
 

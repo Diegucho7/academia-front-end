@@ -9,9 +9,10 @@ import { AuthModule } from './auth/auth.module';
 
 import { AppComponent } from './app.component';
 import { NopagefoundComponent } from './nopagefound/nopagefound.component';
-import { PipesModule } from "./pipes/pipes.module";
+// import { PipesModule } from "./pipes/pipes.module";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RevisionComponent } from './pages/mantenimientos/revision/revision.component';
+import { ToDatePipe } from './to-date.pipe';
 
 
 // import {AngularFireModule} from '@angular/fire/compat';
@@ -29,6 +30,7 @@ import { RevisionComponent } from './pages/mantenimientos/revision/revision.comp
         AppComponent,
         NopagefoundComponent,
         RevisionComponent,
+        ToDatePipe,
     ],
     bootstrap: [AppComponent],
     imports: [
@@ -37,7 +39,7 @@ import { RevisionComponent } from './pages/mantenimientos/revision/revision.comp
         PagesModule,
         SharedModule,
         AuthModule,
-        PipesModule,
+        // PipesModule,
         BrowserAnimationsModule,
         // AngularFireModule.initializeApp(environment.firebase),
         // NgChartsModule

@@ -36,6 +36,7 @@ import { PagosEstudianteCursosComponent } from './mantenimientos/pagos-id/pagos-
 import { PagosIdComponent } from './mantenimientos/pagos/pagos-id.component';
 import { PizarraComponent } from './mantenimientos/pizarra/pizarra.component';
 import { ChatComponent } from './mantenimientos/chat/chat.component';
+import { TareasComponent } from './mantenimientos/pizarra/tareas.component';
 
 
 const childRoutes: Routes = [
@@ -62,7 +63,10 @@ const childRoutes: Routes = [
       {path: 'curso/:id',canActivate: [adminGuard],component: CursoComponent, data: {titulo: 'Curso de la aplicación'}},
       
       
-      // {path: 'pizarra',canActivate: [adminGuard],component: PizarraComponent, data: {titulo: 'Pizarra de la aplicación'}},
+      {path: 'pizarra',canActivate: [profeGuard],component: PizarraComponent, data: {titulo: 'Pizarra de la aplicación'}},
+      {path: 'pizarra/:id',canActivate: [profeGuard],component: TareasComponent, data: {titulo: 'Tarea de la aplicación'}},
+     
+     
       {path: 'resultados',canActivate: [adminGuard],component: ResultadosComponent, data: {titulo: 'Resultados de la aplicación'}},
       {path: 'periodos',canActivate: [adminGuard],component: PeriodosComponent, data: {titulo: 'Periodos de la aplicación'}},
       {path: 'periodo/:id',canActivate: [adminGuard],component: PeriodoComponent, data: {titulo: 'Periodos de la aplicación'}},

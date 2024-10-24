@@ -50,6 +50,7 @@ import { ChatService } from '../services/chat.service';
 import { ChatComponent } from './mantenimientos/chat/chat.component';
 import { ChatsComponent } from '../components/chats/chats.component';
 import { environment } from '../../environments/environment';
+import { TareasComponent } from './mantenimientos/pizarra/tareas.component';
 
 
 @NgModule({
@@ -88,6 +89,7 @@ import { environment } from '../../environments/environment';
         PagosEstudianteCursosComponent,
         PizarraComponent,
         ChatComponent,
+        TareasComponent,
         
         
     ],

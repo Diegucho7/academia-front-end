@@ -5,6 +5,7 @@ import { Usuario } from '../../models/usuario.model';
 import { Estudiante } from '../../models/estudiante.model';
 import { Subscription } from 'rxjs';
 import { ChatService } from '../../services/chat.service';
+import { uid } from 'chart.js/dist/helpers/helpers.core';
 
 @Component({
   selector: 'app-chats-admin',
@@ -12,7 +13,6 @@ import { ChatService } from '../../services/chat.service';
   styles: ``
 })
 export class ChatsAdminComponent {
-
 
   public for?: string;
 
@@ -58,11 +58,15 @@ ngOnInit(): void {
 }
 
 filtrarChats() {
-  if(this._cs.usuarioService.uid === 'ADMIN_ROLE'){
-    console.log("Aqui desde Admin");
-    return this._cs.chats
+  if(this._cs.usuarioService.role === 'ADMIN_ROLE'){
+    // console.log("Aqui desde Admin");
+    // return this._cs.chats
+    return this._cs.chats.filter(chat => chat.uid == this.for || chat.uid == this.for || chat.for == this.for  || chat.for == this.for );
+
   }
-  return this._cs.chats.filter(chat => chat.uid == this.uid || chat.uid == this._cs.usuario.uid || chat.for == this._cs.uid  || chat.for == this._cs.usuario.uid );
+  console.log(this._cs.chats);
+  // return this._cs.chats.filter(chat => chat.uid == this.uid || chat.uid == this._cs.usuario.uid || chat.for == this.for  || chat.for == this.for );
+  return this._cs.chats.filter(chat => chat.uid == this.for || chat.uid == this.for || chat.for == this.for  || chat.for == this.for );
 }
 buscar(termino:string){
   if (termino.length === 0) {

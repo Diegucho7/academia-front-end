@@ -6,20 +6,22 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { PizarraService } from '../../../services/pizarra.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { delay } from 'rxjs';
+import { Pizarra } from '../../../models/pizarra.model';
 
 @Component({
-  selector: 'app-pizarra',
-  templateUrl: './pizarra.component.html',
+  selector: 'app-tareas',
+  templateUrl: './tareas.component.html',
   // styleUrl: './pizarra.component.css'
 })
-export class PizarraComponent implements OnInit {
+export class TareasComponent implements OnInit {
 
   public cargando: boolean = true;
 
   public cursos : Periodo[]=[];
   public periodo: Periodo[]= [];
   public periodosTemp: Periodo[]= [];
-
+  public tareaSeleccionada?: Pizarra;
   public uid: string = ''
   public nombre : string = ''
   public apellido : string = ''
@@ -36,7 +38,8 @@ export class PizarraComponent implements OnInit {
               private estudianteService:EstudianteService,
               private fb: FormBuilder,
               private pizarraService: PizarraService,
-              private router : Router
+              private router : Router,
+              private activateRoute:ActivatedRoute
   ) { 
     this.uid = usuarioService.uid,
     this.nombre = usuarioService.nombre,
@@ -44,6 +47,11 @@ export class PizarraComponent implements OnInit {
     this.role = usuarioService.role
   }
   ngOnInit(): void {
+
+
+    this.activateRoute.params
+    .subscribe( ({id}) => 
+    {this.cargarTarea(id)});
     // throw new Error('Method not implemented.');
     console.log(this.role),
     this.cargarPeriodo(this.uid)
@@ -58,21 +66,21 @@ export class PizarraComponent implements OnInit {
 
     
 
-    // const {nota} =this.myForm.value;
+    const {nota} =this.myForm.value;
 
-    // if (this.notaSeleccionada) {
-    //   //Actualizar
-    //   const data = {
-    //     ...this.myForm.value,
-    //     _id:this.notaSeleccionada._id
-    //   }
-    //   this.notaService.actualizarNota(data)
-    //   .subscribe(resp=>{
+    if (this.tareaSeleccionada) {
+      //Actualizar
+      const data = {
+        ...this.myForm.value,
+        _id:this.tareaSeleccionada._id
+      }
+      this.pizarraService.actualizarPizarra(data)
+      .subscribe(resp=>{
        
-    //     Swal.fire('Actualizado',`Actualizado correctamente`, 'success');
-    //   })
-    // }else{
-      //Crear
+        Swal.fire('Actualizado',`Actualizado correctamente`, 'success');
+      })
+    }else{
+      // Crear
       console.log(this.myForm.value)
       this.pizarraService.crearPizarra(this.myForm.value)
         .subscribe((resp:any) =>{
@@ -82,8 +90,28 @@ export class PizarraComponent implements OnInit {
     }
 
 
-  // }
+  }
 
+  cargarTarea(id:string){
+
+    if (id === 'nuevo') {
+      return;
+    }
+
+    this.pizarraService.obtenerPizarraPorId(id)
+    
+                              .pipe(
+                                delay(100)
+                              )
+                              .subscribe( (pizarra:any) => {   
+                                  const { periodo, asunto, tarea} = pizarra
+                                  this.tareaSeleccionada = pizarra
+                                  console.log(this.tareaSeleccionada)
+                                  this.myForm.setValue( { periodo: periodo, asunto: asunto , tarea: tarea} )
+                              }, error => {
+                                return this.router.navigateByUrl(`/dashboard/pizarra`);
+                              })
+  }
 
   cargarPeriodo(id:string){
     // this.periodoService.cargarPeriodos().subscribe(periodos => {

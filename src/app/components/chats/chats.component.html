@@ -15,8 +15,11 @@
     <span class=""
     
     >{{chat.nombre + ' ' + chat.apellido}}</span>
+    <br>
+    <span *ngIf="role == 'ADMIN_ROLE' " class=""> <b>Cedula: </b>{{chat.cedula}}</span>
+    <br>
+    <!-- <span *ngIf="role == 'ADMIN_ROLE' " class=""> <b>Fecha y Hora: </b>{{ chat.fecha | date: 'MMMM D, YYYY'}}</span> -->
         <p>
-           
             {{chat.mensaje}}
         </p>
     </div> 
@@ -30,7 +33,7 @@
 </div>
 
 
-<input type="text" name="mensaje" 
+<input *ngIf="role !== 'ADMIN_ROLE' " type="text" name="mensaje" 
                     [(ngModel)]="mensaje" 
                     class="form-control"
                     (keyup.enter)="enviar_mensaje()"

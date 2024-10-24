@@ -24,10 +24,10 @@ import { UsuarioService } from '../../../services/usuario.service';
 
     public cargando: boolean = true;
 
+    public cursos : Periodo[]=[];
     public periodo: Periodo[]= [];
     public periodosTemp: Periodo[]= [];
 
-    public cursos : Periodo[]=[];
 
     public period?: Periodo;
     public estudiante: EstudianteAc[] = [];

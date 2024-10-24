@@ -1,0 +1,33 @@
+<form [formGroup]="myForm">
+    <div class="row mb-3">
+      <div class="col">
+          
+
+          
+          <select id ="periodo_id" formControlName="periodo"  class="form-control" >
+              <option selected value="">-- Seleccione Periodo --</option>
+              <option *ngFor="let periodo of cursos" [value]=" periodo._id">{{ periodo.anio+ ' - '+periodo.mes +' - '+periodo.curso?.nombre }}</option>
+            </select>
+      </div>
+    </div>
+    
+    
+    
+    <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">Asunto</label>
+        <input type="text" formControlName="asunto" class="form-control" id="exampleFormControlInput1" placeholder="Asunto">
+    </div>
+    <div class="mb-3">
+        <label for="exampleFormControlTextarea1" class="form-label">Tarea</label>
+        <textarea class="form-control" formControlName="tarea" id="exampleFormControlTextarea1" rows="3" placeholder="Tarea"></textarea>
+    </div>
+</form>
+
+<button type="submit" class="btn btn-primary" (click)="guardarTarea()">
+    Enviar
+</button>
+
+<div class="pt-3">
+
+    <strong>Fecha y Hora enviado: </strong><br> {{tareaSeleccionada?.fecha | date: 'dd/MM/yyyy HH:mm' }}
+</div>
