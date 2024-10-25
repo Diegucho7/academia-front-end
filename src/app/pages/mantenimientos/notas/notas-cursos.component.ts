@@ -96,7 +96,7 @@ cargarEstudiantes(id:string){
                         this.cargando = false;
                        this.est = est; 
 
-                       this.est   = est;
+                      //  this.est   = est;
                        this.estudiantesTemp = est;
                        this.cargando = false;
                        this.hdh = this.estudiantesTemp.modulos?.length as number;

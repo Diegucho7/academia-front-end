@@ -38,6 +38,9 @@ import { PizarraComponent } from './mantenimientos/pizarra/pizarra.component';
 import { ChatComponent } from './mantenimientos/chat/chat.component';
 import { TareasComponent } from './mantenimientos/pizarra/tareas.component';
 import { TareasPeriodosComponent } from './mantenimientos/pizarra/tareas-periodos.component';
+import { TareasEstudianteComponent } from './mantenimientos/pizarra/tareas-estudiante.component';
+import { TareasPeridosEstComponent } from './mantenimientos/pizarra/tareas-peridos-est.component';
+import { MostrarTareasComponent } from './mantenimientos/pizarra/mostrar-tareas.component';
 
 
 const childRoutes: Routes = [
@@ -67,6 +70,12 @@ const childRoutes: Routes = [
       {path: 'pizarra',canActivate: [profeGuard],component: PizarraComponent, data: {titulo: 'Pizarra de la aplicación'}},
       {path: 'TareasPeriodos/:id',canActivate: [profeGuard],component: TareasPeriodosComponent, data: {titulo: 'Tareas por periodo'}},
       {path: 'pizarra/:id',canActivate: [profeGuard],component: TareasComponent, data: {titulo: 'Tarea de la aplicación'}},
+     
+     
+      {path: 'tareas',canActivate: [estudianteGuard],component: TareasEstudianteComponent, data: {titulo: 'Tarea de la aplicación'}},
+      {path: 'tareas/:id',canActivate: [estudianteGuard],component: TareasPeridosEstComponent, data: {titulo: 'Tareas por periodo'}},
+      
+      {path: 'mostrar-tareas/:id',canActivate: [estudianteGuard],component: MostrarTareasComponent, data: {titulo: 'Tareas por periodo'}},
      
      
       {path: 'resultados',canActivate: [adminGuard],component: ResultadosComponent, data: {titulo: 'Resultados de la aplicación'}},

@@ -58,10 +58,10 @@ export class PizarraService {
         
         
         }
-obtenerPizarraPorPeriodo(id:string ): Observable<any[]> {
+      obtenerPizarraPorPeriodo(id:string ): Observable<Pizarra[]> {
 
         const url = `${ base_url }/todo/coleccion/periodoTareas/${id}`;
-        return this.http.get<{ ok: boolean, pizarra: any[] }>(url,
+        return this.http.get<{ ok: boolean, resultados: Pizarra[] }>(url,
           {
             headers: {
               'x-token': this.token
@@ -72,9 +72,8 @@ obtenerPizarraPorPeriodo(id:string ): Observable<any[]> {
           //      resp.pizarra )
           //   );
           .pipe(
-            map((resp: { ok: boolean, pizarra: any }) => {
-              console.log(resp);
-              return resp.pizarra;
+            map((resp: { ok: boolean, resultados: Pizarra[] }) => {
+              return resp.resultados;
             })
           );
         

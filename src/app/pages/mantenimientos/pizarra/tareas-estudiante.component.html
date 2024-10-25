@@ -48,17 +48,7 @@
   
                     </div>
   
-                    <div class="col">
-                        <div class="text-right ">
-                            <button 
-                            routerLink="/dashboard/pizarra/nuevo"
-                            class="btn btn-primary">
-                            <i class="fa-solid fa-person-chalkboard"></i>
-                                Crear Trea
-                            </button>
-                        </div>
-    
-                    </div>
+                  
                 </div>
   
   
@@ -69,34 +59,26 @@
                         <thead>
                             <tr>        
                                 <th>Periodo</th>
-                                <th>Asunto</th>
-                                
-                                <th>Fecha</th>
+                                <!-- <th>Tareas</th> -->
                                 <th class="text-nowrap w100">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr *ngFor="let item of periodosTemp">
-                               <td>
-                                    {{item.periodo?.curso?.nombre + ' - '+ item.periodo?.anio+' - '+item.periodo?.mes}}
+                               <td [routerLink]="['/dashboard/tareas', item.curso?._id]" routerLinkActive="router-link-active" class="text-nowrap text-left">
+                                    {{item?.curso?.curso?.nombre + ' - '+ item?.curso?.anio+' - '+item?.curso?.mes}}
                                </td>
                                    
+                                <!-- <td>{{item.modulos}}</td> -->
                                 <td>
-                                    {{item.asunto}}
-                                </td>
-                                <td>
-                                    {{item.fecha| date: 'dd/MM/yyyy '}}
-                                </td>
-                                
-                                    <td>
-                                    <a [routerLink]="['/dashboard/pizarra',item._id]" routerLinkActive="router-link-active"  data-toggle="tooltip" data-original-title="Editar"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
+                                    <a [routerLink]="['/dashboard/tareas',item.curso?._id]" routerLinkActive="router-link-active"  data-toggle="tooltip" data-original-title="Editar"> <i class="fa-regular fa-hand"></i> </a>
   
-                                    <a class="cursor" data-toggle="tooltip" 
+                                    <!-- <a class="cursor" data-toggle="tooltip" 
                                     data-original-title="Borrar"
-                                    (click)="borrarTarea(item)"
                                     > 
                                     <i class="fa fa-close text-danger"></i> 
-                                    </a>
+                                  </a> -->
+                                  <!-- (click)="borrarNota(item)" -->
                                 </td>
                             </tr>
                             

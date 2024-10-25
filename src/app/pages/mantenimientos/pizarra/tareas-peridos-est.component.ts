@@ -12,12 +12,13 @@ import { PizarraService } from '../../../services/pizarra.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Pizarra } from '../../../models/pizarra.model';
 import { Periodo } from '../../../models/periodo.model';
+
 @Component({
-  selector: 'app-tareas-periodos',
-  templateUrl: './tareas-periodos.component.html',
+  selector: 'app-tareas-peridos-est',
+  templateUrl: './tareas-peridos-est.component.html',
   styles: ``
 })
-export class TareasPeriodosComponent implements OnInit {
+export class TareasPeridosEstComponent implements OnInit {
   ngOnInit(): void {
     
     this.activateRoute.params
@@ -63,30 +64,30 @@ cargarTareas(id:string){
 }
 
 
-borrarTarea(tarea:Pizarra):any{
+// borrarTarea(tarea:Pizarra):any{
    
 
-    Swal.fire({
-      title: "¿Borrar tarea?",
-      text: `Esta a punto de eliminar la tarea con el asunto ${tarea.asunto } de la fecha ${tarea.fecha }`,
-      icon: "question",
-      showCancelButton: true,
-      confirmButtonText: "Si, eliminar tarea"
-    }).then((result) => {
-      if (result.value) {
-        this.pizarraService.borrarPizarra(tarea._id)
-        .subscribe(resp => {
-          this.cargarTareas(this.activateRoute.snapshot.params['id']);
-          Swal.fire('Tarea borrada',
-                    `${tarea.asunto} fue eliminado correctamente`,
-                    'success'
-            )
+//     Swal.fire({
+//       title: "¿Borrar tarea?",
+//       text: `Esta a punto de eliminar la tarea con el asunto ${tarea.asunto } de la fecha ${tarea.fecha }`,
+//       icon: "question",
+//       showCancelButton: true,
+//       confirmButtonText: "Si, eliminar tarea"
+//     }).then((result) => {
+//       if (result.value) {
+//         this.pizarraService.borrarPizarra(tarea._id)
+//         .subscribe(resp => {
+//           this.cargarTareas(this.activateRoute.snapshot.params['id']);
+//           Swal.fire('Tarea borrada',
+//                     `${tarea.asunto} fue eliminado correctamente`,
+//                     'success'
+//             )
 
-            }
-          );
+//             }
+//           );
         
-      }
+//       }
       
-    });
-  }
+//     });
+//   }
 }

@@ -10,11 +10,11 @@ import { delay } from 'rxjs';
 import { Pizarra } from '../../../models/pizarra.model';
 
 @Component({
-  selector: 'app-tareas',
-  templateUrl: './tareas.component.html',
-  // styleUrl: './pizarra.component.css'
+  selector: 'app-mostrar-tareas',
+  templateUrl: './mostrar-tareas.component.html',
+  styles: ``
 })
-export class TareasComponent implements OnInit {
+export class MostrarTareasComponent implements OnInit {
 
   public cargando: boolean = true;
 
@@ -131,5 +131,6 @@ export class TareasComponent implements OnInit {
               
                         })
   }
+
 
 }

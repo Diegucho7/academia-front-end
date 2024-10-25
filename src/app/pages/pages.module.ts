@@ -52,6 +52,9 @@ import { ChatsComponent } from '../components/chats/chats.component';
 import { environment } from '../../environments/environment';
 import { TareasComponent } from './mantenimientos/pizarra/tareas.component';
 import { TareasPeriodosComponent } from './mantenimientos/pizarra/tareas-periodos.component';
+import { TareasEstudianteComponent } from './mantenimientos/pizarra/tareas-estudiante.component';
+import { TareasPeridosEstComponent } from './mantenimientos/pizarra/tareas-peridos-est.component';
+import { MostrarTareasComponent } from './mantenimientos/pizarra/mostrar-tareas.component';
 
 
 @NgModule({
@@ -92,6 +95,9 @@ import { TareasPeriodosComponent } from './mantenimientos/pizarra/tareas-periodo
         ChatComponent,
         TareasComponent,
         TareasPeriodosComponent,
+        TareasEstudianteComponent,
+        TareasPeridosEstComponent,
+        MostrarTareasComponent,
         
         
     ],

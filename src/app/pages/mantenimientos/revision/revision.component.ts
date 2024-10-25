@@ -80,7 +80,7 @@ this.cargarCursosProfesor(this.usuarioService.uid)
 
 
   cargarCursosProfesor(id:String){
-    this.cargando = true;
+    // this.cargando = true;
     this.estudianteService.cargarNotasPorProfesor(id)
                         .subscribe( resp =>{
                           this.cargando = false;
@@ -88,7 +88,6 @@ this.cargarCursosProfesor(this.usuarioService.uid)
 
                          this.periodos   = resp;
                          this.periodosTemp = resp;
-                        //  console.log(this.periodos);
                          this.cargando = false;
               
                         })

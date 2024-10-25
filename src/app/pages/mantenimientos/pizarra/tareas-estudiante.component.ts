@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ModalImagenService } from '../../../services/modal-imagen.service';
 import { BusquedasService } from '../../../services/busquedas.service';
-import { Subscription, delay } from 'rxjs';
+import { Observable, Subscription, delay } from 'rxjs';
 import Swal from 'sweetalert2';
 import { NotaService } from '../../../services/nota.service';
 import { Nota } from '../../../models/nota.model';
@@ -9,20 +9,19 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UsuarioService } from '../../../services/usuario.service';
 import { EstudianteService } from '../../../services/estudiante.service';
 import { PizarraService } from '../../../services/pizarra.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Pizarra } from '../../../models/pizarra.model';
 import { Periodo } from '../../../models/periodo.model';
-
+import { Estudiante } from '../../../models/estudiante.model';
 @Component({
-  selector: 'app-pizarra',
-  templateUrl: './pizarra.component.html',
-  // styleUrl: './pizarra.component.css'
+  selector: 'app-tareas-estudiante',
+  templateUrl: './tareas-estudiante.component.html',
+  styles: ``
 })
-export class PizarraComponent implements OnInit {
-
-  public cursos : Periodo[]=[];
+export class TareasEstudianteComponent implements OnInit {
+  public cursos : Estudiante[]=[];
   public periodo: Periodo[]= [];
-  public periodosTemp: Periodo[]= [];
+  public periodosTemp: Estudiante[]= [];
   
   public nota: Nota[] = [];
   public cargando: boolean = true;
@@ -36,14 +35,7 @@ export class PizarraComponent implements OnInit {
   public apellido : string = ''
   public role :'ADMIN_ROLE' | 'USER_ROLE' | 'PROFESOR_ROLE' | 'ESTUDIANTE_ROLE'|'CONTADOR_ROLE' | undefined
   
-  
-  public myForm: FormGroup = this.fb.group({
-    periodo :  ['',Validators.required ],
-    asunto :  ['',Validators.required ],
-    tarea :  ['',Validators.required ],
 
- 
-  });
   constructor(usuarioService:UsuarioService,
               private estudianteService:EstudianteService,
               private fb: FormBuilder,
@@ -61,34 +53,11 @@ export class PizarraComponent implements OnInit {
     this.cargarPeriodo(this.uid)
   }
 
- 
-
+  
 
   guardarTarea(){
 
     
-
-    // const {nota} =this.myForm.value;
-
-    // if (this.notaSeleccionada) {
-    //   //Actualizar
-    //   const data = {
-    //     ...this.myForm.value,
-    //     _id:this.notaSeleccionada._id
-    //   }
-    //   this.notaService.actualizarNota(data)
-    //   .subscribe(resp=>{
-       
-    //     Swal.fire('Actualizado',`Actualizado correctamente`, 'success');
-    //   })
-    // }else{
-      //Crear
-      // console.log(this.myForm.value)
-      this.pizarraService.crearPizarra(this.myForm.value)
-        .subscribe((resp:any) =>{
-          Swal.fire('Creado',`Creado correctamente`, 'success');
-          this.router.navigateByUrl(`/dashboard/pizarra/${resp.pizarra._id}`)
-        })
     }
 
 
@@ -111,17 +80,17 @@ export class PizarraComponent implements OnInit {
     //   this.periodo = periodos;
     cargarPeriodo(id:string){
     this.cargando = true;
-    this.estudianteService.cargarNotasPorProfesor(id)
+    this.estudianteService.cargarEstudiantesPorNotas(id)
                         .subscribe( resp =>{
-                          this.cargando = false;
+                          // this.cargando = false;
                          this.cursos = resp; 
 
                         //  this.cursos   = resp;
                          this.periodosTemp = resp;
+                         console.log(this.cursos);
                          this.cargando = false;
                         })
   }
-
 
 
 

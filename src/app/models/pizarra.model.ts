@@ -16,7 +16,7 @@ export class Pizarra{
         public usuario?: _PizarraUser,
         public periodo?: Periodo,
         public asunto?: String,
-        public tareas?: String,
+        public tarea?: String,
         public fecha: Date = new Date(),
 
     ){}
@@ -25,3 +25,4 @@ export class Pizarra{
 
     
 }
+
